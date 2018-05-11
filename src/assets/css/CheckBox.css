@@ -1,0 +1,15 @@
+.checkbox{
+    margin-bottom: -10px;
+}
+.chb-label, .chb-input{
+    font-family: 'Trebuchet Ms';
+    font-size: 8pt;
+    font-weight: bold;
+}
+.chb-label{
+    width: 150%;
+}
+.chb-input {
+    margin-right: 1px;
+    margin-left: 2px;
+}

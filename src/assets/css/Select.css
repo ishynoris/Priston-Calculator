@@ -1,0 +1,11 @@
+
+.mix-select{
+    font-family: 'Trebuchet MS';
+    font-size: 10pt;
+    width: 100%;
+}
+
+.number{
+    text-align-last: right;
+    direction: rtl;
+}

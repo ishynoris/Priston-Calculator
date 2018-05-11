@@ -1,0 +1,17 @@
+.value{
+    width: 100%;
+    text-align: right;
+    color: white;
+    background-color: #5a4033;
+    font-size: 9pt;
+}
+
+.disable{
+    width: 100%;
+    text-align: center;
+    color: white;
+    color: #442a1e;
+    font-size: .8em;
+    font-weight: 600;
+    border-bottom: .1em solid #442a1e;
+}

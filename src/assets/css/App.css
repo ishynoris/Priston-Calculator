@@ -1,0 +1,34 @@
+.block{
+    border: 1px solid black;
+}
+.padding{
+    padding: 2px;
+}
+.title{
+    font-size: 1.05em;
+    font-weight: 400;
+}
+.margin-title{
+    margin: 5px 0 -5px 0;
+}
+.small-title{
+    font-weight: bold;
+    width: 130%;
+    font-family: 'Trebuchet Ms';
+    font-size: 8pt;
+}
+.background{
+    background-color: #8a785b;
+}
+
+.outter-border{
+    border: 2px solid #664e41;
+}
+
+.inner-border{
+    border: 1px ridge #55453c;
+}
+.block-size{
+    width: 180px;
+    margin: 0 0 3px 3px ;
+}
