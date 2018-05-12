@@ -2,17 +2,11 @@ import * as React from 'react';
 
 import ITitle from '../interfaces/ITitle';
 
-class Title extends React.Component<ITitle>{
+const Title = (props: ITitle) => {
 
-    public render() {
-        const classTitle = "title margin-title";
-        const html = this.props.for !== undefined ? this.props.for : "";
-        return (
-            <label htmlFor={html} className={classTitle}>
-                {this.props.title}
-            </label>
-        )
-    }
+    const classes = "title margin-title";
+    const html = props.for !== undefined ? props.for : "";
+    return <label htmlFor={html} className={classes}>{props.title}</label>
 }
 
 export default Title;

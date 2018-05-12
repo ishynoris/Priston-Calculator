@@ -36,7 +36,7 @@ class InputText extends React.Component<IInputText>{
     public renderValue() {
         
         if (this.props.disable) {
-            return <label className="disable">{"0100-0001"}</label>
+            return <label className="disable">{"0"}</label>
         }
         return <input
             className={"value"}

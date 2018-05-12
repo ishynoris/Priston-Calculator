@@ -20,15 +20,13 @@
 .background{
     background-color: #8a785b;
 }
-
 .outter-border{
     border: 2px solid #664e41;
 }
-
 .inner-border{
     border: 1px ridge #55453c;
 }
-.block-size{
-    width: 180px;
+.item-size {
+    width: 185px;
     margin: 0 0 3px 3px ;
 }

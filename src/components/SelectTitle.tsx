@@ -11,16 +11,12 @@ interface ISelectTitle {
     onSelectedCallback?: (value: string) => void
 }
 
-class SelectTitle extends React.Component<ISelectTitle>{
-
-    public render(){
-        return (
-            <div className="outter-border background padding">
-                <TitleSmall title={this.props.title}/>
-                <Select name={this.props.name} values={this.props.values} onSelectedCallback={this.props.onSelectedCallback}/>
-            </div>
-        );
-    }
+const SelectTitle = (props: ISelectTitle) => {
+    return(
+        <div className="outter-border background padding">
+            <TitleSmall title={props.title}/>
+            <Select name={props.name} values={props.values} onSelectedCallback={props.onSelectedCallback}/>
+        </div>
+    )
 }
-
 export default SelectTitle;

@@ -30,7 +30,7 @@ class Status extends React.Component<{}>{
         return (
             <div>
                 <Title title="Status" />
-                <div className="outter-border background padding">
+                <div className="item-block outter-border background padding">
                     {
                         this.state.status.values.map((v, i) => {
                             return (

@@ -4,6 +4,8 @@ import Image from './Image'
 import InputText from './InputText';
 import Mixing from './Mixing';
 
+// import '../assets/css/Item.css';
+
 interface IItem { name: string, titles: string[], onlyImage?: boolean};
 
 class Item extends React.Component<IItem>{
@@ -21,17 +23,17 @@ class Item extends React.Component<IItem>{
             classValue = "inner-border padding";
         }
 
+        const classes = "item-size background outter-border padding";
         if(this.props.onlyImage){
             return (
-                <div className="block-size background outter-border padding">    
+                <div className={classes}>
                     <Image item={this.props.name} />
                 </div>
             )
         }
 
-
         return (
-            <div className="it-size background outter-border padding">
+            <div className={classes}>
                 <Image item={this.props.name} />
                 <Mixing item={this.props.name} />
                 <div className={classValue}>

@@ -62,7 +62,7 @@ class Script {
     public getResult(): IStatus {
 
         const values = Values.result.map(r => {
-            return { default: 10, disable: true, name: r.result }
+            return { default: 10, disable: true, name: r.title }
         });
         return { values };
     }

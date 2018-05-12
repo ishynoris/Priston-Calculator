@@ -2,12 +2,9 @@ import * as React from 'react';
 
 import ITitle from '../interfaces/ITitle';
 
-class Title extends React.Component<ITitle>{
-
-    public render() {
-        const classTitle = "small-title qst-margin";
-        return <label className={classTitle}>{this.props.title}</label>
-    }
+const TitleSmall = (props: ITitle) => {
+    const classTitle = "small-title qst-margin";
+    return <label className={classTitle}>{props.title}</label>
 }
 
-export default Title;
+export default TitleSmall;

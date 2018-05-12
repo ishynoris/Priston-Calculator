@@ -1,49 +1,30 @@
-
 import IItem from '../../interfaces/IItem';
-// import ISet from '../../interfaces/ISet';
-// import Item from '../../components/Item'
 
 // last 18
 const codes = {
-    ABS: 0,
-    AGI: 1,
-    APmax: 2,
-    APmin: 3,
-    AR: 4,
-    DEF: 6,
-    EP: 17,
-    FOR: 7,
-    HP: 8,
-    INT: 9,
-    LVL: 10,
-    MP: 11,
-    RES: 12,
-    SP: 16,
-    STS: 13,
-    STSP: 18,
-    TAL: 14,
-    VIT: 15,
+    ABS: { cod: 0, title: "Absorção" },
+    AGI: { cod: 1, title: "Agilidade" },
+    APmax: { cod: 2, title: "Poder de Ataque" },
+    APmin: { cod: 3, title: "Poder de Ataque" },
+    AR: { cod: 4, title: "Taxa de Ataque" },
+    DEF: { cod: 6, title: "Defesa" },
+    EP: { cod: 17, title: "Pontos de Elite" },
+    FOR: { cod: 7, title: "Força" },
+    HP: { cod: 8, title: "HP" },
+    INT: { cod: 9, title: "Inteligência" },
+    LVL: { cod: 10, title: "Level" },
+    MP: { cod: 11, title: "MP" },
+    RES: { cod: 12, title: "RES" },
+    SP: { cod: 16, title: "Pontos Especiais" },
+    STS: { cod: 13, title: "Status" },
+    STSP: { cod: 18, title: "Status (bonus)" },
+    TAL: { cod: 14, title: "Talento" },
+    VIT: { cod: 15, title: "Vitalidade" },
 }
 
-const status = [
-    { cod: codes.LVL, status: "Level" },
-    { cod: codes.FOR, status: "Força" },
-    { cod: codes.INT, status: "Inteligência" },
-    { cod: codes.TAL, status: "Talento" },
-    { cod: codes.AGI, status: "Agilidade" },
-    { cod: codes.VIT, status: "Vitalidade" },
-    { cod: codes.STS, status: "Status" },
-]
+const status = [codes.LVL, codes.FOR, codes.INT, codes.TAL, codes.AGI, codes.VIT, codes.STS]
 
-const result = [
-    { cod: codes.AR, result: "Taxa de Ataque" },
-    { cod: codes.APmin, result: "Poder de Ataque" },
-    { cod: codes.DEF, result: "Defesa" },
-    { cod: codes.ABS, result: "Absorção" },
-    { cod: codes.HP, result: "HP" },
-    { cod: codes.MP, result: "MP" },
-    { cod: codes.RES, result: "RES" },
-]
+const result = [codes.AR, codes.APmin, codes.DEF, codes.ABS, codes.HP, codes.MP, codes.RES]
 
 const itensName = {
     amuleto: 'Amuleto',

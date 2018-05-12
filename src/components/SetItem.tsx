@@ -1,9 +1,6 @@
 import * as React from 'react';
 
 import Item from './Item';
-// import Mixing from './Mixing'; 
-
-import '../assets/css/SetItem.css';
 
 interface IItem { name: string, titles: string[] }
 interface IGroup { itens: IItem[] }

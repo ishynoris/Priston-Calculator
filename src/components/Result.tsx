@@ -22,7 +22,7 @@ class Result extends React.Component<{}>{
         }
 
         return (
-            <div className="block-size outter-border background padding">
+            <div className="item-size outter-border background padding">
             {
                 this.state.status.values.map((v, i) => {
                     
