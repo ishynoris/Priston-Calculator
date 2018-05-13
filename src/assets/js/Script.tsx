@@ -2,6 +2,7 @@
 import IChar from '../../interfaces/IChar';
 import IItem from '../../interfaces/IItem';
 import IMixes from '../../interfaces/IMixes';
+import IQuest from '../../interfaces/IQuest';
 import IStatus from '../../interfaces/IStatus';
 import Values from '../js/Values';
 import BonusMixes from './BonusMixes';
@@ -10,61 +11,44 @@ import QuestList from './QuestList';
 
 class Script {
 
-    public static sets = {
-        kit: "Kit", primario: "Primario", set: "Set"
-    }
-
+    public static sets = { kit: "Kit", primario: "Primario", set: "Set" }
     public static chars = CharacterStatus.names;
-
     public static codes = Values.codes;
 
     public getMixesByItem(item: string): IMixes | undefined {
-        const bonusMixes: IMixes[] = BonusMixes;
-        let type: IMixes | undefined;
-        bonusMixes.forEach(i => {
-            if (i.item === item) {
-                type = i;
-            }
-        })
-        return type;
+        
+        return BonusMixes.find(bonus => {
+            return bonus.item === item;
+        });
     }
 
     public getItem(name: string): IItem | undefined {
-        const item: IItem | undefined = Values.itens.find(i => {
+        return Values.itens.find(i => {
             return i.name === name;
         });
-        return item;
     }
 
     public getSetByName(name: string): IItem[] {
         const itens = Values.itens;
         const names = Values.itensName;
 
-        if (name === Script.sets.kit) {
+        const kit = [names.amuleto, names.anel, names.shelton];
+        const primario = [names.arma, names.armadura, names.orbital];
+        const set = [names.luva, names.bracel, names.bota];
 
-            return itens.filter(i => {
-                return (i.name === names.amuleto) || (i.name === names.anel) || (i.name === names.shelton);
-            });
-
-        } else if (name === Script.sets.primario) {
-
-            return itens.filter(item => {
-                return (item.name === names.arma) || (item.name === names.armadura) || (item.name === names.orbital);
-            });
-        } else if (name === Script.sets.set) {
-            return itens.filter(item => {
-                return (item.name === names.luva) || (item.name === names.bracel) || (item.name === names.bota);
-            })
-        }
-        return [];
+        return itens.filter(i => {
+            
+            return name === Script.sets.kit ? existsIn(i.name, kit)
+                : name === Script.sets.primario ? existsIn(i.name, primario)
+                : name === Script.sets.set ? existsIn(i.name, set)
+                : false;
+        });
     }
 
-    public getResult(): IStatus {
-
-        const values = Values.result.map(r => {
+    public getResult(): IStatus[] {
+        return Values.result.map(r => {
             return { default: 10, disable: true, name: r.title }
         });
-        return { values };
     }
 
     public getCharDetail(char: string | undefined): IChar | undefined {
@@ -76,24 +60,25 @@ class Script {
         });
     }
 
-    public getQuests(): Array<{ value: string, option: string }> {
-        const values = QuestList.map(q => {
-            return { value: JSON.stringify(q.bonus), option: q.title }
-        })
-        return values;
+    public getQuests(): IQuest[] {
+        return QuestList;
     }
 
     public getChars(): Array<{ value: string, option: string }> {
-        const chars = [ this.asValueOption("-") ];
+        const chars = [asValueOption("-")];
         CharacterStatus.names.forEach(n => {
-            chars.push(this.asValueOption(n.name));
+            chars.push(asValueOption(n.name));
         })
         return chars;
     }
+}
 
-    private asValueOption = (text: string) => {
-        return { value: text, option: text };
-    }
+function asValueOption(text: string): { value: string, option: string } {
+    return { value: text, option: text }
+}
+
+function existsIn(name: string, values: string[]): boolean {
+    return values.indexOf(name) > -1;
 }
 
 export default Script;

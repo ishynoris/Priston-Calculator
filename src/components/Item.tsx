@@ -4,20 +4,12 @@ import Image from './Image'
 import InputText from './InputText';
 import Mixing from './Mixing';
 
-// import '../assets/css/Item.css';
-
 interface IItem { name: string, titles: string[], onlyImage?: boolean};
 
 class Item extends React.Component<IItem>{
 
-    public renderValue = (key: number, title: string) => {
-        title += ":";
-        return <InputText key={key} title={title}/>
-    }
-
     public render() {
 
-        let key = 0;
         let classValue: string = "";
         if (this.props.titles.length > 0) {
             classValue = "inner-border padding";
@@ -32,6 +24,7 @@ class Item extends React.Component<IItem>{
             )
         }
 
+        let key = 0;
         return (
             <div className={classes}>
                 <Image item={this.props.name} />
@@ -39,12 +32,16 @@ class Item extends React.Component<IItem>{
                 <div className={classValue}>
                 {
                     this.props.titles.map((t) => {
-                        return this.renderValue(key++, t);
+                        return <InputText key={key++} title={t + ":"} onChangeValue={this.onChangeValue}/>
                     })
                 }
                 </div>
             </div>
         );
+    }
+
+    private onChangeValue = (title: string, value: string) => {
+        // alert("Item " + this.props.name + " " + title + " " + value);
     }
 }
 

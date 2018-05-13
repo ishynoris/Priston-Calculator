@@ -33,7 +33,7 @@ const nameList = [
 
 function toSkills(stats: IDefaultStatus) {
     const codes = Script.codes;
-    const vals = Values.status.map(s => {
+    return Values.status.map(s => {
         const defValue = s.cod === codes.LVL.cod ? 1
             : s.cod === codes.FOR.cod ? stats.for
             : s.cod === codes.INT.cod ? stats.int
@@ -46,8 +46,7 @@ function toSkills(stats: IDefaultStatus) {
             disable: (s.cod === codes.STS.cod),
             name: s.title,
         }
-    })
-    return { values: vals } as IStatus;
+    }) as IStatus[];
 }
 
 const charsValues: IChar[] = [
