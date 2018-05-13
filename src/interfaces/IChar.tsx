@@ -4,7 +4,7 @@ import ISkills from './ISkills';
 import IStatus from './IStatus';
 
 interface IChar {
-    asSkills: (stats: IDefaultStatus) => IStatus,
+    asSkills: (stats: IDefaultStatus) => IStatus[],
     defaultStats: IDefaultStatus,
     name: string,
     skills: ISkills[],

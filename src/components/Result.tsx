@@ -5,26 +5,26 @@ import InputText from './InputText';
 
 class Result extends React.Component<{}>{
     
-    public state: { status: IStatus | undefined};
+    public state: { status: IStatus[]};
 
     constructor(props: {}){
         super(props);
-        this.state = {status: undefined};
+        this.state = {status: []};
     }
 
-    public setValues(newStatus: IStatus | undefined){
+    public setStatus(newStatus: IStatus[]){
         this.setState({status: newStatus});
     }
 
     public render() {
-        if (this.state.status === undefined) {
+        if (this.state.status.length === 0) {
             return null;
         }
 
         return (
             <div className="item-size outter-border background padding">
             {
-                this.state.status.values.map((v, i) => {
+                this.state.status.map((v, i) => {
                     
                     return <InputText
                         key={i}

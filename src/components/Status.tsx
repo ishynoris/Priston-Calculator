@@ -8,16 +8,16 @@ import '../assets/css/Status.css';
 
 class Status extends React.Component<{}>{
 
-    public state: { status: IStatus | undefined };
+    public state: { status: IStatus[] };
     private inputs: Array<{ cod: number, element: InputText | null }>;
 
-    constructor(props: IStatus) {
+    constructor(props: {}) {
         super(props);
         this.inputs = [];
-        this.state = { status: undefined };
+        this.state = { status: [] };
     }
 
-    public setDefaultStatus = (newStatus: IStatus | undefined) => {
+    public setDefaultStatus = (newStatus: IStatus[]) => {
         this.setState({ status: newStatus })
     }
 
@@ -32,7 +32,7 @@ class Status extends React.Component<{}>{
                 <Title title="Status" />
                 <div className="item-block outter-border background padding">
                     {
-                        this.state.status.values.map((v, i) => {
+                        this.state.status.map((v, i) => {
                             return (
                                 <InputText
                                     ref={ref => this.inputs.push({ cod: i, element: ref })}
