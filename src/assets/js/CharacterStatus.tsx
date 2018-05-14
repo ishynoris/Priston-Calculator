@@ -34,16 +34,16 @@ const nameList = [
 function toSkills(stats: IDefaultStatus) {
     const codes = Script.codes;
     return Values.status.map(s => {
-        const defValue = s.cod === codes.LVL.cod ? 1
-            : s.cod === codes.FOR.cod ? stats.for
-            : s.cod === codes.INT.cod ? stats.int
-            : s.cod === codes.AGI.cod ? stats.agi
-            : s.cod === codes.TAL.cod ? stats.tal
-            : s.cod === codes.VIT.cod ? stats.vit
+        const defValue = s.cod === codes.LVL ? 1
+            : s.cod === codes.FOR ? stats.for
+            : s.cod === codes.INT ? stats.int
+            : s.cod === codes.AGI ? stats.agi
+            : s.cod === codes.TAL ? stats.tal
+            : s.cod === codes.VIT ? stats.vit
             : -1;
         return {
             default: defValue,
-            disable: (s.cod === codes.STS.cod),
+            disable: (s.cod === codes.STS),
             name: s.title,
         }
     }) as IStatus[];

@@ -12,8 +12,8 @@ import QuestList from './QuestList';
 class Script {
 
     public static sets = { kit: "Kit", primario: "Primario", set: "Set" }
-    public static chars = CharacterStatus.names;
     public static codes = Values.codes;
+    public static chars = CharacterStatus.names;
 
     public getMixesByItem(item: string): IMixes | undefined {
         
@@ -26,6 +26,10 @@ class Script {
         return Values.itens.find(i => {
             return i.name === name;
         });
+    }
+
+    public getBonusByItem(name: string){
+        // const vals = [ {cod: 1, val: 1} ]
     }
 
     public getSetByName(name: string): IItem[] {

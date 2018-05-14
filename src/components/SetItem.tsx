@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import IItem from '../interfaces/IItem';
 import Item from './Item';
 
-interface IItem { name: string, titles: string[] }
 interface IGroup { itens: IItem[] }
 
 class SetItem extends React.Component<IGroup>{
@@ -49,11 +49,20 @@ class SetItem extends React.Component<IGroup>{
                             return null;
                         }
                         lastsItens.push(item.name);
-                        return <Item key={key++} name={item.name} titles={item.titles} onlyImage={repeated} />;
+                        const titles = this.getTitles(item)
+                        return <Item key={key++} name={item.name} titles={titles} onlyImage={repeated} />;
                     })
                 }
             </div>
         );
+    }
+
+    private getTitles = (item: IItem): string[] => {
+        const titles: string[] = [];
+        item.item.forEach(i => {
+            titles.push(i.title);
+        })
+        return titles;
     }
 }
 export default SetItem;
