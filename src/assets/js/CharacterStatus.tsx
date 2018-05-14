@@ -2,7 +2,6 @@ import IChar from '../../interfaces/IChar';
 import IDefaultStatus from '../../interfaces/IDefaultStatus';
 import IStatus from '../../interfaces/IStatus';
 
-import Script from './Script';
 import Values from './Values';
 
 const chars = {
@@ -32,18 +31,18 @@ const nameList = [
 ]
 
 function toSkills(stats: IDefaultStatus) {
-    const codes = Script.codes;
+    
     return Values.status.map(s => {
-        const defValue = s.cod === codes.LVL ? 1
-            : s.cod === codes.FOR ? stats.for
-            : s.cod === codes.INT ? stats.int
-            : s.cod === codes.AGI ? stats.agi
-            : s.cod === codes.TAL ? stats.tal
-            : s.cod === codes.VIT ? stats.vit
+        const defValue = s.cod === Values.codes.LVL ? 1
+            : s.cod === Values.codes.FOR ? stats.for
+            : s.cod === Values.codes.INT ? stats.int
+            : s.cod === Values.codes.AGI ? stats.agi
+            : s.cod === Values.codes.TAL ? stats.tal
+            : s.cod === Values.codes.VIT ? stats.vit
             : -1;
         return {
             default: defValue,
-            disable: (s.cod === codes.STS),
+            disable: (s.cod === Values.codes.STS),
             name: s.title,
         }
     }) as IStatus[];
