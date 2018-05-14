@@ -9,6 +9,8 @@ import SetItem from './components/SetItem';
 import ShitftEquip from './components/ShitftEquip';
 import Title from './components/Title';
 import IItem from './interfaces/IItem';
+import IQuest from './interfaces/IQuest';
+// import IStatus from './interfaces/IStatus';
 
 import './assets/css/App.css';
 
@@ -36,12 +38,12 @@ class App extends React.Component {
 		const set: IItem[] = this.script.getSetByName(Script.sets.set);
 		const primario: IItem[] = this.script.getSetByName(Script.sets.primario);
 		const chars = this.script.getChars();
-		const quests = this.script.getQuests();
+		const quests: IQuest[] = this.script.getQuests();
 
 		return (
-			<div className="container">
+			<div className="">
 				<div className="row justify-content-center">
-					<div className="col-sm-2">
+					<div className="block col-sm-2">
 						<Title title="Personagens" />
 						<SelectTitle
 							title={"Selecione um personagem:"}
@@ -51,7 +53,7 @@ class App extends React.Component {
 						<CharDetail ref={ref => this.charDetail = ref} />
 						<Quests quests={quests} />
 					</div>
-					<div className="col-sm-6">
+					<div className="block col-sm-5">
 						<Title title="Equipamentos" />
 						<SetItem itens={kit} />
 						<SetItem itens={set} />
@@ -62,7 +64,7 @@ class App extends React.Component {
 							onSelectedCallback={this.onSelectEquip} />
 						<SetItem ref={(el) => this.primario = el} itens={primario} />
 					</div>
-					<div className="col-sm-2">
+					<div className="block col-sm-2">
 						<Title title="Resultados" />
 						<Result ref={ref => this.result = ref} />
 					</div>
@@ -72,9 +74,10 @@ class App extends React.Component {
 	}
 
 	public componentDidMount() {
-		this.onSelectEquip(radios.indexChecked);
 		this.onCharSelect("-");
+		this.onSelectEquip(radios.indexChecked);
 		this.initResult();
+		this.calculate();
 	}
 
 	private onCharSelect = (name: string) => {
@@ -97,9 +100,29 @@ class App extends React.Component {
 
 	private initResult = () => {
 		if (this.result !== null) {
-			this.result.setValues(this.script.getResult());
+			this.result.setStatus(this.script.getResult());
+		}
+	}
+
+	private calculate = () => {
+		// TODO 2 * 2
+		/*
+		this.result.update(values)
+		*/
+		// const newStatus: IStatus[] = [];
+		if (this.result !== null) {
+			// this.result.setStatus(newStatus);
 		}
 	}
 }
 
 export default App;
+
+
+
+/*
+Brink Festas
+22 R$
+11 mesas.
+Adriano 
+*/

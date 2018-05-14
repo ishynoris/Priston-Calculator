@@ -1,13 +1,14 @@
-
+import IBonus from '../../interfaces/IBonus';
 import IChar from '../../interfaces/IChar';
 import IItem from '../../interfaces/IItem';
 import IMixes from '../../interfaces/IMixes';
 import IQuest from '../../interfaces/IQuest';
 import IStatus from '../../interfaces/IStatus';
-import Values from '../js/Values';
+import BonusItens from './BonusItens';
 import BonusMixes from './BonusMixes';
 import CharacterStatus from './CharacterStatus';
 import QuestList from './QuestList';
+import Values from './Values';
 
 class Script {
 
@@ -27,9 +28,20 @@ class Script {
             return i.name === name;
         });
     }
+    
+    public getBonusFromItem(item: string): IBonus[] | undefined{
+        const bonus = BonusItens.bonus.find(b => {
+            return b.name === item;
+        });
+        return bonus === undefined ? undefined : bonus.bonus;
+    }
 
-    public getBonusByItem(name: string){
-        // const vals = [ {cod: 1, val: 1} ]
+    public getCodByAttr(attr: string): number | undefined {
+        
+        const item = Values.itensList.find(i => {
+            return i.title === attr;
+        });
+        return item === undefined ? undefined : item.cod;
     }
 
     public getSetByName(name: string): IItem[] {

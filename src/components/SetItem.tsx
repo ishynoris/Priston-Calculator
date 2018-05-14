@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import IBonus from '../interfaces/IBonus';
 import IItem from '../interfaces/IItem';
 import Item from './Item';
 
@@ -7,9 +8,7 @@ interface IGroup { itens: IItem[] }
 
 class SetItem extends React.Component<IGroup>{
 
-    public state: {
-        itens: IItem[]
-    }
+    public state: { itens: IItem[] }
 
     constructor(props: IGroup) {
         super(props);
@@ -50,7 +49,12 @@ class SetItem extends React.Component<IGroup>{
                         }
                         lastsItens.push(item.name);
                         const titles = this.getTitles(item)
-                        return <Item key={key++} name={item.name} titles={titles} onlyImage={repeated} />;
+                        return <Item
+                            key={key++}
+                            name={item.name}
+                            titles={titles}
+                            onlyImage={repeated}
+                            onChangeValue={this.onChanged} />;
                     })
                 }
             </div>
@@ -63,6 +67,10 @@ class SetItem extends React.Component<IGroup>{
             titles.push(i.title);
         })
         return titles;
+    }
+
+    private onChanged = (bonus: IBonus[]) => {
+        // alert("SetItem: " + JSON.stringify(bonus));
     }
 }
 export default SetItem;
