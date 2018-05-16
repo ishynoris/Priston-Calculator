@@ -8,23 +8,16 @@ class CharDetail extends React.Component{
 
     public state: { char: IChar | undefined }
     private status: Status | null;
+    private skills: Skills | null;
 
     constructor(props: {}){
         super(props);
         this.state = { char: undefined };
     }
 
-    public setChar = (newChar: IChar) => {
-        
-        if(this.status !== null && this.status !== undefined){
-            const stats = newChar.asSkills(newChar.defaultStats);
-            this.status.setDefaultStatus(stats);
-        }
+    public setChar (newChar: IChar | undefined) {
         this.setState({ char: newChar });
-    }
-
-    public clearDetails = () => {
-        this.setState({char: undefined});
+        this.updateChar();
     }
 
     public render(){
@@ -36,25 +29,32 @@ class CharDetail extends React.Component{
         return (
             <div>
 				<Status ref={ref => this.status = ref } />
-				<Skills skills={char.skills} />
+				<Skills ref={ref => this.skills = ref} />
 			</div>
         );
     }
 
     public componentDidMount(){
-        this.updateStatus();
+        this.updateChar();
     }
 
     public componentDidUpdate(){
-        this.updateStatus();
+        this.updateChar();
     }
      
-    private updateStatus = () => {
+    private updateChar() {
         
         const char = this.state.char;
-        if(this.status !== null && char !== undefined){
-            const status = char.asSkills(char.defaultStats);
-            this.status.setDefaultStatus(status);
+        if(char !== undefined){
+
+            if(this.status !== null){
+                const status = char.asSkills(char.defaultStats);
+                this.status.setStatus(status);
+            }
+
+            if(this.skills !== null){
+                this.skills.setSkills(char.skills);
+            }
         }
     }
 }

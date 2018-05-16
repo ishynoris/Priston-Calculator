@@ -75,18 +75,13 @@ class App extends React.Component {
 
 	public componentDidMount() {
 		this.initComponents();
-		this.onCharSelect("-");
 		this.calculate();
 	}
 
 	private onCharSelect = (name: string) => {
-		const newChar = this.script.getCharDetail(name);
 		if (this.charDetail !== null) {
-			if (newChar !== undefined) {
-				this.charDetail.setChar(newChar);
-			} else {
-				this.charDetail.clearDetails();
-			}
+			const newChar = this.script.getCharDetail(name);
+			this.charDetail.setChar(newChar);
 		}
 	}
 

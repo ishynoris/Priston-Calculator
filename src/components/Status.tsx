@@ -17,13 +17,20 @@ class Status extends React.Component<{}>{
         this.state = { status: [] };
     }
 
-    public setDefaultStatus = (newStatus: IStatus[]) => {
-        this.setState({ status: newStatus })
+    public setStatus (newStatus: IStatus[]) {
+        this.setState({ status: newStatus });
+        this.inputs.forEach((input, index) => {
+            const status = newStatus[index];
+            if(input.element !== null && status !== undefined){
+                input.element.setValue(status.default.toString());
+            }
+        })
     }
 
     public render() {
 
-        if (this.state.status === undefined) {
+        const status = this.state.status;
+        if (status.length === 0) {
             return null;
         }
 
@@ -32,14 +39,15 @@ class Status extends React.Component<{}>{
                 <Title title="Status" />
                 <div className="item-block outter-border background padding">
                     {
-                        this.state.status.map((v, i) => {
+                        status.map((item, index) => {
                             return (
                                 <InputText
-                                    ref={ref => this.inputs.push({ cod: i, element: ref })}
-                                    key={i}
-                                    defaultValue={v.default.toString()}
-                                    title={v.name + ":"}
-                                    disable={v.disable}
+                                    ref={ref => this.inputs.push({ cod: index, element: ref })}
+                                    key={index}
+                                    defaultValue={item.default.toString()}
+                                    title={item.name + ":"}
+                                    disable={item.disable}
+                                    onChangeValue={this.onChange}
                                 />
                             )
                         })
@@ -57,13 +65,17 @@ class Status extends React.Component<{}>{
                 return;
             }
 
-            this.inputs.map((input, i) => {
-                const value = status.values[i];
+            this.inputs.map((input, index) => {
+                const value = status.values[index];
                 if (input.element !== null && value !== undefined) {
                     input.element.setValue(value.default.toString());
                 }
             })
         }
+    }
+
+    private onChange = (title: string, newValue: number) => {
+        console.log(title + " " + newValue);
     }
 }
 
