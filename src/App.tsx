@@ -10,20 +10,23 @@ import ShitftEquip from './components/ShitftEquip';
 import Title from './components/Title';
 import IItem from './interfaces/IItem';
 import IQuest from './interfaces/IQuest';
-// import IStatus from './interfaces/IStatus';
 
 import './assets/css/App.css';
 
+const radioTitles = ['Arma', 'Escudo', 'Orbital'];
 const radios = {
 	indexChecked: 0,
+	lastIndex: radioTitles.length - 1,
 	name: 'Status',
-	titles: ['Arma', 'Escudo', 'Orbital']
+	titles: radioTitles,
 }
 
 class App extends React.Component {
 
 	private script: Script;
-	private primario: SetItem | null;
+	private itensPrimario: SetItem | null;
+	private itensKit: SetItem | null;
+	private itensSet: SetItem | null;
 	private charDetail: CharDetail | null;
 	private result: Result | null;
 
@@ -34,9 +37,6 @@ class App extends React.Component {
 
 	public render() {
 
-		const kit: IItem[] = this.script.getSetByName(Script.sets.kit);
-		const set: IItem[] = this.script.getSetByName(Script.sets.set);
-		const primario: IItem[] = this.script.getSetByName(Script.sets.primario);
 		const chars = this.script.getChars();
 		const quests: IQuest[] = this.script.getQuests();
 
@@ -55,14 +55,14 @@ class App extends React.Component {
 					</div>
 					<div className="block col-sm-5">
 						<Title title="Equipamentos" />
-						<SetItem itens={kit} />
-						<SetItem itens={set} />
+						<SetItem ref={ref => this.itensKit = ref} />
+						<SetItem ref={ref =>  this.itensSet = ref } />
 						<ShitftEquip
 							name={radios.name}
 							titles={radios.titles}
 							default={radios.indexChecked}
 							onSelectedCallback={this.onSelectEquip} />
-						<SetItem ref={(el) => this.primario = el} itens={primario} />
+						<SetItem ref={ref => this.itensPrimario = ref} />
 					</div>
 					<div className="block col-sm-2">
 						<Title title="Resultados" />
@@ -74,9 +74,8 @@ class App extends React.Component {
 	}
 
 	public componentDidMount() {
+		this.initComponents();
 		this.onCharSelect("-");
-		this.onSelectEquip(radios.indexChecked);
-		this.initResult();
 		this.calculate();
 	}
 
@@ -93,23 +92,33 @@ class App extends React.Component {
 
 	private onSelectEquip = (index: number) => {
 		const item: IItem | undefined = this.script.getItem(radios.titles[index]);
-		if (item !== undefined && this.primario !== null) {
-			this.primario.setItem(item, 2);
+		if (item !== undefined && this.itensPrimario !== null) {
+			this.itensPrimario.addItem(item, radios.lastIndex);
 		}
 	}
 
-	private initResult = () => {
+	private initComponents = () => {
 		if (this.result !== null) {
 			this.result.setStatus(this.script.getResult());
+		}
+		if (this.itensKit !== null) {
+			this.itensKit.initState(this.script.getSetByName(Script.sets.kit));
+		}
+		if (this.itensSet !== null) {
+			this.itensSet.initState(this.script.getSetByName(Script.sets.set));
+		}
+		if (this.itensPrimario !== null) {
+			const primario = this.script.getSetByName(Script.sets.primario);
+			const item: IItem | undefined = this.script.getItem(radios.titles[radios.indexChecked]);
+			if(item !== undefined){
+				primario.push(item);
+			}
+			this.itensPrimario.initState(primario);
 		}
 	}
 
 	private calculate = () => {
-		// TODO 2 * 2
-		/*
-		this.result.update(values)
-		*/
-		// const newStatus: IStatus[] = [];
+		
 		if (this.result !== null) {
 			// this.result.setStatus(newStatus);
 		}

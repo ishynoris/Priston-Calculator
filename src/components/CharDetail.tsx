@@ -15,9 +15,10 @@ class CharDetail extends React.Component{
     }
 
     public setChar = (newChar: IChar) => {
+        
         if(this.status !== null && this.status !== undefined){
-            const status = newChar.asSkills(newChar.defaultStats);
-            this.status.setDefaultStatus(status);
+            const stats = newChar.asSkills(newChar.defaultStats);
+            this.status.setDefaultStatus(stats);
         }
         this.setState({ char: newChar });
     }
