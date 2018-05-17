@@ -94,7 +94,13 @@ class App extends React.Component {
 
 	private initComponents = () => {
 		if (this.result !== null) {
-			this.result.setStatus(this.script.getResult());
+			const results = this.script.getResult().map(r => {
+				if(r.name === Script.itens.AP.title){
+					r.default = "0-0";
+				}
+				return r;
+			});
+			this.result.setStatus(results);
 		}
 		if (this.itensKit !== null) {
 			this.itensKit.initState(this.script.getSetByName(Script.sets.kit));

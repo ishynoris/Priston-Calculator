@@ -99,6 +99,7 @@ const itens: IItem[] = [
 const values = {
     "codes": codes,
     "itens": itens,
+    "itensCode": itensCode,
     "itensList": itensList,
     "itensName": itensName,
     "result": result,

@@ -14,6 +14,7 @@ class Script {
 
     public static sets = { kit: "Kit", primario: "Primario", set: "Set" }
     public static codes = Values.codes;
+    public static itens = Values.itensCode;
     public static chars = CharacterStatus.names;
 
     public getMixesByItem(item: string): IMixes | undefined {
@@ -62,7 +63,7 @@ class Script {
 
     public getResult(): IStatus[] {
         return Values.result.map(r => {
-            return { default: 10, disable: true, name: r.title }
+            return { default: -1, disable: true, name: r.title }
         });
     }
 

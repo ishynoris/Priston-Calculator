@@ -37,7 +37,11 @@ class InputText extends React.Component<IInputText>{
     public renderValue() {
         
         if (this.props.disable) {
-            return <label className="disable">{0}</label>
+            const toNumber = Number(this.state.value);
+            const value = isNaN(toNumber) ? this.state.value 
+                : toNumber > 0 ? toNumber
+                : 0;
+            return <label className="disable">{value}</label>
         }
         return <input className={"value"} type="text" value={this.state.value} onChange={this.onChanged} />
     }
