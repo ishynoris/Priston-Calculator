@@ -6,7 +6,7 @@ import Title from './Title';
 
 import '../assets/css/Quests.css';
 
-interface IQuestList { quests: IQuest[] } 
+interface IQuestList { quests: IQuest[], onQuestsChanged?: (index: number, value: string) => void }
 
 class Quests extends React.Component<IQuestList>{
 
@@ -21,7 +21,10 @@ class Quests extends React.Component<IQuestList>{
         return (
             <div>
                 <Title title="Quests" />
-                <SelectTitle title={"Ultima quest realizada:"} name="Quests" values={options} />
+                <SelectTitle 
+                    title={"Ultima quest realizada:"} 
+                    name="Quests" values={options} 
+                    onSelectedCallback={this.props.onQuestsChanged} />
             </div>
         );
     }

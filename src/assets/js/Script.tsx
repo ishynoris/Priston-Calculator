@@ -76,6 +76,12 @@ class Script {
         });
     }
 
+    public getQuestsAt(index: number): IQuest[] {
+        return QuestList.filter((q, i) => {
+            return index > 0 && i <= index;
+        });
+    }
+
     public getQuests(): IQuest[] {
         return QuestList;
     }

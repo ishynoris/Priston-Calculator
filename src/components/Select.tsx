@@ -6,7 +6,7 @@ interface ISelect {
     name: string,
     values: Array<{ value: string, option: string }>
     disabled?: boolean
-    onSelectedCallback?: (value: string) => void
+    onSelectedCallback?: (index: number, value: string) => void
 }
 
 class Select extends React.Component<ISelect>{
@@ -24,7 +24,8 @@ class Select extends React.Component<ISelect>{
 
     public onChanged = (event: React.FormEvent<HTMLSelectElement>) => {
         if (this.props.onSelectedCallback !== undefined) {
-            this.props.onSelectedCallback(event.currentTarget.value);
+            const target = event.currentTarget;
+            this.props.onSelectedCallback(target.selectedIndex, target.value);
         }
     }
 
@@ -51,10 +52,3 @@ class Select extends React.Component<ISelect>{
 }
 
 export default Select
-
-/*
-
-    <a href="google.com">
-        <img src="link-img"/>
-    </a>
-*/

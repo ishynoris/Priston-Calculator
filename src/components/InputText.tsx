@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import TitleSmall  from "./TitleSmall";
+import TitleSmall from "./TitleSmall";
 
 import '../assets/css/InputText.css';
 
@@ -30,17 +30,21 @@ class InputText extends React.Component<IInputText>{
         }
     }
 
+    public asNumber(): number {
+        return Number(this.state.value);
+    }
+
     public setValue(newValue: string) {
         this.setState({ value: newValue });
     }
 
     public renderValue() {
-        
+
         if (this.props.disable) {
             const toNumber = Number(this.state.value);
-            const value = isNaN(toNumber) ? this.state.value 
+            const value = isNaN(toNumber) ? this.state.value
                 : toNumber > 0 ? toNumber
-                : 0;
+                    : 0;
             return <label className="disable">{value}</label>
         }
         return <input className={"value"} type="text" value={this.state.value} onChange={this.onChanged} />
@@ -60,9 +64,9 @@ class InputText extends React.Component<IInputText>{
         );
     }
 
-    public componentWillUpdate(newProps: IInputText, newState: { value: string }){
-        const newValue = Number(newState.value);
-        if(this.props.onChangeValue !== undefined && !isNaN(newValue)){
+    public componentDidUpdate(prevProps: IInputText, prevState: { value: string }) {
+        const newValue = Number(this.state.value);
+        if (this.props.onChangeValue !== undefined && !isNaN(newValue)) {
             this.props.onChangeValue(this.props.title, newValue);
         }
     }

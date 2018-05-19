@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import Script from './assets/js/Script'
 import CharDetail from './components/CharDetail';
-import Quests from './components/Quests';
 import Result from './components/Result';
 import SelectTitle from './components/SelectTitle';
 import SetItem from './components/SetItem';
@@ -50,8 +49,8 @@ class App extends React.Component {
 							name={"Personagens"}
 							values={chars}
 							onSelectedCallback={this.onCharSelect} />
-						<CharDetail ref={ref => this.charDetail = ref} />
-						<Quests quests={quests} />
+						<CharDetail ref={ref => this.charDetail = ref} quests={quests}/>
+						
 					</div>
 					<div className="block col-sm-5">
 						<Title title="Equipamentos" />
@@ -78,7 +77,7 @@ class App extends React.Component {
 		this.calculate();
 	}
 
-	private onCharSelect = (name: string) => {
+	private onCharSelect = (index: number, name: string) => {
 		if (this.charDetail !== null) {
 			const newChar = this.script.getCharDetail(name);
 			this.charDetail.setChar(newChar);
@@ -127,12 +126,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-
-/*
-Brink Festas
-22 R$
-11 mesas.
-Adriano 
-*/
