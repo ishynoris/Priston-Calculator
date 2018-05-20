@@ -78,7 +78,7 @@ class Script {
 
     public getQuestsAt(index: number): IQuest[] {
         return QuestList.filter((q, i) => {
-            return index > 0 && i <= index;
+            return i <= index;
         });
     }
 
