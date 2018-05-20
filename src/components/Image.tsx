@@ -8,16 +8,16 @@ interface IImage { item: string }
 class Image extends React.Component<IImage>{
 
     private static images = {
-        amuleto: require("../images/amuleto.png"),
-        anel: require("../images/anel.png"),
-        arma: require("../images/arma.png"),
-        armadura: require("../images/armadura.png"),
-        bota: require("../images/bota.png"),
-        bracel: require("../images/bracel.png"),
-        escudo: require("../images/escudo.png"),
-        luva: require("../images/luva.png"),
-        orbital: require("../images/orbital.png"),
-        shelton: require("../images/shelton.png"),
+        amuleto: require("../assets/images/amuleto.png"),
+        anel: require("../assets/images/anel.png"),
+        arma: require("../assets/images/arma.png"),
+        armadura: require("../assets/images/armadura.png"),
+        bota: require("../assets/images/bota.png"),
+        bracel: require("../assets/images/bracel.png"),
+        escudo: require("../assets/images/escudo.png"),
+        luva: require("../assets/images/luva.png"),
+        orbital: require("../assets/images/orbital.png"),
+        shelton: require("../assets/images/shelton.png"),
     }
 
     public setImage = () => {
