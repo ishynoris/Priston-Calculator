@@ -2,7 +2,7 @@
   "name": "simulator-archer",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://ishynoris.github.io/Priston-Calculator",
+  "homepage": "https://ishynoris.github.io/Priston-Calculator",
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
     "react": "^16.3.2",
