@@ -47,7 +47,7 @@ class App extends React.Component {
 		return (
 			<div className="">
 				<div className="row justify-content-center">
-					<div className="block col-sm-2">
+					<div className="block col-md-2">
 						<Title title="Personagens" />
 						<SelectTitle
 							title={"Selecione um personagem:"}
@@ -72,7 +72,7 @@ class App extends React.Component {
 							onSelectedCallback={this.onSelectEquip} />
 						<SetItem ref={ref => this.itensPrimario = ref} />
 					</div>
-					<div className="block col-sm-2">
+					<div className="block col-md-2">
 						<Title title="Resultados" />
 						<Result ref={ref => this.result = ref} />
 					</div>

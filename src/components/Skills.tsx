@@ -31,7 +31,7 @@ class SkillList extends React.Component<{}>{
         return (
             <div>
                 <Title title="Habilidades" />
-                <div className="outter-border background padding">
+                <div className="item-size outter-border background padding">
                 {
                     skills.map(s => {
                         return this.renderSkills(key++, s);

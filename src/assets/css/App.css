@@ -1,8 +1,9 @@
 .block{
-    border: 1px solid black;
+    padding: 0 0 0 20px;
+    /* border: 1px solid black; */
 }
 .padding{
-    padding: 2px;
+    padding: 1px;
 }
 .title{
     font-size: 1.05em;
@@ -27,6 +28,6 @@
     border: 1px ridge #55453c;
 }
 .item-size {
-    width: 185px;
-    margin: 0 0 3px 3px ;
+    width: 180px;
+    margin: 0 0 2px 2px ;
 }

@@ -13,7 +13,7 @@ interface ISelectTitle {
 
 const SelectTitle = (props: ISelectTitle) => {
     return(
-        <div className="outter-border background padding">
+        <div className="item-size outter-border background padding">
             <TitleSmall title={props.title}/>
             <Select name={props.name} values={props.values} onSelectedCallback={props.onSelectedCallback}/>
         </div>

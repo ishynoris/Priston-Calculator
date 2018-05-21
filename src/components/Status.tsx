@@ -41,7 +41,7 @@ class Status extends React.Component<{
         return (
             <div>
                 <Title title="Status" />
-                <div className="item-block outter-border background padding">
+                <div className="item-size outter-border background padding">
                     {
                         status.map((item, index) => {
                             return (
