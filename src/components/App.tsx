@@ -60,7 +60,6 @@ class App extends React.Component {
 							onCharUpdated={this.onCharUpdated}
 							onStatusChanged={this.onStatusChanged}
 							onQuestChange={this.onQuestChanged} />
-
 					</div>
 					<div className="block col-sm-5">
 						<Title title="Equipamentos" />
@@ -84,9 +83,19 @@ class App extends React.Component {
 
 	public componentDidMount() {
 		this.initComponents();
+		this.setTitle(undefined);
+	}
+
+	private setTitle = (charName: string | undefined) => {
+		let title = "Priston Calculator";
+		if(charName !== undefined){
+			title = "[" + charName  + "] " + title;
+		}
+		document.title = title;
 	}
 
 	private onCharSelect = (index: number, name: string) => {
+		this.setTitle(name);
 		if (this.charDetail !== null) {
 			const newChar = this.script.getCharDetail(name);
 			this.charDetail.setChar(newChar);
