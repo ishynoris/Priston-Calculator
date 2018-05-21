@@ -8,7 +8,7 @@ interface IInputText {
     title: string,
     defaultValue?: string,
     disable?: boolean
-    onChangeValue?: (title: string, newValue: number) => void,
+    onChangeValue?: (title: string, newValue: number, oldValue: number) => void,
 }
 
 class InputText extends React.Component<IInputText>{
@@ -66,8 +66,9 @@ class InputText extends React.Component<IInputText>{
 
     public componentDidUpdate(prevProps: IInputText, prevState: { value: string }) {
         const newValue = Number(this.state.value);
-        if (this.props.onChangeValue !== undefined && !isNaN(newValue)) {
-            this.props.onChangeValue(this.props.title, newValue);
+        const oldValue = Number(prevState.value);
+        if (this.props.onChangeValue !== undefined && !isNaN(newValue) && !isNaN(oldValue)) {
+            this.props.onChangeValue(this.props.title, newValue, oldValue);
         }
     }
 }

@@ -5,17 +5,17 @@ import IStatusInput from '../interfaces/IStatusInput';
 import InputText from './InputText';
 import Title from './Title';
 
-// import '../assets/css/Status.css';
+interface IStatusComp {
+    onStatusMount: (inputs: IStatusInput[]) => void,
+    onStatusChanged?: (title: string, oldValue:number, newValue: number) => void
+}
 
-class Status extends React.Component<{
-    onInputsChanged?: (inputs: IStatusInput[]) => void,
-    onStatusChanged?: (title: string, value: number, status: IStatus[]) => void
-}>{
+class Status extends React.Component<IStatusComp>{
 
     public state: { status: IStatus[] };
     private inputs: IStatusInput[];
 
-    constructor(props: {}) {
+    constructor(props: IStatusComp) {
         super(props);
         this.inputs = [];
         this.state = { status: [] };
@@ -51,14 +51,19 @@ class Status extends React.Component<{
                                     defaultValue={item.default.toString()}
                                     title={item.name + ":"}
                                     disable={item.disable}
-                                    onChangeValue={this.onStatusChanged}
-                                />
+                                    onChangeValue={this.onStatusChanged}/>
                             )
                         })
                     }
                 </div>
             </div>
         );
+    }
+
+    public componentDidMount(){
+        if(this.props.onStatusMount !== undefined){
+            this.props.onStatusMount(this.inputs);
+        }
     }
 
     public componentDidUpdate() {
@@ -74,14 +79,12 @@ class Status extends React.Component<{
                 input.element.setValue(value.default.toString());
             }
         });
-        if (this.props.onInputsChanged !== undefined) {
-            this.props.onInputsChanged(this.inputs);
-        }
     }
 
-    private onStatusChanged = (title: string, value: number) => {
+    private onStatusChanged = (title: string, value: number, oldValue: number) => {
         if (this.props.onStatusChanged !== undefined) {
-            this.props.onStatusChanged(title, value, this.state.status);
+            title = title.replace(":", "");
+            this.props.onStatusChanged(title, oldValue, value);
         }
     }
 }

@@ -1,29 +1,30 @@
 import * as React from 'react';
 
+import Script from '../assets/js/Script';
 import IChar from '../interfaces/IChar';
 import IQuest from '../interfaces/IQuest';
-import IStatus from '../interfaces/IStatus';
 import IStatusInput from '../interfaces/IStatusInput';
+import InputText from './InputText';
 import Quests from './Quests';
 import Skills from './Skills';
 import Status from './Status';
 
 interface ICharDetail {
     quests: IQuest[],
-    onCharUpdated?: (char: string, inputs: IStatusInput[]) => void,
-    onStatusChanged?: (title: string, value: number, inputs: IStatus[]) => void,
-    onQuestChange?: (index: number, value: string) => void,
 };
 
 class CharDetail extends React.Component<ICharDetail>{
 
     public state: { char: IChar | undefined }
+    
+	private inputs: IStatusInput[];
     private status: Status | null;
     private skills: Skills | null;
     private quests: Quests | null;
 
     constructor(props: { quests: IQuest[] }) {
         super(props);
+        this.inputs = [];
         this.state = { char: undefined };
     }
 
@@ -41,13 +42,13 @@ class CharDetail extends React.Component<ICharDetail>{
             <div>
                 <Status
                     ref={ref => this.status = ref}
-                    onInputsChanged={this.onInputsChanged}
-                    onStatusChanged={this.props.onStatusChanged} />
+                    onStatusMount={this.onStatusMounted}
+                    onStatusChanged={this.onStatusChanged} />
                 <Skills ref={ref => this.skills = ref} />
                 <Quests
                     ref={ref => this.quests = ref}
                     quests={this.props.quests}
-                    onQuestsChanged={this.props.onQuestChange} />
+                    onQuestsChanged={this.onQuestChanged} />
             </div>
         );
     }
@@ -74,13 +75,72 @@ class CharDetail extends React.Component<ICharDetail>{
                 this.skills.setSkills(char.skills);
             }
         }
-
     }
 
-    private onInputsChanged = (inputs: IStatusInput[]) => {
-        if (this.props.onCharUpdated !== undefined && this.state.char !== undefined) {
-            this.props.onCharUpdated(this.state.char.name, inputs);
+    private onStatusMounted = (inputs: IStatusInput[]) => {
+        this.inputs = inputs;
+    }
+
+    private onStatusChanged = (title: string, oldValue: number, newValue: number) => {
+        if(title === Script.itens.LVL.title){
+            this.addStats(newValue);
         }
+    }
+    
+    private onQuestChanged = (index: number, value: string) => {
+		let newStats = 0;
+        const stsLevel = this.findStatus(Script.itens.LVL.title);
+        
+		if (stsLevel === null) {
+			return;
+        }
+
+        const level = stsLevel.asNumber();
+		if (isNaN(level)) {
+			return;
+        }
+
+		const script = new Script;
+		const questsDone = script.getQuestsAt(index);
+		if (level < questsDone[index].level) {
+			alert("Você ainda não possui level suficiente para realizar essa quest.");
+			// return old value of select
+			return; // false
+		}
+
+		questsDone.forEach(q => {
+			q.bonus.forEach(b => {
+				if (b.cod === Script.codes.STS) {
+					newStats += b.value;
+				}
+				if (b.cod === Script.codes.STSp) {
+					const dif = level - q.level;
+					newStats += dif * b.value + b.value;
+				}
+			})
+		})
+        this.addStats(level, newStats);
+        // return true;
+	}   
+    
+	private addStats = (level: number, addValue?: number) => {
+        const totalStats = this.findStatus(Script.itens.STS.title);
+        if (totalStats === null) {
+			return;
+        }
+        
+        let value = (level - 1) * 5;
+        if(addValue !== undefined){
+            value += addValue;
+        }
+		totalStats.setValue(value.toString());
+    } 
+
+	private findStatus = (title: string): InputText | null => {
+		const sts = this.inputs.find(input => {
+			return input.title === title;
+		});
+		return sts !== undefined ? sts.element : null;
     }
 }
 
