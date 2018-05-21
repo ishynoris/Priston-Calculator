@@ -6,7 +6,7 @@ import Select from './Select';
 import Title from './Title';
 import TitleSmall  from "./TitleSmall";
 
-import '../assets/css/Skills.css';
+// import '../assets/css/Skills.css';
 
 class SkillList extends React.Component<{}>{
 

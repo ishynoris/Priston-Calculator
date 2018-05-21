@@ -5,7 +5,7 @@ import IStatusInput from '../interfaces/IStatusInput';
 import InputText from './InputText';
 import Title from './Title';
 
-import '../assets/css/Status.css';
+// import '../assets/css/Status.css';
 
 class Status extends React.Component<{
     onInputsChanged?: (inputs: IStatusInput[]) => void,

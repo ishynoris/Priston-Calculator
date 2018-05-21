@@ -5,7 +5,7 @@ import IMix from '../interfaces/IMix';
 import CheckBox from './CheckBox';
 import Select from './Select';
 
-import '../assets/css/Mixing.css';
+// import '../assets/css/Mixing.css';
 
 interface IItem {item: string};
 
