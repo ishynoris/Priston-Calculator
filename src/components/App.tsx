@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-import Script from '../assets/js/Script'
+import Script from '../assets/js/Script';
+import IChar from '../interfaces/IChar';
 import IItem from '../interfaces/IItem';
 import IQuest from '../interfaces/IQuest';
 import CharDetail from './CharDetail';
+import CharSelect from './CharSelect';
 import Result from './Result';
-import SelectTitle from './SelectTitle';
 import SetItem from './SetItem';
 import ShitftEquip from './ShitftEquip';
 import Title from './Title';
@@ -36,7 +37,7 @@ class App extends React.Component {
 
 	public render() {
 
-		const chars = this.script.getChars();
+		const chars: IChar[] = this.script.getChars();
 		const quests: IQuest[] = this.script.getQuests();
 
 		return (
@@ -44,11 +45,11 @@ class App extends React.Component {
 				<div className="row justify-content-center">
 					<div className="block col-md-2">
 						<Title title="Personagens" />
-						<SelectTitle
+						<CharSelect
 							title={"Selecione um personagem:"}
 							name={"Personagens"}
-							values={chars}
-							onSelectedCallback={this.onCharSelect} />
+							chars={chars}
+							onCharSelect={this.onCharSelect} />
 						<CharDetail
 							ref={ref => this.charDetail = ref}
 							quests={quests} />
@@ -75,10 +76,10 @@ class App extends React.Component {
 
 	public componentDidMount() {
 		this.initComponents();
-		this.setTitle(undefined);
+		this.setTitle();
 	}
 
-	private setTitle = (charName: string | undefined) => {
+	private setTitle = (charName?: string) => {
 		let title = "Priston Calculator";
 		if(charName !== undefined){
 			title = "[" + charName  + "] " + title;
@@ -86,10 +87,13 @@ class App extends React.Component {
 		document.title = title;
 	}
 
-	private onCharSelect = (index: number, name: string) => {
-		this.setTitle(name);
-		if (this.charDetail !== null) {
-			const newChar = this.script.getCharDetail(name);
+	private onCharSelect = (index: number, char: IChar | undefined) => {
+		
+		const title = char === undefined ? undefined : char.name;
+		this.setTitle(title);
+
+		if (this.charDetail !== null && char !== undefined) {
+			const newChar = this.script.getCharDetail(char.name);
 			this.charDetail.setChar(newChar);
 		}
 	}

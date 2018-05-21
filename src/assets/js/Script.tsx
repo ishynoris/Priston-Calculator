@@ -86,17 +86,9 @@ class Script {
         return QuestList;
     }
 
-    public getChars(): Array<{ value: string, option: string }> {
-        const chars = [asValueOption("-")];
-        CharacterStatus.names.forEach(n => {
-            chars.push(asValueOption(n.name));
-        })
-        return chars;
+    public getChars(): IChar[] {
+        return CharacterStatus.status;
     }
-}
-
-function asValueOption(text: string): { value: string, option: string } {
-    return { value: text, option: text }
 }
 
 function existsIn(name: string, values: string[]): boolean {
