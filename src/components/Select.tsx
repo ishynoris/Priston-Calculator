@@ -6,10 +6,19 @@ interface ISelect {
     name: string,
     values: Array<{ value: string, option: string }>
     disabled?: boolean
-    onSelectedCallback?: (index: number, value: string) => void
+    onSelectedCallback?: (index: number, value: string) => boolean
 }
 
 class Select extends React.Component<ISelect>{
+
+    public state: {lastIndex: number}
+    private select: HTMLSelectElement | null;
+
+    constructor(props: ISelect){
+        super(props);
+        this.state = {lastIndex: 0};
+        this.select = null;
+    }
 
     public showOnlyNumber() {
         let classes = "mix-select number";
@@ -25,7 +34,13 @@ class Select extends React.Component<ISelect>{
     public onChanged = (event: React.FormEvent<HTMLSelectElement>) => {
         if (this.props.onSelectedCallback !== undefined) {
             const target = event.currentTarget;
-            this.props.onSelectedCallback(target.selectedIndex, target.value);
+            const update = this.props.onSelectedCallback(target.selectedIndex, target.value);
+            
+            if(update && this.select !== null){
+                this.setState({lastIndex: target.selectedIndex});
+            } else {
+                target.selectedIndex = this.state.lastIndex;
+            }
         }
     }
 
@@ -37,10 +52,11 @@ class Select extends React.Component<ISelect>{
 
         return (
             <select
+                ref={ref => this.select = ref}
                 name={this.props.name}
                 className={classes}
                 disabled={disabled}
-                onChange={this.onChanged}>
+                onChange={this.onChanged} >
                 {
                     this.props.values.map(v => {
                         return <option key={key++} value={v.value}>{v.option}</option>

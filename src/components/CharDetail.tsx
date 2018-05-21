@@ -87,25 +87,24 @@ class CharDetail extends React.Component<ICharDetail>{
         }
     }
     
-    private onQuestChanged = (index: number, value: string) => {
+    private onQuestChanged = (index: number, value: string): boolean => {
 		let newStats = 0;
         const stsLevel = this.findStatus(Script.itens.LVL.title);
         
 		if (stsLevel === null) {
-			return;
+			return false;
         }
 
         const level = stsLevel.asNumber();
 		if (isNaN(level)) {
-			return;
+			return false;
         }
 
 		const script = new Script;
 		const questsDone = script.getQuestsAt(index);
 		if (level < questsDone[index].level) {
 			alert("Você ainda não possui level suficiente para realizar essa quest.");
-			// return old value of select
-			return; // false
+			return false;
 		}
 
 		questsDone.forEach(q => {
@@ -120,7 +119,7 @@ class CharDetail extends React.Component<ICharDetail>{
 			})
 		})
         this.addStats(level, newStats);
-        // return true;
+        return true;
 	}   
     
 	private addStats = (level: number, addValue?: number) => {

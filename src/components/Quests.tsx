@@ -6,7 +6,7 @@ import Title from './Title';
 
 import '../assets/css/Quests.css';
 
-interface IQuestList { quests: IQuest[], onQuestsChanged?: (index: number, value: string) => void }
+interface IQuestList { quests: IQuest[], onQuestsChanged?: (index: number, value: string) => boolean }
 
 class Quests extends React.Component<IQuestList>{
 

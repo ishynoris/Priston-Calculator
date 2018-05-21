@@ -8,7 +8,7 @@ interface ICharSelect {
     name: string,
     chars: IChar[]
     disabled?: boolean
-    onCharSelect?: (index: number, char: IChar | undefined) => void
+    onCharSelect?: (index: number, char: IChar | undefined) => boolean
 }
 
 class CharSelect extends React.Component<ICharSelect>{
@@ -32,16 +32,15 @@ class CharSelect extends React.Component<ICharSelect>{
         return chars;
     }
 
-    private onCharSelect = (index: number, value: string) => {
+    private onCharSelect = (index: number, value: string): boolean => {
         if (this.props.onCharSelect === undefined) {
-            return;
+            return false;
         }
 
         if (index === 0) {
-            this.props.onCharSelect(index, undefined);
-        } else {
-            this.props.onCharSelect(index, this.props.chars[index]);
-        }
+            return this.props.onCharSelect(index, undefined);
+        } 
+        return this.props.onCharSelect(index, this.props.chars[index]);
     }
 
 }

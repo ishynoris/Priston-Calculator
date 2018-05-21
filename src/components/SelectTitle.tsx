@@ -8,7 +8,7 @@ interface ISelectTitle {
     name: string,
     values: Array<{ value: string, option: string }>
     disabled?: boolean
-    onSelectedCallback?: (index: number, value: string) => void
+    onSelectedCallback?: (index: number, value: string) => boolean
 }
 
 const SelectTitle = (props: ISelectTitle) => {

@@ -87,15 +87,20 @@ class App extends React.Component {
 		document.title = title;
 	}
 
-	private onCharSelect = (index: number, char: IChar | undefined) => {
+	private onCharSelect = (index: number, char: IChar | undefined): boolean => {
 		
-		const title = char === undefined ? undefined : char.name;
-		this.setTitle(title);
+		if(char === undefined){
+			this.setTitle();
+			return false;
+		}
 
-		if (this.charDetail !== null && char !== undefined) {
+		
+		this.setTitle(char.name);
+		if (this.charDetail !== null) {
 			const newChar = this.script.getCharDetail(char.name);
 			this.charDetail.setChar(newChar);
 		}
+		return true;
 	}
 
 	private onSelectEquip = (index: number) => {
