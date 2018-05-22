@@ -33,7 +33,7 @@ const nameList = [
 function toSkills(stats: IDefaultStatus) {
     
     return Values.status.map(s => {
-        const defValue = s.cod === Values.codes.LVL ? 1
+        const defValue = s.cod === Values.codes.LVL ? stats.lvl
             : s.cod === Values.codes.FOR ? stats.for
             : s.cod === Values.codes.INT ? stats.int
             : s.cod === Values.codes.AGI ? stats.agi
@@ -51,7 +51,7 @@ function toSkills(stats: IDefaultStatus) {
 const charsValues: IChar[] = [
     {
         asSkills: toSkills,
-        defaultStats: { for: 17, int: 11, tal: 21, agi: 27, vit: 23 },
+        defaultStats: { lvl: 1, for: 17, int: 11, tal: 21, agi: 27, vit: 23 },
         name: chars.Arqueira,
         skills: [
             { name: "Mestra do Tiro", percent: true, values: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40] },
@@ -60,7 +60,7 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 25, int: 10, tal: 22, agi: 20, vit: 22 },
+        defaultStats: { lvl: 1, for: 25, int: 10, tal: 22, agi: 20, vit: 22 },
         name: chars.Assassina,
         skills: [
             { name: "Maestria em Adagas", percent: true, values: [] },
@@ -70,7 +70,7 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 23, int: 15, tal: 19, agi: 19, vit: 23 },
+        defaultStats: { lvl: 1, for: 23, int: 15, tal: 19, agi: 19, vit: 23 },
         name: chars.Atalanta,
         skills: [
             { name: "Maestra do Arremesso", percent: true, values: [] }
@@ -78,7 +78,7 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 26, int: 13, tal: 17, agi: 19, vit: 24 },
+        defaultStats: { lvl: 1, for: 26, int: 13, tal: 17, agi: 19, vit: 24 },
         name: chars.Cavaleiro,
         skills: [
             { name: "Treinamento Físico", values: [] }, // TODO
@@ -87,7 +87,7 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 28, int: 6, tal: 21, agi: 18, vit: 27 },
+        defaultStats: { lvl: 1, for: 28, int: 6, tal: 21, agi: 18, vit: 27 },
         name: chars.Lutador,
         skills: [
             { name: "Mestre das Armas", percent: true, values: [] },
@@ -96,13 +96,13 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 16, int: 29, tal: 19, agi: 14, vit: 21 },
+        defaultStats: { lvl: 1, for: 16, int: 29, tal: 19, agi: 14, vit: 21 },
         name: chars.Mago,
         skills: [{ name: "Mestre da Mente", percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] }]
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 24, int: 8, tal: 25, agi: 18, vit: 24 },
+        defaultStats: { lvl: 1, for: 24, int: 8, tal: 25, agi: 18, vit: 24 },
         name: chars.Mecanico,
         skills: [
             { name: "Resistência a Veneno", values: [] },
@@ -111,7 +111,7 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 26, int: 9, tal: 20, agi: 19, vit: 25 },
+        defaultStats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 19, vit: 25 },
         name: chars.Pikeman,
         skills: [
             { name: "Resistência de Gelo", values: [] },
@@ -121,7 +121,7 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 15, int: 28, tal: 21, agi: 15, vit: 20 },
+        defaultStats: { lvl: 1, for: 15, int: 28, tal: 21, agi: 15, vit: 20 },
         name: chars.Sacerdotisa,
         skills: [
             { name: "Meditação", values: [] }, // TODO
@@ -129,7 +129,7 @@ const charsValues: IChar[] = [
     },
     {
         asSkills: toSkills,
-        defaultStats: { for: 15, int: 27, tal: 20, agi: 15, vit: 22 },
+        defaultStats: { lvl: 1, for: 15, int: 27, tal: 20, agi: 15, vit: 22 },
         name: chars.Xama,
         skills: [
             { name: "Paz Interior", percent: true, values: [0, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31] },

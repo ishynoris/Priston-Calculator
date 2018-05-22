@@ -89,16 +89,15 @@ class App extends React.Component {
 
 	private onCharSelect = (index: number, char: IChar | undefined): boolean => {
 		
-		if(char === undefined){
-			this.setTitle();
-			return false;
-		}
-
-		
-		this.setTitle(char.name);
-		if (this.charDetail !== null) {
-			const newChar = this.script.getCharDetail(char.name);
-			this.charDetail.setChar(newChar);
+		if(this.charDetail !== null){
+			if(char === undefined){
+				this.setTitle();
+				this.charDetail.setChar(undefined);
+			} else {
+				this.setTitle(char.name);
+				const newChar = this.script.getCharDetail(char.name);
+				this.charDetail.setChar(newChar);
+			}
 		}
 		return true;
 	}

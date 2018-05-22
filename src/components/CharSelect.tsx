@@ -36,10 +36,8 @@ class CharSelect extends React.Component<ICharSelect>{
         if (this.props.onCharSelect === undefined) {
             return false;
         }
-
-        alert(index);
-        index--;
-        if (index < 0) { // first index is 
+        index--; // first index is "-"
+        if (index < 0) { 
             return this.props.onCharSelect(index, undefined);
         } 
         return this.props.onCharSelect(index, this.props.chars[index]);
