@@ -6,7 +6,7 @@ import InputText from './InputText';
 import Title from './Title';
 
 interface IStatusComp {
-    onStatusMount: (inputs: IStatusInput[]) => void,
+    onStatusUpdated: (inputs: IStatusInput[]) => void,
     onStatusChanged?: (title: string, oldValue:number, newValue: number) => void
 }
 
@@ -23,12 +23,6 @@ class Status extends React.Component<IStatusComp>{
 
     public setStatus(newStatus: IStatus[]) {
         this.setState({ status: newStatus });
-        this.inputs.forEach((input, index) => {
-            const status = newStatus[index];
-            if (input.element !== null && status !== undefined) {
-                input.element.setValue(status.default.toString());
-            }
-        });
     }
 
     public render() {
@@ -46,7 +40,7 @@ class Status extends React.Component<IStatusComp>{
                         status.map((item, index) => {
                             return (
                                 <InputText
-                                    ref={ref => this.inputs.push({ title: item.name, element: ref })}
+                                    ref={ref => this.putAtIndex(item.name, ref, index)}
                                     key={index}
                                     defaultValue={item.default.toString()}
                                     title={item.name + ":"}
@@ -60,25 +54,17 @@ class Status extends React.Component<IStatusComp>{
         );
     }
 
-    public componentDidMount(){
-        if(this.props.onStatusMount !== undefined){
-            this.props.onStatusMount(this.inputs);
-        }
-    }
-
     public componentDidUpdate() {
-
-        const status = this.state.status;
-        if (status === undefined) {
-            return;
-        }
-
-        this.inputs.map((input, index) => {
-            const value = status.values[index];
-            if (input.element !== null && value !== undefined) {
-                input.element.setValue(value.default.toString());
+        
+        this.inputs.forEach((input, index) => {
+            const status = this.state.status[index];
+            if (input.element !== null && status !== undefined) {
+                input.element.setValue(status.default.toString());
             }
         });
+        if(this.props.onStatusUpdated !== undefined){
+            this.props.onStatusUpdated(this.inputs);
+        }
     }
 
     private onStatusChanged = (title: string, value: number, oldValue: number) => {
@@ -87,6 +73,17 @@ class Status extends React.Component<IStatusComp>{
             this.props.onStatusChanged(title, oldValue, value);
         }
     }
+
+    private putAtIndex = (text: string, item: InputText | null, index: number) => {
+        const element = { title: text, element: item };
+        if(this.inputs.length <= index){
+            this.inputs.push(element);
+        }else{
+            this.inputs[index] = element;
+        }
+    }
+
+
 }
 
 export default Status;

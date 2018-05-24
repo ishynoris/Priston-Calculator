@@ -4,6 +4,7 @@ import Script from '../assets/js/Script';
 import IChar from '../interfaces/IChar';
 import IItem from '../interfaces/IItem';
 import IQuest from '../interfaces/IQuest';
+import IStatusResult from '../interfaces/IStatusResult';
 import CharDetail from './CharDetail';
 import CharSelect from './CharSelect';
 import Result from './Result';
@@ -38,6 +39,7 @@ class App extends React.Component {
 	public render() {
 
 		const chars: IChar[] = this.script.getChars();
+		const result: IStatusResult[] = Script.defResult;
 		const quests: IQuest[] = this.script.getQuests();
 
 		return (
@@ -67,7 +69,9 @@ class App extends React.Component {
 					</div>
 					<div className="block col-md-2">
 						<Title title="Resultados" />
-						<Result ref={ref => this.result = ref} />
+						<Result
+							ref={ref => this.result = ref}
+							results={result} />
 					</div>
 				</div>
 			</div>
@@ -81,22 +85,27 @@ class App extends React.Component {
 
 	private setTitle = (charName?: string) => {
 		let title = "Priston Calculator";
-		if(charName !== undefined){
-			title = "[" + charName  + "] " + title;
+		if (charName !== undefined) {
+			title = "[" + charName + "] " + title;
 		}
 		document.title = title;
 	}
 
 	private onCharSelect = (index: number, char: IChar | undefined): boolean => {
-		
-		if(this.charDetail !== null){
-			if(char === undefined){
-				this.setTitle();
-				this.charDetail.setChar(undefined);
-			} else {
-				this.setTitle(char.name);
-				const newChar = this.script.getCharDetail(char.name);
-				this.charDetail.setChar(newChar);
+
+		const title = char === undefined ? undefined : char.name;
+		this.setTitle(title);
+		if (this.charDetail !== null) {
+
+			const newChar = this.script.getCharDetail(title);
+			this.charDetail.setChar(newChar);
+
+			if (this.result !== null) {
+				if (newChar !== undefined && newChar.result !== undefined) {
+					this.result.setResult(newChar.result);
+				} else {
+					this.result.setResult(Script.defResult);
+				}
 			}
 		}
 		return true;
@@ -110,13 +119,6 @@ class App extends React.Component {
 	}
 
 	private initComponents = () => {
-		if (this.result !== null) {
-			const results = this.script.getResult().map(r => {
-				r.default = "-";
-				return r;
-			});
-			this.result.setStatus(results);
-		}
 		if (this.itensKit !== null) {
 			this.itensKit.initState(this.script.getSetByName(Script.sets.kit));
 		}

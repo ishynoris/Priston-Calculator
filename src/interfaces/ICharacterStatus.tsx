@@ -1,4 +1,4 @@
-interface IDefaultStatus {
+interface ICharacterStatus {
     lvl: number,
     for: number,
     int: number,
@@ -7,4 +7,4 @@ interface IDefaultStatus {
     vit: number,
 }
 
-export default IDefaultStatus;
+export default ICharacterStatus;

@@ -16,6 +16,7 @@ class Script {
     public static codes = Values.codes;
     public static itens = Values.itensCode;
     public static chars = CharacterStatus.names;
+    public static defResult = CharacterStatus.defResults;
 
     public getMixesByItem(item: string): IMixes | undefined {
         
@@ -71,7 +72,7 @@ class Script {
         if (char === undefined) {
             return undefined;
         }
-        return CharacterStatus.status.find(c => {
+        return CharacterStatus.charDetail.find(c => {
             return c.name === char;
         });
     }
@@ -87,7 +88,7 @@ class Script {
     }
 
     public getChars(): IChar[] {
-        return CharacterStatus.status;
+        return CharacterStatus.charDetail;
     }
 }
 

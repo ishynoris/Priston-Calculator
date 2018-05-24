@@ -15,7 +15,7 @@ interface ICharDetail {
 
 class CharDetail extends React.Component<ICharDetail>{
 
-    public state: { char: IChar | undefined }
+    public state: { char?: IChar }
     
 	private inputs: IStatusInput[];
     private status: Status | null;
@@ -28,7 +28,8 @@ class CharDetail extends React.Component<ICharDetail>{
         this.state = { char: undefined };
     }
 
-    public setChar(newChar: IChar | undefined) {
+    public setChar(newChar?: IChar) {
+        // const newChar = char === undefined ? undefined : char;
         this.setState({ char: newChar });
     }
 
@@ -42,7 +43,7 @@ class CharDetail extends React.Component<ICharDetail>{
             <div>
                 <Status
                     ref={ref => this.status = ref}
-                    onStatusMount={this.onStatusMounted}
+                    onStatusUpdated={this.onStatusUpdated}
                     onStatusChanged={this.onStatusChanged} />
                 <Skills ref={ref => this.skills = ref} />
                 <Quests
@@ -67,7 +68,7 @@ class CharDetail extends React.Component<ICharDetail>{
         if (char !== undefined) {
 
             if (this.status !== null) {
-                const status = char.asSkills(char.defaultStats);
+                const status = char.asSkills(char.stats);
                 this.status.setStatus(status);
             }
 
@@ -77,8 +78,11 @@ class CharDetail extends React.Component<ICharDetail>{
         }
     }
 
-    private onStatusMounted = (inputs: IStatusInput[]) => {
+    private onStatusUpdated = (inputs: IStatusInput[]) => {
         this.inputs = inputs;
+        if(this.state.char !== undefined){
+            this.addStats(this.state.char.stats.lvl);
+        }
     }
 
     private onStatusChanged = (title: string, oldValue: number, newValue: number) => {
@@ -123,6 +127,7 @@ class CharDetail extends React.Component<ICharDetail>{
 	}   
     
 	private addStats = (level: number, addValue?: number) => {
+        
         const totalStats = this.findStatus(Script.itens.STS.title);
         if (totalStats === null) {
 			return;
