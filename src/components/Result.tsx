@@ -4,20 +4,20 @@ import IStatus from '../interfaces/IStatus';
 import IStatusResult from '../interfaces/IStatusResult';
 import InputText from './InputText';
 
-interface IResults { results: IStatusResult[] }
+// interface IResults { results: IStatusResult }
 
-class Result extends React.Component<IResults>{
+class Result extends React.Component<{}>{
 
     public state: { status: IStatus[] };
     private inputs: Array<{ input: InputText | null }>;
 
-    constructor(props: IResults) {
+    constructor(props: {}) {
         super(props);
         this.inputs = [];
-        this.state = { status: this.asStatus(props.results) };
+        this.state = { status: [] };
     }
 
-    public setResult(result: IStatusResult[]) {
+    public setResult(result: IStatusResult) {
         this.setState({ status: this.asStatus(result) });
     }
 
@@ -51,11 +51,17 @@ class Result extends React.Component<IResults>{
         });
     }
 
-    private asStatus = (results: IStatusResult[]): IStatus[] => {
+    private asStatus = (results: IStatusResult): IStatus[] => {
 
-        return results.map((result, index) => {
-            return { name: result.text, disable: true, default: result.value.toString() };
-        });
+        return [
+            { name: results.AR.title, default: results.AR.value.toString(), disable: true },
+            { name: results.AP.title, default: results.AP.value.toString(), disable: true },
+            { name: results.DEF.title, default: results.DEF.value.toString(), disable: true },
+            { name: results.ABS.title, default: results.ABS.value.toString(), disable: true },
+            { name: results.HP.title, default: results.HP.value.toString(), disable: true },
+            { name: results.MP.title, default: results.MP.value.toString(), disable: true },
+            { name: results.RES.title, default: results.RES.value.toString(), disable: true },
+        ];
     }
 
     private putAtIndex = (item: InputText | null, index: number) => {

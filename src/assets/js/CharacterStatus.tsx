@@ -31,18 +31,20 @@ const nameList = [
     { name: names.Xama },
 ]
 
-const defResults: IStatusResult[] = [
-    { text: Values.itensCode.ABS.title, value: "=" },
-    { text: Values.itensCode.AP.title, value: "=" },
-    { text: Values.itensCode.AR.title, value: "=" },
-    { text: Values.itensCode.DEF.title, value: "=" },
-    { text: Values.itensCode.HP.title, value: "=" },
-    { text: Values.itensCode.MP.title, value: "=" },
-    { text: Values.itensCode.RES.title, value: "=" },
-]
+const defResults = (): IStatusResult => {
+    return {
+        ABS: { title: Values.itensCode.ABS.title, value: 0 },
+        AP: { title: Values.itensCode.AP.title, value: "0-0" },
+        AR: { title: Values.itensCode.AR.title, value: 0 },
+        DEF: { title: Values.itensCode.DEF.title, value: 0 },
+        HP: { title: Values.itensCode.HP.title, value: 0 },
+        MP: { title: Values.itensCode.MP.title, value: 0 },
+        RES: { title: Values.itensCode.RES.title, value: 0 }
+    }
+}
 
 function toSkills(stats: ICharacterStatus) {
-    
+
     return Values.status.map(s => {
         const defValue = s.cod === Values.codes.LVL ? stats.lvl
             : s.cod === Values.codes.FOR ? stats.for
@@ -70,15 +72,6 @@ const charDetail: IChar[] = [
             RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Arqueira,
-        result: [
-            { text: Values.itensCode.ABS.title, value: "---" },
-            { text: Values.itensCode.AP.title, value: "---" },
-            { text: Values.itensCode.AR.title, value: "---" },
-            { text: Values.itensCode.DEF.title, value: "---" },
-            { text: Values.itensCode.HP.title, value: "---" },
-            { text: Values.itensCode.MP.title, value: "---" },
-            { text: Values.itensCode.RES.title, value: "---" },
-        ],
         skills: [
             { name: "Mestra do Tiro", percent: true, values: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40] },
             { name: "Olho de Dion", percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
@@ -169,7 +162,7 @@ const charDetail: IChar[] = [
 
 const values = {
     "charDetail": charDetail,
-    "defResults": defResults,
+    "defResults": defResults(),
     "names": names,
     "namesList": nameList,
 }

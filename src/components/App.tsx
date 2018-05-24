@@ -39,7 +39,6 @@ class App extends React.Component {
 	public render() {
 
 		const chars: IChar[] = this.script.getChars();
-		const result: IStatusResult[] = Script.defResult;
 		const quests: IQuest[] = this.script.getQuests();
 
 		return (
@@ -54,7 +53,8 @@ class App extends React.Component {
 							onCharSelect={this.onCharSelect} />
 						<CharDetail
 							ref={ref => this.charDetail = ref}
-							quests={quests} />
+							quests={quests}
+							onCalculateResult={this.onCalculate} />
 					</div>
 					<div className="block col-sm-5">
 						<Title title="Equipamentos" />
@@ -69,9 +69,7 @@ class App extends React.Component {
 					</div>
 					<div className="block col-md-2">
 						<Title title="Resultados" />
-						<Result
-							ref={ref => this.result = ref}
-							results={result} />
+						<Result ref={ref => this.result = ref} />
 					</div>
 				</div>
 			</div>
@@ -84,31 +82,31 @@ class App extends React.Component {
 	}
 
 	private setTitle = (charName?: string) => {
-		let title = "Priston Calculator";
-		if (charName !== undefined) {
-			title = "[" + charName + "] " + title;
-		}
-		document.title = title;
+		const title = charName === undefined ? "" : "[" + charName + "]";
+		document.title = title + "Priston Calculator";
 	}
 
 	private onCharSelect = (index: number, char: IChar | undefined): boolean => {
 
-		const title = char === undefined ? undefined : char.name;
-		this.setTitle(title);
+		const charName = char === undefined ? undefined : char.name;
+		this.setTitle(charName);
+		// console.log(this.result);
 		if (this.charDetail !== null) {
 
-			const newChar = this.script.getCharDetail(title);
-			this.charDetail.setChar(newChar);
-
-			if (this.result !== null) {
-				if (newChar !== undefined && newChar.result !== undefined) {
-					this.result.setResult(newChar.result);
-				} else {
-					this.result.setResult(Script.defResult);
-				}
+			const newChar = this.script.getCharDetail(charName);
+			const results = this.charDetail.setChar(newChar);
+			if (results !== undefined && this.result !== null) {
+				this.result.setResult(results);
 			}
 		}
 		return true;
+	}
+
+	private onCalculate = (results: IStatusResult) => {
+		
+		if (this.result !== null) {
+			this.result.setResult(results);
+		}
 	}
 
 	private onSelectEquip = (index: number) => {
@@ -119,6 +117,10 @@ class App extends React.Component {
 	}
 
 	private initComponents = () => {
+		if (this.result !== null) {
+			this.result.setResult(Script.defResult);
+		}
+
 		if (this.itensKit !== null) {
 			this.itensKit.initState(this.script.getSetByName(Script.sets.kit));
 		}
