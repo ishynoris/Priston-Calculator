@@ -66,16 +66,17 @@ class CharDetail extends React.Component<ICharDetail>{
     private updateChar() {
 
         const char = this.state.char;
-        if (char !== undefined) {
+        if(char === undefined){
+            this.props.onCalculateResult(Script.defResult());
+            return;
+        }
+        if (this.status !== null) {
+            const status = char.asSkills(char.stats);
+            this.status.setStatus(status);
+        }
 
-            if (this.status !== null) {
-                const status = char.asSkills(char.stats);
-                this.status.setStatus(status);
-            }
-
-            if (this.skills !== null) {
-                this.skills.setSkills(char.skills);
-            }
+        if (this.skills !== null) {
+            this.skills.setSkills(char.skills);
         }
     }
 
@@ -108,10 +109,11 @@ class CharDetail extends React.Component<ICharDetail>{
                 case itens.INT.title: char.stats.int = value; break;
                 case itens.VIT.title: char.stats.vit = value; break;
             }
-            
-            const result = this.calculate(char);
-            this.props.onCalculateResult(result);
         }
+        console.log(char);
+        const result = this.calculate(char);
+        console.log(result);
+        this.props.onCalculateResult(result);
     }
     
     private onQuestChanged = (index: number, value: string): boolean => {

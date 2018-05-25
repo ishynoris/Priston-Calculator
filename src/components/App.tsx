@@ -90,21 +90,16 @@ class App extends React.Component {
 
 		const charName = char === undefined ? undefined : char.name;
 		this.setTitle(charName);
-		// console.log(this.result);
 		if (this.charDetail !== null) {
-
 			const newChar = this.script.getCharDetail(charName);
-			const results = this.charDetail.setChar(newChar);
-			if (results !== undefined && this.result !== null) {
-				this.result.setResult(results);
-			}
+			this.charDetail.setChar(newChar);
 		}
 		return true;
 	}
 
 	private onCalculate = (results: IStatusResult) => {
 		
-		if (this.result !== null) {
+		if (this.result !== null && this.result !== undefined) {
 			this.result.setResult(results);
 		}
 	}
