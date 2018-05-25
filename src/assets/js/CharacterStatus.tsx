@@ -1,7 +1,6 @@
 import IChar from '../../interfaces/IChar';
 import ICharacterStatus from '../../interfaces/ICharacterStatus';
 import IStatus from '../../interfaces/IStatus';
-import IStatusResult from '../../interfaces/IStatusResult';
 
 import Values from './Values';
 
@@ -30,18 +29,6 @@ const nameList = [
     { name: names.Sacerdotisa },
     { name: names.Xama },
 ]
-
-const defResults = (): IStatusResult => {
-    return {
-        ABS: { title: Values.itensCode.ABS.title, value: 0 },
-        AP: { title: Values.itensCode.AP.title, value: "0-0" },
-        AR: { title: Values.itensCode.AR.title, value: 0 },
-        DEF: { title: Values.itensCode.DEF.title, value: 0 },
-        HP: { title: Values.itensCode.HP.title, value: 0 },
-        MP: { title: Values.itensCode.MP.title, value: 0 },
-        RES: { title: Values.itensCode.RES.title, value: 0 }
-    }
-}
 
 function toSkills(stats: ICharacterStatus) {
 
@@ -162,7 +149,6 @@ const charDetail: IChar[] = [
 
 const values = {
     "charDetail": charDetail,
-    "defResults": defResults(),
     "names": names,
     "namesList": nameList,
 }

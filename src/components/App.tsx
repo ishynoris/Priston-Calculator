@@ -118,7 +118,7 @@ class App extends React.Component {
 
 	private initComponents = () => {
 		if (this.result !== null) {
-			this.result.setResult(Script.defResult);
+			this.result.setResult(Script.defResult());
 		}
 
 		if (this.itensKit !== null) {

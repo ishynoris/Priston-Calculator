@@ -4,6 +4,7 @@ import IItem from '../../interfaces/IItem';
 import IMixes from '../../interfaces/IMixes';
 import IQuest from '../../interfaces/IQuest';
 import IStatus from '../../interfaces/IStatus';
+import IStatusResult from '../../interfaces/IStatusResult';
 import BonusItens from './BonusItens';
 import BonusMixes from './BonusMixes';
 import CharacterStatus from './CharacterStatus';
@@ -16,10 +17,34 @@ class Script {
     public static codes = Values.codes;
     public static itens = Values.itensCode;
     public static chars = CharacterStatus.names;
-    public static defResult = CharacterStatus.defResults;
+
+    public static defResult = (values?: { ABS?: number, AP?: number, AR?: number, DEF?: number, HP?: number, MP?: number, RES?: number }): IStatusResult => {
+
+        if (values === undefined) {
+            return {
+                ABS: { title: Values.itensCode.ABS.title, value: val() },
+                AP: { title: Values.itensCode.AP.title, value: val() },
+                AR: { title: Values.itensCode.AR.title, value: val() },
+                DEF: { title: Values.itensCode.DEF.title, value: val() },
+                HP: { title: Values.itensCode.HP.title, value: val() },
+                MP: { title: Values.itensCode.MP.title, value: val() },
+                RES: { title: Values.itensCode.RES.title, value: val() },
+            }
+        }
+
+        return {
+            ABS: { title: Values.itensCode.ABS.title, value: val(values.ABS) },
+            AP: { title: Values.itensCode.AP.title, value: val(values.AP) },
+            AR: { title: Values.itensCode.AR.title, value: val(values.AR) },
+            DEF: { title: Values.itensCode.DEF.title, value: val(values.DEF) },
+            HP: { title: Values.itensCode.HP.title, value: val(values.HP) },
+            MP: { title: Values.itensCode.MP.title, value: val(values.MP) },
+            RES: { title: Values.itensCode.RES.title, value: val(values.RES) },
+        }
+    }
 
     public getMixesByItem(item: string): IMixes | undefined {
-        
+
         return BonusMixes.find(bonus => {
             return bonus.item === item;
         });
@@ -30,8 +55,8 @@ class Script {
             return i.name === name;
         });
     }
-    
-    public getBonusFromItem(item: string): IBonus[] | undefined{
+
+    public getBonusFromItem(item: string): IBonus[] | undefined {
         const bonus = BonusItens.bonus.find(b => {
             return b.name === item;
         });
@@ -39,7 +64,7 @@ class Script {
     }
 
     public getCodByAttr(attr: string): number | undefined {
-        
+
         const item = Values.itensList.find(i => {
             return i.title === attr;
         });
@@ -57,8 +82,8 @@ class Script {
         return itens.filter(i => {
             return name === Script.sets.kit ? existsIn(i.name, kit)
                 : name === Script.sets.primario ? existsIn(i.name, primario)
-                : name === Script.sets.set ? existsIn(i.name, set)
-                : false;
+                    : name === Script.sets.set ? existsIn(i.name, set)
+                        : false;
         });
     }
 
@@ -92,6 +117,9 @@ class Script {
     }
 }
 
+function val(v?: number): string | number {
+    return v === undefined || v < 0 ? "-" : v;
+}
 function existsIn(name: string, values: string[]): boolean {
     return values.indexOf(name) > -1;
 }

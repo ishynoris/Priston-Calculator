@@ -151,9 +151,9 @@ class CharDetail extends React.Component<ICharDetail>{
     }
     
     private calculate = (char: IChar | undefined): IStatusResult => {
-        const result = Object.assign({}, Script.defResult);
+        
         if(char === undefined || char.formula === undefined){
-            return result;
+            return Script.defResult();
         }
 
         const stats = char.stats;
@@ -162,15 +162,18 @@ class CharDetail extends React.Component<ICharDetail>{
         const RES = char.formula.RES;
         const DEF = char.formula.DEF;
         const ABS = char.formula.ABS;
-
-        result.AR.value = Math.ceil((stats.lvl * AR.fLvl) + (stats.tal * AR.fTal) + (stats.agi * AR.fAgi) + AR.add);
-        result.MP.value = Math.ceil((MP.fLvl * stats.lvl) + (MP.fInt * stats.int) + MP.add);
-        result.RES.value = Math.ceil((RES.fLvl * stats.lvl) + (RES.fFor * stats.for) + (RES.fTal * stats.tal) 
-                        + (stats.int) + (RES.fVit * stats.vit) + RES.add);
-        result.DEF.value = Math.ceil((DEF.fLvl * stats.lvl) + (DEF.fTal * stats.tal) + (DEF.fAgi * stats.agi) + DEF.add);
-        result.ABS.value = Math.ceil((stats.lvl / ABS.fLvl) + (stats.for / ABS.fFor) + (stats.tal / ABS.fTal) 
-                        + (stats.agi / ABS.fAgi) + (result.DEF.value / 100) + ABS.add);
-        return result;
+        
+        const def = Math.ceil((DEF.fLvl * stats.lvl) + (DEF.fTal * stats.tal) + (DEF.fAgi * stats.agi) + DEF.add);
+        const values = {
+            ABS: Math.ceil((stats.lvl / ABS.fLvl) + (stats.for / ABS.fFor) + (stats.tal / ABS.fTal) 
+                    + (stats.agi / ABS.fAgi) + (def / 100) + ABS.add),
+            AR: Math.ceil((stats.lvl * AR.fLvl) + (stats.tal * AR.fTal) + (stats.agi * AR.fAgi) + AR.add),
+            DEF: def,
+            MP: Math.ceil((MP.fLvl * stats.lvl) + (MP.fInt * stats.int) + MP.add),
+            RES: Math.ceil((RES.fLvl * stats.lvl) + (RES.fFor * stats.for) + (RES.fTal * stats.tal) 
+                    + (stats.int) + (RES.fVit * stats.vit) + RES.add),
+        }
+        return Script.defResult(values);
     }
     
 	private addStats = (level: number, addValue?: number) => {
