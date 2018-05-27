@@ -82,7 +82,7 @@ class App extends React.Component {
 	}
 
 	private setTitle = (charName?: string) => {
-		const title = charName === undefined ? "" : "[" + charName + "]";
+		const title = charName === undefined ? "" : "[" + charName + "] ";
 		document.title = title + "Priston Calculator";
 	}
 

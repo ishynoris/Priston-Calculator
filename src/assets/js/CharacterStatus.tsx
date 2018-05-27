@@ -63,7 +63,7 @@ const charDetail: IChar[] = [
             { name: "Mestra do Tiro", percent: true, values: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40] },
             { name: "Olho de Dion", percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
         ],
-        stats: { lvl: 113, for: 80, int: 66, tal: 85, agi: 510, vit: 23 },
+        stats: { lvl: 1, for: 17, int: 11, tal: 21, agi: 27, vit: 23 },
     },
     {
         asSkills: toSkills,
@@ -85,6 +85,13 @@ const charDetail: IChar[] = [
     },
     {
         asSkills: toSkills,
+        formula: {
+            ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
+            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
+            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
+            RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
+        },
         name: names.Cavaleiro,
         skills: [
             { name: "Treinamento Físico", values: [] }, // TODO

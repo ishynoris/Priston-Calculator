@@ -4,8 +4,6 @@ import IStatus from '../interfaces/IStatus';
 import IStatusResult from '../interfaces/IStatusResult';
 import InputText from './InputText';
 
-// interface IResults { results: IStatusResult }
-
 class Result extends React.Component<{}>{
 
     public state: { status: IStatus[] };
@@ -29,7 +27,6 @@ class Result extends React.Component<{}>{
                         return <InputText
                             ref={ref => this.putAtIndex(ref, i) }
                             key={i}
-                            defaultValue={v.default.toString()}
                             title={v.name + ":"}
                             disable={v.disable}
                         />
@@ -52,7 +49,6 @@ class Result extends React.Component<{}>{
     }
 
     private asStatus = (results: IStatusResult): IStatus[] => {
-
         return [
             { name: results.AR.title, default: results.AR.value.toString(), disable: true },
             { name: results.AP.title, default: results.AP.value.toString(), disable: true },

@@ -42,7 +42,6 @@ class Status extends React.Component<IStatusComp>{
                                 <InputText
                                     ref={ref => this.putAtIndex(item.name, ref, index)}
                                     key={index}
-                                    defaultValue={item.default.toString()}
                                     title={item.name + ":"}
                                     disable={item.disable}
                                     onChangeValue={this.onStatusChanged}/>
@@ -82,8 +81,6 @@ class Status extends React.Component<IStatusComp>{
             this.inputs[index] = element;
         }
     }
-
-
 }
 
 export default Status;

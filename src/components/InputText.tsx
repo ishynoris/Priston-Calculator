@@ -6,21 +6,18 @@ import '../assets/css/InputText.css';
 
 interface IInputText {
     title: string,
-    defaultValue?: string,
+    // defaultValue?: string,
     disable?: boolean
     onChangeValue?: (title: string, newValue: number, oldValue: number) => void,
 }
 
 class InputText extends React.Component<IInputText>{
 
-    public state = { value: "" }
+    public state: { value: string }
 
     constructor(props: IInputText) {
         super(props);
-
-        if (props.defaultValue !== undefined) {
-            this.state = { value: props.defaultValue }
-        }
+        this.state = { value: "" }
     }
 
     public onChanged = (e: React.FormEvent<HTMLInputElement>) => {
