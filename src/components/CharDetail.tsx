@@ -2,10 +2,9 @@ import * as React from 'react';
 
 import Script from '../assets/js/Script';
 import IChar from '../interfaces/IChar';
+import ICharacterStatus from '../interfaces/ICharacterStatus';
 import IQuest from '../interfaces/IQuest';
-import IStatusInput from '../interfaces/IStatusInput';
 import IStatusResult from '../interfaces/IStatusResult';
-import InputText from './InputText';
 import Quests from './Quests';
 import Skills from './Skills';
 import Status from './Status';
@@ -17,34 +16,35 @@ interface ICharDetail {
 
 class CharDetail extends React.Component<ICharDetail>{
 
-    public state: { char?: IChar }
-    
-	private inputs: IStatusInput[];
+    public state: { hasChar: boolean }
+    private char: IChar | undefined;
     private status: Status | null;
     private skills: Skills | null;
     private quests: Quests | null;
 
     constructor(props: ICharDetail) {
         super(props);
-        this.inputs = [];
-        this.state = { char: undefined };
+        this.state = { hasChar: false };
     }
 
-    public setChar(newChar?: IChar){
-        this.setState({ char: newChar });
+    public setChar(newChar: IChar){
+        this.char = newChar;
+        if (!this.state.hasChar) {
+            this.setState({ hasChar: true });
+            return;
+        }
+        this.updateChar();
     }
 
     public render() {
 
-        const char = this.state.char;
-        if (char === undefined) {
+        if (this.char === undefined) {
             return null;
         }
         return (
             <div>
                 <Status
                     ref={ref => this.status = ref}
-                    onStatusUpdated={this.onStatusUpdated}
                     onStatusChanged={this.onStatusChanged} />
                 <Skills ref={ref => this.skills = ref} />
                 <Quests
@@ -65,14 +65,13 @@ class CharDetail extends React.Component<ICharDetail>{
 
     private updateChar() {
 
-        const char = this.state.char;
+        const char = this.char;
         if(char === undefined){
             this.props.onCalculateResult(Script.defResult());
             return;
         }
         if (this.status !== null) {
-            const status = char.asSkills(char.stats);
-            this.status.setStatus(status);
+            this.status.setStatus(char.stats);
         }
 
         if (this.skills !== null) {
@@ -80,53 +79,24 @@ class CharDetail extends React.Component<ICharDetail>{
         }
     }
 
-    private onStatusUpdated = (inputs: IStatusInput[]) => {
-        this.inputs = inputs;
-        if(this.state.char !== undefined){
-            this.addStats(this.state.char.stats.lvl);
-        }
-    }
-
-    private onStatusChanged = (title: string, oldValue: number, newValue: number) => {
-        const itens = Script.itens;
-        if(title === itens.LVL.title){
-            this.addStats(newValue);
-        }
-
-        const input = this.inputs.find(i => {
-            return i.title === title;
-        });
-
-        const char = this.state.char;
+    private onStatusChanged = (charStats: ICharacterStatus) => {
         
-        if (char !== undefined && input !== undefined && input.element !== null) {
-            const value = input.element.asNumber();
-            switch (title) {
-                case itens.LVL.title: char.stats.lvl = value; break;
-                case itens.FOR.title: char.stats.for = value; break;
-                case itens.AGI.title: char.stats.agi = value; break;
-                case itens.TAL.title: char.stats.tal = value; break;
-                case itens.INT.title: char.stats.int = value; break;
-                case itens.VIT.title: char.stats.vit = value; break;
-            }
+        if (this.char !== undefined) {
+            this.char.stats = charStats;
+            const result = this.calculate(this.char);
+            this.props.onCalculateResult(result);
         }
-        console.log(char);
-        const result = this.calculate(char);
-        console.log(result);
-        this.props.onCalculateResult(result);
     }
     
     private onQuestChanged = (index: number, value: string): boolean => {
 		let newStats = 0;
-        const stsLevel = this.findStatus(Script.itens.LVL.title);
-        
-		if (stsLevel === null) {
-			return false;
+        if (this.char === undefined || this.status === null) {
+            return false;
         }
 
-        const level = stsLevel.asNumber();
+        const level = this.char.stats.lvl;
 		if (isNaN(level)) {
-            alert("Verifique o campo 'Level'. Valor encontrado: '" + stsLevel.state.value + "'.");
+            alert("Verifique o campo 'Level'. Valor encontrado: '" + this.char.stats.lvl + "'.");
 			return false;
         }
 
@@ -147,8 +117,8 @@ class CharDetail extends React.Component<ICharDetail>{
 					newStats += dif * b.value + b.value;
 				}
 			})
-		})
-        this.addStats(level, newStats);
+        })
+        this.status.addStats(level, newStats);
         return true;
     }
     
@@ -176,27 +146,6 @@ class CharDetail extends React.Component<ICharDetail>{
                     + (stats.int) + (RES.fVit * stats.vit) + RES.add),
         }
         return Script.defResult(values);
-    }
-    
-	private addStats = (level: number, addValue?: number) => {
-        
-        const totalStats = this.findStatus(Script.itens.STS.title);
-        if (totalStats === null) {
-			return;
-        }
-        
-        let value = (level - 1) * 5;
-        if(addValue !== undefined){
-            value += addValue;
-        }
-		totalStats.setValue(value.toString());
-    } 
-
-	private findStatus = (title: string): InputText | null => {
-		const sts = this.inputs.find(input => {
-			return input.title === title;
-		});
-		return sts !== undefined ? sts.element : null;
     }
 }
 

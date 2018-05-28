@@ -17,6 +17,15 @@ class Script {
     public static codes = Values.codes;
     public static itens = Values.itensCode;
     public static chars = CharacterStatus.names;
+    public static stats = [
+        Script.itens.LVL.title,
+        Script.itens.FOR.title,
+        Script.itens.INT.title,
+        Script.itens.TAL.title,
+        Script.itens.AGI.title,
+        Script.itens.VIT.title,
+        Script.itens.STS.title
+    ]
 
     public static defResult = (values?: { ABS?: number, AP?: number, AR?: number, DEF?: number, HP?: number, MP?: number, RES?: number }): IStatusResult => {
 

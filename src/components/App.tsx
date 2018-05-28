@@ -90,8 +90,8 @@ class App extends React.Component {
 
 		const charName = char === undefined ? undefined : char.name;
 		this.setTitle(charName);
-		if (this.charDetail !== null) {
-			const newChar = this.script.getCharDetail(charName);
+		const newChar = this.script.getCharDetail(charName);
+		if (this.charDetail !== null && newChar !== undefined) {
 			this.charDetail.setChar(newChar);
 		}
 		return true;
