@@ -6,7 +6,8 @@
     padding: 1px;
 }
 .title{
-    font-size: 1.05em;
+    color: #333;
+    font-size: 1em;
     font-weight: 400;
 }
 .margin-title{

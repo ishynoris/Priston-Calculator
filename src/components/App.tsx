@@ -7,6 +7,7 @@ import IQuest from '../interfaces/IQuest';
 import IStatusResult from '../interfaces/IStatusResult';
 import CharDetail from './CharDetail';
 import CharSelect from './CharSelect';
+import Footer from './Footer';
 import Result from './Result';
 import SetItem from './SetItem';
 import ShitftEquip from './ShitftEquip';
@@ -42,7 +43,7 @@ class App extends React.Component {
 		const quests: IQuest[] = this.script.getQuests();
 
 		return (
-			<div className="">
+			<div>
 				<div className="row justify-content-center">
 					<div className="block col-md-2">
 						<Title title="Personagens" />
@@ -72,6 +73,7 @@ class App extends React.Component {
 						<Result ref={ref => this.result = ref} />
 					</div>
 				</div>
+				<Footer />
 			</div>
 		)
 	}
