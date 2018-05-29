@@ -27,8 +27,8 @@ const Footer = (props: {}) => {
             )
         })
     })([
-        { icon: 'fab fa-github-square fa-lg', link: 'https://github.com/ishynoris', target: '__blank' },
-        { icon: 'fab fa-facebook-square fa-lg', link: 'https://www.facebook.com/anailson.mota.7', target: '__blank' },
+        { icon: 'fab fa-github fa-lg', link: 'https://github.com/ishynoris', target: '__blank' },
+        { icon: 'fab fa-facebook-f fa-lg', link: 'https://www.facebook.com/anailson.mota.7', target: '__blank' },
         { icon: 'fas fa-envelope fa-lg', link: 'mailto:mota.a.santos@gmail.com', target: '' },
     ]);
 
