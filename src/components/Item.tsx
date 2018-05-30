@@ -14,35 +14,28 @@ interface IItem {
 class Item extends React.Component<IItem>{
 
     public render() {
-        let classValue: string = "";
-        if (this.props.titles.length > 0) {
-            classValue = "inner-border padding";
-        }
 
-        const classes = "item-size background outter-border padding";
-        if (this.props.onlyImage) {
-            return (
-                <div className={classes}>
-                    <Image item={this.props.name} />
-                </div>
-            )
-        }
+        const inputs = () => {
+            return this.props.titles.map((t, i) => {
+                return <InputText key={i} title={t + ":"} onChangeValue={this.onChangeValue} />
+            })
+        };
 
+        const attrClass = this.props.titles.length > 0 ? "inner-border padding" : "";
         return (
-            <div className={classes}>
+            <div className={"item-size background outter-border padding"}>
                 <Image item={this.props.name} />
-                <Mixing item={this.props.name} />
-                <div className={classValue}>
-                    {
-                        this.props.titles.map((t, i) => {
-                            return <InputText 
-                                key={i} 
-                                title={t + ":"} 
-                                onChangeValue={this.onChangeValue} 
-                            />
-                        })
+                {(() => {
+                    if (this.props.onlyImage) {
+                        return null;
                     }
-                </div>
+                    return <div>
+                        <Mixing item={this.props.name} />
+                        <div className={attrClass}>
+                            { inputs() }
+                        </div>
+                    </div>
+                })()}
             </div>
         );
     }
