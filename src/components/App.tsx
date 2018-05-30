@@ -59,14 +59,20 @@ class App extends React.Component {
 					</div>
 					<div className="block col-sm-5">
 						<Title title="Equipamentos" />
-						<SetItem ref={ref => this.itensKit = ref} />
-						<SetItem ref={ref => this.itensSet = ref} />
+						<SetItem 
+							ref={ref => this.itensKit = ref} 
+							onItemChanged={this.onItemChanged} />
+						<SetItem 
+							ref={ref => this.itensSet = ref}
+							onItemChanged={this.onItemChanged} />
 						<ShitftEquip
 							name={radios.name}
 							titles={radios.titles}
 							default={radios.indexChecked}
 							onSelectedCallback={this.onSelectEquip} />
-						<SetItem ref={ref => this.itensPrimario = ref} />
+						<SetItem 
+							ref={ref => this.itensPrimario = ref}
+							onItemChanged={this.onItemChanged} />
 					</div>
 					<div className="block col-md-2">
 						<Title title="Resultados" />
@@ -110,6 +116,12 @@ class App extends React.Component {
 		const item: IItem | undefined = this.script.getItem(radios.titles[index]);
 		if (item !== undefined && this.itensPrimario !== null) {
 			this.itensPrimario.addItem(item, radios.lastIndex);
+		}
+	}
+
+	private onItemChanged = (title: string, value: number, oldValue: number) => {
+		if (this.charDetail !== null) {
+			this.charDetail.itemChanged(title, value, oldValue);
 		}
 	}
 

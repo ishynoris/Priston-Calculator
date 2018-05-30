@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import Script from '../assets/js/Script';
-import IBonus from '../interfaces/IBonus';
 import Image from './Image'
 import InputText from './InputText';
 import Mixing from './Mixing';
@@ -10,19 +8,10 @@ interface IItem {
     name: string, 
     titles: string[], 
     onlyImage?: boolean
-    onChangeValue?: (bonus: IBonus[]) => void,
+    onChangeValue?: (title: string, value: number, oldValue: number) => void,
 };
 
 class Item extends React.Component<IItem>{
-
-    public state: { bonus: IBonus[] | undefined }
-    
-    private script = new Script;
-
-    constructor(props: IItem) {
-        super(props);
-        this.state = { bonus: this.script.getBonusFromItem(this.props.name) };
-    }
 
     public render() {
         let classValue: string = "";
@@ -39,15 +28,18 @@ class Item extends React.Component<IItem>{
             )
         }
 
-        let key = 0;
         return (
             <div className={classes}>
                 <Image item={this.props.name} />
                 <Mixing item={this.props.name} />
                 <div className={classValue}>
                     {
-                        this.props.titles.map((t) => {
-                            return <InputText key={key++} title={t + ":"} onChangeValue={this.onChangeValue} />
+                        this.props.titles.map((t, i) => {
+                            return <InputText 
+                                key={i} 
+                                title={t + ":"} 
+                                onChangeValue={this.onChangeValue} 
+                            />
                         })
                     }
                 </div>
@@ -55,22 +47,9 @@ class Item extends React.Component<IItem>{
         );
     }
 
-    private onChangeValue = (title: string, value: number) => {
-        
-        const newBonus = this.state.bonus;
-        const cod = this.script.getCodByAttr(title.replace(":", ""));
-
-        if(cod === undefined || newBonus === undefined){
-            return;
-        }
-        
-        newBonus.forEach(b => {
-            if(b.cod === cod){
-                b.value = value;
-            }
-        });
+    private onChangeValue = (title: string, value: number, oldValue: number) => {
         if(this.props.onChangeValue !== undefined){
-            this.props.onChangeValue(newBonus);
+            this.props.onChangeValue(title.replace(":", ""), value, oldValue);
         }
     }
 }

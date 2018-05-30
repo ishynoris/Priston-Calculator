@@ -1,25 +1,26 @@
 import * as React from 'react';
 
-import IBonus from '../interfaces/IBonus';
 import IItem from '../interfaces/IItem';
 import Item from './Item';
 
-class SetItem extends React.Component<{}>{
+interface ISetItem { onItemChanged: (title: string, value: number, oldValue: number ) => void }
 
-    public state: { itens: IItem[], bonus: IBonus[] }
+class SetItem extends React.Component<ISetItem>{
 
-    constructor(props: {}) {
+    public state: { itens: IItem[] }
+
+    constructor(props: ISetItem) {
         super(props);
-        this.state = { itens: [], bonus: [] };
+        this.state = { itens: [] };
     }
 
     public initState(newItens: IItem[]) {
-        this.setState({ itens: newItens, bonus: this.state.bonus });
+        this.setState({ itens: newItens });
     }
 
     public addItem(item: IItem, index?: number) {
         const mItens = this.state.itens;
-        
+
         if (index === undefined || index > mItens.length) {
             mItens.push(item);
         } else {
@@ -35,30 +36,31 @@ class SetItem extends React.Component<{}>{
         if (itens.length === 0) {
             return null;
         }
-        let key = 10;
-        const lastsItens = [""];
+        
+        const lastsItens: string[] = [];
         return (
             <div className="col">
                 <div className="row">
-                    {   
-                        itens.map(item => {
+                    {
+                        itens.map((item, index) => {
                             const repeated = lastsItens.indexOf(item.name) > -1;
                             if (!repeated) {
                                 lastsItens.push(item.name);
                             }
                             return <Item
-                                key={key++}
+                                key={index}
                                 name={item.name}
                                 titles={this.getTitles(item)}
                                 onlyImage={repeated}
-                                onChangeValue={this.onChanged} />;
+                                onChangeValue={this.onChanged} 
+                            />;
                         })
                     }
                 </div>
             </div>
         );
     }
-    public shouldComponentUpdate(nextProps: {}, nextState: { itens: IItem[], bonus: IBonus[] }) {
+    public shouldComponentUpdate(nextProps: {}, nextState: { itens: IItem[] }) {
         return nextState !== this.state;
     }
 
@@ -70,23 +72,9 @@ class SetItem extends React.Component<{}>{
         return titles;
     }
 
-    private onChanged = (newBonus: IBonus[]) => {
-
-        if (this.state.bonus.length === 0) {
-
-            // this.setState({ bonus: newBonus });
-
-        } else {
-            const bonus = this.state.bonus;
-            newBonus.forEach(n => {
-                const flag: IBonus | undefined = bonus.find(b => {
-                    return b.cod === n.cod;
-                });
-
-                if (flag === undefined) {
-                    // bonus.push(n);
-                }
-            })
+    private onChanged = (title: string, value: number, oldValue: number) => {
+        if (this.props.onItemChanged !== undefined) {
+            this.props.onItemChanged(title, value, oldValue);
         }
     }
 }
