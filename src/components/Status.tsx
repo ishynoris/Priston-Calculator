@@ -13,6 +13,7 @@ interface IStatusComp {
 class Status extends React.Component<IStatusComp>{
 
     public state: { hasCharStats: boolean };
+    private statQuestBonus: number;
     private charStats: ICharacterStatus | undefined;
     private statsBase: ICharacterStatus;
     private inputs: IStatusInput[];
@@ -20,6 +21,7 @@ class Status extends React.Component<IStatusComp>{
     constructor(props: IStatusComp) {
         super(props);
         this.state = { hasCharStats: false };
+        this.statQuestBonus = 0;
         this.charStats = undefined
         this.statsBase = { lvl: 0, for: 0, int: 0, tal: 0, agi: 0, vit: 0 };
         this.inputs = ((titles: string[]) => {
@@ -37,6 +39,13 @@ class Status extends React.Component<IStatusComp>{
             return;
         }
         this.updateStats();
+    }
+
+    public setQuestBonus(bonus: number){
+        this.statQuestBonus = bonus;
+        if(this.charStats !== undefined){
+            this.addStats(this.charStats);
+        }
     }
 
     public render() {
@@ -97,7 +106,7 @@ class Status extends React.Component<IStatusComp>{
         }
         
         const addStats = ((stats.lvl - 1) * 5) + this.sumStats(this.statsBase);
-        const value = addStats - this.sumStats(stats);
+        const value = addStats - this.sumStats(stats) + this.statQuestBonus;
 		totalStats.element.setValue(value.toString());
     }
 

@@ -118,8 +118,7 @@ class CharDetail extends React.Component<ICharDetail>{
 				}
 			})
         })
-        console.log(newStats);
-        // this.status.addStats(level, newStats);
+        this.status.setQuestBonus(newStats);
         return true;
     }
     
