@@ -14,12 +14,14 @@ class Status extends React.Component<IStatusComp>{
 
     public state: { hasCharStats: boolean };
     private charStats: ICharacterStatus | undefined;
+    private statsBase: ICharacterStatus;
     private inputs: IStatusInput[];
 
     constructor(props: IStatusComp) {
         super(props);
         this.state = { hasCharStats: false };
-        this.charStats = undefined;
+        this.charStats = undefined
+        this.statsBase = { lvl: 0, for: 0, int: 0, tal: 0, agi: 0, vit: 0 };
         this.inputs = ((titles: string[]) => {
             return titles.map(t => {
                 return { title: t, element: null };
@@ -29,6 +31,7 @@ class Status extends React.Component<IStatusComp>{
 
     public setStatus(newCharStats: ICharacterStatus) {
         this.charStats = newCharStats;
+        this.statsBase = Object.assign(this.statsBase, newCharStats);
         if (!this.state.hasCharStats) {
             this.setState({ hasCharStats: true });
             return;
@@ -42,12 +45,26 @@ class Status extends React.Component<IStatusComp>{
             return null;
         }
 
+        const minValue = (stat: string): number => {
+            if(this.statsBase === undefined){
+                return -1
+            }
+            return stat === Script.itens.LVL.title ? this.statsBase.lvl 
+                    : stat === Script.itens.FOR.title ? this.statsBase.for 
+                    : stat === Script.itens.INT.title ? this.statsBase.int 
+                    : stat === Script.itens.TAL.title ? this.statsBase.tal 
+                    : stat === Script.itens.AGI.title ? this.statsBase.agi 
+                    : stat === Script.itens.VIT.title ? this.statsBase.vit
+                    : -1;
+        } 
+
         const inputs = (() => {
             return Script.stats.map((stat, index) => {
                 return <InputText
                         ref={ref => this.putAtIndex(stat, ref, index)}
                         key={index}
                         title={stat + ":"}
+                        minValue={minValue(stat)}
                         disable={stat === Script.itens.STS.title}
                         onChangeValue={this.onStatusChanged} />
             })
@@ -71,8 +88,7 @@ class Status extends React.Component<IStatusComp>{
         this.updateStats();
     }
     
-    public addStats = (level: number, addValue?: number) => {
-        
+    public addStats = (stats: ICharacterStatus) => {    
         const totalStats = this.inputs.find(input => {
             return input.title === Script.itens.STS.title;
         })
@@ -80,10 +96,8 @@ class Status extends React.Component<IStatusComp>{
 			return;
         }
         
-        let value = (level - 1) * 5;
-        if(addValue !== undefined){
-            value += addValue;
-        }
+        const addStats = ((stats.lvl - 1) * 5) + this.sumStats(this.statsBase);
+        const value = addStats - this.sumStats(stats);
 		totalStats.element.setValue(value.toString());
     }
 
@@ -100,16 +114,13 @@ class Status extends React.Component<IStatusComp>{
                 case Script.itens.VIT.title: this.charStats.vit = value; break;
             }
 
-            if (title === Script.itens.LVL.title) {
-                this.addStats(value);
-            }
-            
+            this.addStats(this.charStats);
             if (this.props.onStatusChanged !== undefined) {
                 this.props.onStatusChanged(this.charStats);
             }
         }
     }
-
+    
     private updateStats = () => {
 
         const statValue = (title: string) => {
@@ -141,6 +152,13 @@ class Status extends React.Component<IStatusComp>{
         } else {
             this.inputs[index] = element;
         }
+    }
+
+    private sumStats(stats: ICharacterStatus | undefined): number {
+        if (stats === undefined) {
+            return 0;
+        }
+        return stats.for + stats.int + stats.tal + stats.agi + stats.vit;
     }
 }
 

@@ -13,3 +13,8 @@
     color: #442a1e;
     border-bottom: .1em solid #442a1e;
 }
+.invalid{
+    color: #bf1100;
+    font-size: .75em;
+    border-bottom: .1em solid #bf1100;   
+}

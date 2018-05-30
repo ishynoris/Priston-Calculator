@@ -6,7 +6,7 @@ import '../assets/css/InputText.css';
 
 interface IInputText {
     title: string,
-    // defaultValue?: string,
+    minValue?: number,
     disable?: boolean
     onChangeValue?: (title: string, newValue: number, oldValue: number) => void,
 }
@@ -21,9 +21,13 @@ class InputText extends React.Component<IInputText>{
     }
 
     public onChanged = (e: React.FormEvent<HTMLInputElement>) => {
-        const val = e.currentTarget.value;
-        if (val.match("[0-9]") || val === "") {
-            this.setState({ value: val });
+        let val = Number(e.currentTarget.value);
+        if (!isNaN(val)) {
+            if(this.props.minValue !== undefined){
+                const minValue = this.props.minValue;
+                val = val > minValue ? val : minValue;
+            }
+            this.setState({ value: val.toString() });
         }
     }
 
@@ -36,14 +40,17 @@ class InputText extends React.Component<IInputText>{
     }
 
     public renderValue() {
-
+        let classes = "value";
         if (this.props.disable) {
+            classes = "disable";
             const toNumber = Number(this.state.value);
-            const value = isNaN(toNumber) ? this.state.value
-                : toNumber > 0 ? toNumber : 0;
-            return <label className="disable">{value}</label>
+            const value = isNaN(toNumber) ? this.state.value : toNumber;
+            if (value < 0){
+                classes += " invalid";
+            }
+            return <label className={classes}>{value}</label>
         }
-        return <input className={"value"} type="text" value={this.state.value} onChange={this.onChanged} />
+        return <input className={classes} type="number" value={this.state.value} onChange={this.onChanged} />
     }
 
     public render() {
