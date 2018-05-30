@@ -37,7 +37,7 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
     public render() {
-
+        
         if (this.char === undefined) {
             return null;
         }
@@ -76,6 +76,10 @@ class CharDetail extends React.Component<ICharDetail>{
 
         if (this.skills !== null) {
             this.skills.setSkills(char.skills);
+        }
+
+        if (this.quests !== null) {
+            this.quests.setQuest(0);
         }
     }
 

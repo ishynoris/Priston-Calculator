@@ -20,6 +20,12 @@ class Select extends React.Component<ISelect>{
         this.select = null;
     }
 
+    public changeValue(index: number) {
+        if(this.select !== null){
+            this.select.selectedIndex = index;
+        }
+    }
+
     public showOnlyNumber() {
         let classes = "mix-select number";
         this.props.values.forEach(v => {

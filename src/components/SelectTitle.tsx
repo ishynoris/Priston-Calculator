@@ -11,12 +11,27 @@ interface ISelectTitle {
     onSelectedCallback?: (index: number, value: string) => boolean
 }
 
-const SelectTitle = (props: ISelectTitle) => {
-    return(
-        <div className="item-size outter-border background padding">
-            <TitleSmall title={props.title}/>
-            <Select name={props.name} values={props.values} onSelectedCallback={props.onSelectedCallback}/>
-        </div>
-    )
+class SelectTitle extends React.Component <ISelectTitle>{
+
+    private select: Select | null;
+
+    public setIndex(index: number) {
+        if (this.select !== null) {
+            this.select.changeValue(index);
+        }
+    }
+
+    public render(){
+        return(
+            <div className="item-size outter-border background padding">
+                <TitleSmall title={this.props.title}/>
+                <Select 
+                    ref={ref => this.select = ref} 
+                    name={this.props.name} 
+                    values={this.props.values} 
+                    onSelectedCallback={this.props.onSelectedCallback}/>
+            </div>
+        )
+    }
 }
 export default SelectTitle;
