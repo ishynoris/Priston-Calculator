@@ -39,8 +39,7 @@ class SetItem extends React.Component<ISetItem>{
         
         const lastsItens: string[] = [];
         return (
-            <div className="col">
-                <div className="row">
+                <div className="row item-row">
                     {
                         itens.map((item, index) => {
                             const repeated = lastsItens.indexOf(item.name) > -1;
@@ -57,7 +56,6 @@ class SetItem extends React.Component<ISetItem>{
                         })
                     }
                 </div>
-            </div>
         );
     }
     public shouldComponentUpdate(nextProps: {}, nextState: { itens: IItem[] }) {

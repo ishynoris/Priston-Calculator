@@ -44,8 +44,8 @@ class App extends React.Component {
 
 		return (
 			<div>
-				<div className="row justify-content-center">
-					<div className="block col-md-2">
+				<div className="row">
+					<div className="block col-lg-2">
 						<Title title="Personagens" />
 						<CharSelect
 							title={"Selecione um personagem:"}
@@ -57,7 +57,7 @@ class App extends React.Component {
 							quests={quests}
 							onCalculateResult={this.onCalculate} />
 					</div>
-					<div className="block col-sm-5">
+					<div className="block col-lg-5">
 						<Title title="Equipamentos" />
 						<SetItem 
 							ref={ref => this.itensKit = ref} 
@@ -74,7 +74,7 @@ class App extends React.Component {
 							ref={ref => this.itensPrimario = ref}
 							onItemChanged={this.onItemChanged} />
 					</div>
-					<div className="block col-md-2">
+					<div className="block col-lg-2">
 						<Title title="Resultados" />
 						<Result ref={ref => this.result = ref} />
 					</div>

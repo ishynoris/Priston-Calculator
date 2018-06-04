@@ -1,6 +1,9 @@
+body{
+    padding-left: 10px;
+}
 .block{
-    padding: 0 0 0 20px;
-    /* border: 1px solid black; */
+    /*padding: 0 0 0 20px;
+    border: 1px solid black; */
 }
 .padding{
     padding: 1px;
@@ -29,6 +32,9 @@
     border: 1px ridge #55453c;
 }
 .item-size {
-    width: 180px;
+    width: 175px;
     margin: 0 0 2px 2px ;
+}
+.item-row{
+    margin-left: 0px;
 }
