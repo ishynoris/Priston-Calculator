@@ -6,7 +6,7 @@ interface ISelect {
     name: string,
     values: Array<{ value: string, option: string }>
     disabled?: boolean
-    onSelectedCallback?: (index: number, value: string) => boolean
+    onSelectedCallback?: (name: string, index: number, value: string) => boolean
 }
 
 class Select extends React.Component<ISelect>{
@@ -40,7 +40,7 @@ class Select extends React.Component<ISelect>{
     public onChanged = (event: React.FormEvent<HTMLSelectElement>) => {
         if (this.props.onSelectedCallback !== undefined) {
             const target = event.currentTarget;
-            const update = this.props.onSelectedCallback(target.selectedIndex, target.value);
+            const update = this.props.onSelectedCallback(this.props.name, target.selectedIndex, target.value);
             
             if(update && this.select !== null){
                 this.setState({lastIndex: target.selectedIndex});

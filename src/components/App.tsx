@@ -2,33 +2,33 @@ import * as React from 'react';
 
 import Script from '../assets/js/Script';
 import IChar from '../interfaces/IChar';
-import IItem from '../interfaces/IItem';
+// import IItem from '../interfaces/IItem';
 import IQuest from '../interfaces/IQuest';
 import IStatusResult from '../interfaces/IStatusResult';
 import CharDetail from './CharDetail';
 import CharSelect from './CharSelect';
 import Footer from './Footer';
 import Result from './Result';
-import SetItem from './SetItem';
-import ShitftEquip from './ShitftEquip';
+// import SetItem from './SetItem';
+// import ShitftEquip from './ShitftEquip';
 import Title from './Title';
 
 import '../assets/css/App.css';
 
 const radioTitles = ['Arma', 'Escudo', 'Orbital'];
-const radios = {
+/* const radios = {
 	indexChecked: 0,
 	lastIndex: radioTitles.length - 1,
 	name: 'Status',
 	titles: radioTitles,
-}
+} */
 
 class App extends React.Component {
 
 	private script: Script;
-	private itensPrimario: SetItem | null;
-	private itensKit: SetItem | null;
-	private itensSet: SetItem | null;
+	// private itensPrimario: SetItem | null;
+	// private itensKit: SetItem | null;
+	// private itensSet: SetItem | null;
 	private charDetail: CharDetail | null;
 	private result: Result | null;
 
@@ -57,7 +57,7 @@ class App extends React.Component {
 							quests={quests}
 							onCalculateResult={this.onCalculate} />
 					</div>
-					<div className="block col-lg-5">
+					{/* <div className="block col-lg-5">
 						<Title title="Equipamentos" />
 						<SetItem 
 							ref={ref => this.itensKit = ref} 
@@ -73,7 +73,7 @@ class App extends React.Component {
 						<SetItem 
 							ref={ref => this.itensPrimario = ref}
 							onItemChanged={this.onItemChanged} />
-					</div>
+					</div> */}
 					<div className="block col-lg-2">
 						<Title title="Resultados" />
 						<Result ref={ref => this.result = ref} />
@@ -94,7 +94,7 @@ class App extends React.Component {
 		document.title = title + "Priston Calculator";
 	}
 
-	private onCharSelect = (index: number, char: IChar | undefined): boolean => {
+	private onCharSelect = (name: string, index: number, char: IChar | undefined): boolean => {
 
 		const charName = char === undefined ? undefined : char.name;
 		this.setTitle(charName);
@@ -112,7 +112,7 @@ class App extends React.Component {
 		}
 	}
 
-	private onSelectEquip = (index: number) => {
+	/* private onSelectEquip = (index: number) => {
 		const item: IItem | undefined = this.script.getItem(radios.titles[index]);
 		if (item !== undefined && this.itensPrimario !== null) {
 			this.itensPrimario.addItem(item, radios.lastIndex);
@@ -123,14 +123,14 @@ class App extends React.Component {
 		if (this.charDetail !== null) {
 			this.charDetail.itemChanged(title, value, oldValue);
 		}
-	}
+	} */
 
 	private initComponents = () => {
 		if (this.result !== null) {
 			this.result.setResult(Script.defResult());
 		}
 
-		if (this.itensKit !== null) {
+		/* if (this.itensKit !== null) {
 			this.itensKit.initState(this.script.getSetByName(Script.sets.kit));
 		}
 		if (this.itensSet !== null) {
@@ -143,7 +143,7 @@ class App extends React.Component {
 				primario.push(item);
 			}
 			this.itensPrimario.initState(primario);
-		}
+		} */
 	}
 }
 

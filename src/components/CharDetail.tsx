@@ -117,7 +117,7 @@ class CharDetail extends React.Component<ICharDetail>{
         }
     }
 
-    private onQuestChanged = (index: number, value: string): boolean => {
+    private onQuestChanged = (name: string, index: number, value: string): boolean => {
         let newStats = 0;
         if (this.char === undefined || this.status === null) {
             return false;

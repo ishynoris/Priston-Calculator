@@ -8,7 +8,7 @@ import '../assets/css/Quests.css';
 
 interface IQuestList { 
     quests: IQuest[], 
-    onQuestsChanged?: (index: number, value: string) => boolean 
+    onQuestsChanged?: (name: string, index: number, value: string) => boolean 
 }
 
 class Quests extends React.Component<IQuestList>{
