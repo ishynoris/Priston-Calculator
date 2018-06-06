@@ -26,7 +26,6 @@ const radios = {
 
 class App extends React.Component {
 
-	private script: Script;
 	private itensPrimario: SetItem | null;
 	private itensKit: SetItem | null;
 	private itensSet: SetItem | null;
@@ -35,13 +34,12 @@ class App extends React.Component {
 
 	constructor(props: {}) {
 		super(props);
-		this.script = new Script();
 	}
 
 	public render() {
 
-		const chars: IChar[] = this.script.getChars();
-		const quests: IQuest[] = this.script.getQuests();
+		const chars: IChar[] = Script.getChars();
+		const quests: IQuest[] = Script.getQuests();
 
 		return (
 			<div>
@@ -100,7 +98,7 @@ class App extends React.Component {
 
 		const charName = char === undefined ? undefined : char.name;
 		this.setTitle(charName);
-		const newChar = this.script.getCharDetail(charName);
+		const newChar = Script.getCharDetail(charName);
 		if (this.charDetail !== null && newChar !== undefined) {
 			this.charDetail.setChar(newChar);
 		}
@@ -121,7 +119,7 @@ class App extends React.Component {
 	}
 
 	private onSelectEquip = (index: number) => {
-		const item: IItem | undefined = this.script.getItem(radios.titles[index]);
+		const item: IItem | undefined = Script.getItem(radios.titles[index]);
 		if (item !== undefined && this.itensPrimario !== null) {
 			this.itensPrimario.addItem(item, radios.lastIndex);
 		}
@@ -139,14 +137,14 @@ class App extends React.Component {
 		}
 
 		if (this.itensKit !== null) {
-			this.itensKit.initState(this.script.getSetByName(Script.sets.kit));
+			this.itensKit.initState(Script.getSetByName(Script.sets.kit));
 		}
 		if (this.itensSet !== null) {
-			this.itensSet.initState(this.script.getSetByName(Script.sets.set));
+			this.itensSet.initState(Script.getSetByName(Script.sets.set));
 		}
 		if (this.itensPrimario !== null) {
-			const primario = this.script.getSetByName(Script.sets.primario);
-			const item: IItem | undefined = this.script.getItem(radios.titles[radios.indexChecked]);
+			const primario = Script.getSetByName(Script.sets.primario);
+			const item: IItem | undefined = Script.getItem(radios.titles[radios.indexChecked]);
 			if (item !== undefined) {
 				primario.push(item);
 			}

@@ -48,7 +48,7 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
     public itemChanged(title: string, newValue: number, oldValue: number) {
-        const attrCod = new Script().getCodByAttr(title);
+        const attrCod = Script.getCodByAttr(title);
         if (attrCod === undefined) {
             return;
         }
@@ -165,8 +165,7 @@ class CharDetail extends React.Component<ICharDetail>{
             return false;
         }
 
-        const script = new Script;
-        const questsDone = script.getQuestsAt(index);
+        const questsDone = Script.getQuestsAt(index);
         if (level < questsDone[index].level) {
             alert("Você ainda não possui level suficiente para realizar essa quest.");
             return false;

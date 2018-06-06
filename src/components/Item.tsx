@@ -26,10 +26,9 @@ class Item extends React.Component<IItem>{
     public render() {
 
         const putAtIndex = (text: string, item: InputText | null, index: number) => {
-            const script = new Script;
             const element = { 
                 element: item,
-                title: this.props.name + "-" + script.getCodByAttr(text)
+                title: this.props.name + "-" + Script.getCodByAttr(text)
             };
             if (this.inputs.length <= index) {
                 this.inputs.push(element);

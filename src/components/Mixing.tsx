@@ -5,8 +5,6 @@ import IMix from '../interfaces/IMix';
 import CheckBox from './CheckBox';
 import Select from './Select';
 
-// import '../assets/css/Mixing.css';
-
 interface IItem {item: string};
 
 class Mixing extends React.Component<IItem>{
@@ -30,9 +28,7 @@ class Mixing extends React.Component<IItem>{
 
     public render(){
         
-        const scripts = new Script
-        const mixes = scripts.getMixesByItem(this.props.item);
-        
+        const mixes = Script.getMixesByItem(this.props.item);
         if(mixes === undefined){
             return null;
         }

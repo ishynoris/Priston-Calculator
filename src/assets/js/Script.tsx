@@ -1,11 +1,8 @@
-import IBonus from '../../interfaces/IBonus';
 import IChar from '../../interfaces/IChar';
 import IItem from '../../interfaces/IItem';
 import IMixes from '../../interfaces/IMixes';
 import IQuest from '../../interfaces/IQuest';
-import IStatus from '../../interfaces/IStatus';
 import IStatusResult from '../../interfaces/IStatusResult';
-import BonusItens from './BonusItens';
 import BonusMixes from './BonusMixes';
 import CharacterStatus from './CharacterStatus';
 import QuestList from './QuestList';
@@ -53,27 +50,20 @@ class Script {
         }
     }
 
-    public getMixesByItem(item: string): IMixes | undefined {
+    public static getMixesByItem(item: string): IMixes | undefined {
 
         return BonusMixes.find(bonus => {
             return bonus.item === item;
         });
     }
 
-    public getItem(name: string): IItem | undefined {
+    public static getItem(name: string): IItem | undefined {
         return Values.itens.find(i => {
             return i.name === name;
         });
     }
 
-    public getBonusFromItem(item: string): IBonus[] | undefined {
-        const bonus = BonusItens.bonus.find(b => {
-            return b.name === item;
-        });
-        return bonus === undefined ? undefined : bonus.bonus;
-    }
-
-    public getCodByAttr(attr: string): number | undefined {
+    public static getCodByAttr(attr: string): number | undefined {
 
         const item = Values.itensList.find(i => {
             return i.title === attr;
@@ -81,7 +71,7 @@ class Script {
         return item === undefined ? undefined : item.cod;
     }
 
-    public getSetByName(name: string): IItem[] {
+    public static getSetByName(name: string): IItem[] {
         const itens = Values.itens;
         const names = Script.itensName;
 
@@ -97,13 +87,7 @@ class Script {
         });
     }
 
-    public getResult(): IStatus[] {
-        return Values.result.map(r => {
-            return { default: -1, disable: true, name: r.title }
-        });
-    }
-
-    public getCharDetail(char: string | undefined): IChar | undefined {
+    public static getCharDetail(char: string | undefined): IChar | undefined {
         if (char === undefined) {
             return undefined;
         }
@@ -112,17 +96,17 @@ class Script {
         });
     }
 
-    public getQuestsAt(index: number): IQuest[] {
+    public static getQuestsAt(index: number): IQuest[] {
         return QuestList.filter((q, i) => {
             return i <= index;
         });
     }
 
-    public getQuests(): IQuest[] {
+    public static getQuests(): IQuest[] {
         return QuestList;
     }
 
-    public getChars(): IChar[] {
+    public static getChars(): IChar[] {
         return CharacterStatus.charDetail;
     }
 }
