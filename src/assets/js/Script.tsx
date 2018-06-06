@@ -17,6 +17,7 @@ class Script {
     public static codes = Values.codes;
     public static itens = Values.itensCode;
     public static chars = CharacterStatus.names;
+    public static itensName = Values.itensName;
     public static stats = [
         Script.itens.LVL.title,
         Script.itens.FOR.title,
@@ -82,7 +83,7 @@ class Script {
 
     public getSetByName(name: string): IItem[] {
         const itens = Values.itens;
-        const names = Values.itensName;
+        const names = Script.itensName;
 
         const kit = [names.amuleto, names.anel, names.shelton];
         const primario = [names.arma, names.armadura];

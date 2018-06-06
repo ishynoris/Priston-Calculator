@@ -1,9 +1,13 @@
 import * as React from 'react';
 
 import IItem from '../interfaces/IItem';
+import IStatusInput from '../interfaces/IStatusInput';
 import Item from './Item';
 
-interface ISetItem { onItemChanged: (title: string, value: number, oldValue: number ) => void }
+interface ISetItem { 
+    onItemChanged: (title: string, value: number, oldValue: number ) => void,
+    onInputValues?: (inputs: IStatusInput[]) => void,
+}
 
 class SetItem extends React.Component<ISetItem>{
 
@@ -29,7 +33,7 @@ class SetItem extends React.Component<ISetItem>{
 
         this.setState({ itens: mItens });
     }
-
+    
     public render() {
 
         const itens = this.state.itens;
@@ -51,8 +55,9 @@ class SetItem extends React.Component<ISetItem>{
                                 name={item.name}
                                 titles={this.getTitles(item)}
                                 onlyImage={repeated}
-                                onChangeValue={this.onChanged} 
-                            />;
+                                onChangeValue={this.onChanged}
+                                onInputsCreated={this.inputs} 
+							/>;
                         })
                     }
                 </div>
@@ -73,6 +78,12 @@ class SetItem extends React.Component<ISetItem>{
     private onChanged = (title: string, value: number, oldValue: number) => {
         if (this.props.onItemChanged !== undefined) {
             this.props.onItemChanged(title, value, oldValue);
+        }
+    }
+
+    private inputs = (inputs: IStatusInput[]) => {
+        if (this.props.onInputValues !== undefined) {
+            this.props.onInputValues(inputs);
         }
     }
 }

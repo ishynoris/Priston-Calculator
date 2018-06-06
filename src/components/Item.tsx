@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import Script from '../assets/js/Script';
+import IStatusInput from '../interfaces/IStatusInput';
 import Image from './Image'
 import InputText from './InputText';
 import Mixing from './Mixing';
@@ -9,15 +11,40 @@ interface IItem {
     titles: string[], 
     onlyImage?: boolean
     onChangeValue?: (title: string, value: number, oldValue: number) => void,
+    onInputsCreated?: (inputs: IStatusInput[]) => void,
 };
 
 class Item extends React.Component<IItem>{
 
+    private inputs: IStatusInput[];
+    
+    constructor (props: IItem){
+        super(props);
+        this.inputs = [];
+    }
+
     public render() {
 
+        const putAtIndex = (text: string, item: InputText | null, index: number) => {
+            const script = new Script;
+            const element = { 
+                element: item,
+                title: this.props.name + "-" + script.getCodByAttr(text)
+            };
+            if (this.inputs.length <= index) {
+                this.inputs.push(element);
+            } else {
+                this.inputs[index] = element;
+            }
+        }
+        
         const inputs = () => {
             return this.props.titles.map((t, i) => {
-                return <InputText key={i} title={t + ":"} onChangeValue={this.onChangeValue} />
+                return <InputText 
+                    ref={ref => putAtIndex(t, ref, i)}
+                    key={i} 
+                    title={t + ":"} 
+                    onChangeValue={this.onChangeValue} />
             })
         };
 
@@ -38,6 +65,12 @@ class Item extends React.Component<IItem>{
                 })()}
             </div>
         );
+    }
+
+    public componentDidMount () {
+        if(this.props.onInputsCreated !== undefined) {
+            this.props.onInputsCreated(this.inputs);
+        }
     }
 
     private onChangeValue = (title: string, value: number, oldValue: number) => {

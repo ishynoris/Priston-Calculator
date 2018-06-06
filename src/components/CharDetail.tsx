@@ -5,6 +5,7 @@ import IBonus from '../interfaces/IBonus';
 import IChar from '../interfaces/IChar';
 import ICharacterStatus from '../interfaces/ICharacterStatus';
 import IQuest from '../interfaces/IQuest';
+import IStatusInput from '../interfaces/IStatusInput';
 import IStatusResult from '../interfaces/IStatusResult';
 import Quests from './Quests';
 import Skills from './Skills';
@@ -20,6 +21,7 @@ class CharDetail extends React.Component<ICharDetail>{
     public state: { hasChar: boolean }
     private char: IChar | undefined;
     private bonus: IBonus[];
+    private inputs: IStatusInput[];
     private status: Status | null;
     private skills: Skills | null;
     private quests: Quests | null;
@@ -27,6 +29,7 @@ class CharDetail extends React.Component<ICharDetail>{
     constructor(props: ICharDetail) {
         super(props);
         this.bonus = [];
+        this.inputs = [];
         this.state = { hasChar: false };
     }
 
@@ -39,9 +42,14 @@ class CharDetail extends React.Component<ICharDetail>{
         this.updateChar();
     }
 
+    public addInputValues(inputs: IStatusInput[]) {
+        this.inputs = this.inputs.concat(inputs);
+        console.log(this.inputs);
+    }
+
     public itemChanged(title: string, newValue: number, oldValue: number) {
         const attrCod = new Script().getCodByAttr(title);
-        if(attrCod === undefined){
+        if (attrCod === undefined) {
             return;
         }
 
@@ -56,7 +64,7 @@ class CharDetail extends React.Component<ICharDetail>{
             this.bonus[index].value += val;
         }
         const results = this.calculate(this.char);
-        if (this.props.onCalculateResult !== undefined){
+        if (this.props.onCalculateResult !== undefined) {
             this.props.onCalculateResult(results);
         }
     }
@@ -71,7 +79,9 @@ class CharDetail extends React.Component<ICharDetail>{
                 <Status
                     ref={ref => this.status = ref}
                     onStatusChanged={this.onStatusChanged} />
-                <Skills ref={ref => this.skills = ref} />
+                <Skills
+                    ref={ref => this.skills = ref}
+                    onSkillChanged={this.onSkillChanged} />
                 <Quests
                     ref={ref => this.quests = ref}
                     quests={this.props.quests}
@@ -115,6 +125,32 @@ class CharDetail extends React.Component<ICharDetail>{
             const result = this.calculate(this.char);
             this.props.onCalculateResult(result);
         }
+    }
+
+    private onSkillChanged = (cod: number, value: number, percent: boolean): boolean => {
+        const names = Script.itensName;
+        const inputValue = (name: string) => {
+            const input = this.inputs.find(i => {
+                return i.title === name;
+            });
+            return input === undefined || input.element === null ? 0 : input.element.asNumber();
+        };
+
+        switch (cod) {
+            case Script.codes.AP: break;
+
+            case Script.codes.AR:
+                const result = this.calculate(this.char);
+                let asNumber = Number(result.AR.value);
+                if (!isNaN(asNumber)) {
+                    const val = inputValue(names.arma + "-" + cod);
+                    asNumber += percent ? val * value / 100 : val;
+                    result.AR.value = asNumber;
+                    this.props.onCalculateResult(result);
+                }
+            break;
+        }
+        return true;
     }
 
     private onQuestChanged = (name: string, index: number, value: string): boolean => {
@@ -176,7 +212,7 @@ class CharDetail extends React.Component<ICharDetail>{
         }
 
         this.bonus.forEach(b => {
-            switch(b.cod){
+            switch (b.cod) {
                 case Script.itens.AR.cod: values.AR += b.value; break;
                 case Script.itens.DEF.cod: values.DEF += b.value; break;
                 case Script.itens.ABS.cod: values.ABS += b.value; break;

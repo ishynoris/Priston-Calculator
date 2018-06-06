@@ -1,18 +1,19 @@
 import * as React from 'react';
 
-// import ISkillList from '../interfaces/ISkillList';
 import ISkills from '../interfaces/ISkills';
 import Select from './Select';
 import Title from './Title';
 import TitleSmall  from "./TitleSmall";
 
-// import '../assets/css/Skills.css';
+interface ISkillList {
+    onSkillChanged?: (cod: number, value: number, percent: boolean) => boolean
+}
 
-class SkillList extends React.Component<{}>{
+class SkillList extends React.Component<ISkillList>{
 
     public state: {skills: ISkills[]}
 
-    constructor(props: ISkills[]){
+    constructor(props: ISkillList){
         super(props);
         this.state = {skills: []};
     }
@@ -45,25 +46,38 @@ class SkillList extends React.Component<{}>{
 
     private renderSkills = (key: number, skill: ISkills) => {
 
-        const values = this.getSkillValues(skill);
+        const values = (() => {
+            return skill.values.map((v, k) => {
+                return { value: v + "", option: k + "" };
+            });
+        })();
         return (
             <div key={key} className="row">
                 <div className="col-sm-7">
                     <TitleSmall title={skill.name} />
                 </div>
                 <div className="col-sm-5 skl-size">
-                    <Select name={skill.name} values={values} />
+                    <Select name={skill.name} values={values} onSelectedCallback={this.onSeleted}/>
                 </div>
             </div>
         )
     }
 
-    private getSkillValues = (skill: ISkills) => {
-        const values: Array<{ value: string, option: string }> = [];
-        skill.values.forEach((v, k) => {
-            values.push({ value: v + "", option: k + "" })
+    private onSeleted = (name: string, index: number, value: string): boolean => {
+        
+        if (this.props.onSkillChanged === undefined) {
+            return true;
+        }
+
+        const skill = this.state.skills.find(s => {
+            return s.name === name;
         });
-        return values;
+
+        if (skill === undefined){
+            return false;
+        }
+        const percent = skill.percent === undefined ? false : skill.percent;
+        return this.props.onSkillChanged(skill.codBonus, skill.values[index], percent);
     }
 }
 export default SkillList;
