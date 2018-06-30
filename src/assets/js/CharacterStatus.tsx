@@ -48,6 +48,7 @@ function toSkills(stats: ICharacterStatus) {
     }) as IStatus[];
 }
 
+const codes = Values.codes;
 const charDetail: IChar[] = [
     {
         asSkills: toSkills,
@@ -55,13 +56,14 @@ const charDetail: IChar[] = [
             ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
             MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
             RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Arqueira,
         skills: [
-            { name: "Mestra do Tiro", percent: true, values: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40] },
-            { name: "Olho de Dion", percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
+            { codBonus: codes.AP, name: "Mestra do Tiro", percent: true, values: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40] },
+            { codBonus: codes.AR, name: "Olho de Dion", percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
         ],
         stats: { lvl: 1, for: 17, int: 11, tal: 21, agi: 27, vit: 23 },
     },
@@ -69,9 +71,9 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         name: names.Assassina,
         skills: [
-            { name: "Maestria em Adagas", percent: true, values: [] },
-            { name: "Maestria do Ataque", values: [] },
-            { name: "Maestria Fatal", values: [] },
+            { codBonus: -1, name: "Maestria em Adagas", percent: true, values: [] },
+            { codBonus: -1, name: "Maestria do Ataque", values: [] },
+            { codBonus: -1, name: "Maestria Fatal", values: [] },
         ],
         stats: { lvl: 1, for: 25, int: 10, tal: 22, agi: 20, vit: 22 },
     },
@@ -79,7 +81,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         name: names.Atalanta,
         skills: [
-            { name: "Maestra do Arremesso", percent: true, values: [] }
+            { codBonus: -1, name: "Maestra do Arremesso", percent: true, values: [] }
         ],
         stats: { lvl: 1, for: 23, int: 15, tal: 19, agi: 19, vit: 23 },
     },
@@ -89,30 +91,39 @@ const charDetail: IChar[] = [
             ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            HP: { fLvl: 0.6, fAgi: 2.2, fVit: 0, add: 0 },
             MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
             RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Cavaleiro,
         skills: [
-            { name: "Treinamento Físico", values: [] }, // TODO
-            { name: "Mestre das Espadas", percent: true, values: [] },
+            { codBonus: -1, name: "Treinamento Físico", values: [] }, // TODO
+            { codBonus: -1, name: "Mestre das Espadas", percent: true, values: [] },
         ],
         stats: { lvl: 1, for: 26, int: 13, tal: 17, agi: 19, vit: 24 },
     },
     {
         asSkills: toSkills,
+        formula: {
+            ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
+            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
+            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            HP: { fLvl: 0.6, fAgi: 2.2, fVit: 0, add: 0 },
+            MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
+            RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
+        },
         name: names.Lutador,
         skills: [
-            { name: "Mestre das Armas", percent: true, values: [] },
-            { name: "Bônus de Vitalidade", values: [] },
+            { codBonus: -1, name: "Mestre das Armas", percent: true, values: [] },
+            { codBonus: -1, name: "Bônus de Vitalidade", values: [] },
         ],
-        stats: { lvl: 1, for: 28, int: 6, tal: 21, agi: 18, vit: 27 },
+        stats: { lvl: 1, for: 28, int: 6, tal: 21, agi: 17, vit: 27 },
     },
     {
         asSkills: toSkills,
         name: names.Mago,
         skills: [
-            { name: "Mestre da Mente", percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] }
+            { codBonus: -1, name: "Mestre da Mente", percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] }
         ],
         stats: { lvl: 1, for: 16, int: 29, tal: 19, agi: 14, vit: 21 },
     },
@@ -120,8 +131,8 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         name: names.Mecanico,
         skills: [
-            { name: "Resistência a Veneno", values: [] },
-            { name: "Mestre dos Mecânicos", percent: true, values: [] }
+            { codBonus: -1, name: "Resistência a Veneno", values: [] },
+            { codBonus: -1, name: "Mestre dos Mecânicos", percent: true, values: [] }
         ],
         stats: { lvl: 1, for: 24, int: 8, tal: 25, agi: 18, vit: 24 },
     },
@@ -129,9 +140,9 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         name: names.Pikeman,
         skills: [
-            { name: "Resistência de Gelo", values: [] },
-            { name: "Mestre da Defesa", values: [] },
-            { name: "Mestre do Ataque Crítico", values: [] },
+            { codBonus: -1, name: "Resistência de Gelo", values: [] },
+            { codBonus: -1, name: "Mestre da Defesa", values: [] },
+            { codBonus: -1, name: "Mestre do Ataque Crítico", values: [] },
         ],
         stats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 19, vit: 25 },
     },
@@ -139,7 +150,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         name: names.Sacerdotisa,
         skills: [
-            { name: "Meditação", values: [] }, // TODO
+            { codBonus: -1, name: "Meditação", values: [] }, // TODO
         ],
         stats: { lvl: 1, for: 15, int: 28, tal: 21, agi: 15, vit: 20 },
     },
@@ -147,8 +158,8 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         name: names.Xama,
         skills: [
-            { name: "Paz Interior", percent: true, values: [0, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31] },
-            { name: "Vida Divina", percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] },
+            { codBonus: -1, name: "Paz Interior", percent: true, values: [0, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31] },
+            { codBonus: -1, name: "Vida Divina", percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] },
         ],
         stats: { lvl: 1, for: 15, int: 27, tal: 20, agi: 15, vit: 22 },
     },

@@ -25,7 +25,7 @@ class Script {
         Script.itens.STS.title
     ]
 
-    public static defResult = (values?: { ABS?: number, AP?: number, AR?: number, DEF?: number, HP?: number, MP?: number, RES?: number }): IStatusResult => {
+    public static defResult = (values?: { ABS?: number, APmin?: number, APmax?: number, AR?: number, DEF?: number, HP?: number, MP?: number, RES?: number }): IStatusResult => {
 
         if (values === undefined) {
             return {
@@ -38,10 +38,11 @@ class Script {
                 RES: { title: Values.itensCode.RES.title, value: val() },
             }
         }
-
+        const min = val(values.APmin);
+        const max = val(values.APmax);
         return {
             ABS: { title: Values.itensCode.ABS.title, value: val(values.ABS) },
-            AP: { title: Values.itensCode.AP.title, value: val(values.AP) },
+            AP: { title: Values.itensCode.AP.title, value: min + "-" + max },
             AR: { title: Values.itensCode.AR.title, value: val(values.AR) },
             DEF: { title: Values.itensCode.DEF.title, value: val(values.DEF) },
             HP: { title: Values.itensCode.HP.title, value: val(values.HP) },

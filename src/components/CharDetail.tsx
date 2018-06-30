@@ -194,17 +194,19 @@ class CharDetail extends React.Component<ICharDetail>{
 
         const stats = char.stats;
         const AR = char.formula.AR;
+        const HP = char.formula.HP;
         const MP = char.formula.MP;
         const RES = char.formula.RES;
         const DEF = char.formula.DEF;
         const ABS = char.formula.ABS;
 
-        const def = Math.ceil((DEF.fLvl * stats.lvl) + (DEF.fTal * stats.tal) + (DEF.fAgi * stats.agi) + DEF.add);
+        const def = (DEF.fLvl * stats.lvl) + (DEF.fTal * stats.tal) + (DEF.fAgi * stats.agi) + DEF.add;
         const values = {
             ABS: Math.ceil((stats.lvl / ABS.fLvl) + (stats.for / ABS.fFor) + (stats.tal / ABS.fTal)
-                + (stats.agi / ABS.fAgi) + (def / 100) + ABS.add),
+                            + (stats.agi / ABS.fAgi) + (def / 100) + ABS.add),
             AR: Math.ceil((stats.lvl * AR.fLvl) + (stats.tal * AR.fTal) + (stats.agi * AR.fAgi) + AR.add),
-            DEF: def,
+            DEF: Math.ceil(def),
+            HP: Math.ceil((HP.fLvl * stats.lvl) + (HP.fAgi * stats.agi) + (HP.fVit * stats.vit) + HP.add),
             MP: Math.ceil((MP.fLvl * stats.lvl) + (MP.fInt * stats.int) + MP.add),
             RES: Math.ceil((RES.fLvl * stats.lvl) + (RES.fFor * stats.for) + (RES.fTal * stats.tal)
                 + (stats.int) + (RES.fVit * stats.vit) + RES.add),
@@ -215,6 +217,7 @@ class CharDetail extends React.Component<ICharDetail>{
                 case Script.itens.AR.cod: values.AR += b.value; break;
                 case Script.itens.DEF.cod: values.DEF += b.value; break;
                 case Script.itens.ABS.cod: values.ABS += b.value; break;
+                case Script.itens.HPadd.cod: values.HP += b.value; break;
                 case Script.itens.MPadd.cod: values.MP += b.value; break;
                 case Script.itens.RESadd.cod: values.RES += b.value; break;
             }
