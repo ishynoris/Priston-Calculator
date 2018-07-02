@@ -1,3 +1,3 @@
 ﻿# Priston Calculator
 
-Visit (alfa): https://ishynoris.github.io/Priston-Calculator/
+Visit (alfa): http://bit.ly/pt-calc
