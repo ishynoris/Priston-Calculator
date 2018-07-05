@@ -25,7 +25,7 @@ class Script {
         Script.itens.STS.title
     ]
 
-    public static defResult = (values?: { ABS?: number, APmin?: number, APmax?: number, AR?: number, DEF?: number, HP?: number, MP?: number, RES?: number }): IStatusResult => {
+    public static defResult = (values?: { ABS: number, APmin: number, APmax: number, AR: number, DEF: number, HP: number, MP: number, RES: number }): IStatusResult => {
 
         if (values === undefined) {
             return {

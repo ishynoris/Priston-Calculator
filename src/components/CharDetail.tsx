@@ -152,7 +152,6 @@ class CharDetail extends React.Component<ICharDetail>{
     }
     
     private onStatusChanged = (charStats: ICharacterStatus) => {
-
         if (this.char !== undefined) {
             this.char.stats = charStats;
             this.setResult();
@@ -285,25 +284,52 @@ class CharDetail extends React.Component<ICharDetail>{
         if (char === undefined || char.formula === undefined) {
             return Script.defResult();
         }
+        const getAttrByCode = (code: number): number => {
+            const attr = this.bonus.itens.find(b => {
+                return b.cod === code;
+            });
+            return attr === undefined ? 0 : attr.value;
+        }
+        const getStatsByCode = (code: number): number => {
+            return code === Script.codes.FOR ? char.stats.for 
+                    : code === Script.codes.AGI ? char.stats.agi
+                    : code === Script.codes.INT ? char.stats.int
+                    : code === Script.codes.TAL ? char.stats.tal
+                    : code === Script.codes.VIT ? char.stats.vit
+                    : -1;
+        }
 
         const stats = char.stats;
-        const AR = char.formula.AR;
-        const HP = char.formula.HP;
-        const MP = char.formula.MP;
-        const RES = char.formula.RES;
-        const DEF = char.formula.DEF;
-        const ABS = char.formula.ABS;
+        const f = char.formula;
+        const statAttr = getStatsByCode(f.AP.attrFator);
+        const minArma = getAttrByCode(Script.codes.APmin);
+        const maxArma = getAttrByCode(Script.codes.APmax);        
+        const passive = 32;
 
-        const def = (DEF.fLvl * stats.lvl) + (DEF.fTal * stats.tal) + (DEF.fAgi * stats.agi) + DEF.add;
+        const div: number[] = [];
+        f.AP.attrDiv.forEach(a => {
+            const result = getStatsByCode(a.attr);
+            if (result !== -1){
+                div.push(result)
+            }
+        });
+
+        const def = (f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add;
+        const multi = (statAttr === -1 || minArma === 0) ? 0 : (1 / f.AP.fFator * statAttr * minArma);
+        const sumAttrs = div.reduce((d, i) => d + i , 0);
+
         const values = {
-            ABS: Math.ceil((stats.lvl / ABS.fLvl) + (stats.for / ABS.fFor) + (stats.tal / ABS.fTal)
-                            + (stats.agi / ABS.fAgi) + (def / 100) + ABS.add),
-            AR: Math.ceil((stats.lvl * AR.fLvl) + (stats.tal * AR.fTal) + (stats.agi * AR.fAgi) + AR.add),
-            DEF: Math.ceil(def),
-            HP: Math.ceil((HP.fLvl * stats.lvl) + (HP.fAgi * stats.agi) + (HP.fVit * stats.vit) + HP.add),
-            MP: Math.ceil((MP.fLvl * stats.lvl) + (MP.fInt * stats.int) + MP.add),
-            RES: Math.ceil((RES.fLvl * stats.lvl) + (RES.fFor * stats.for) + (RES.fTal * stats.tal)
-                + (stats.int) + (RES.fVit * stats.vit) + RES.add),
+            ABS: Math.trunc((stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
+                            + (stats.agi / f.ABS.fAgi) + (def / 100) + f.ABS.add),
+            APmax: 0,
+            APmin: 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc(multi) 
+                        + Math.trunc((minArma + maxArma) / 16) + Math.trunc(minArma * passive / 100),
+            AR: Math.trunc((stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add),
+            DEF: Math.trunc(def),
+            HP: Math.trunc((f.HP.fLvl * stats.lvl) + (f.HP.fAgi * stats.agi) + (f.HP.fVit * stats.vit) + f.HP.add),
+            MP: Math.trunc((f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add),
+            RES: Math.trunc((f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
+                + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add),
         }
 
         const applyBonus = (bonus: IBonus) => {
@@ -319,7 +345,6 @@ class CharDetail extends React.Component<ICharDetail>{
                 case Script.itens.RESadd.cod: values.RES += bonus.value; break;
             }
         }
-        console.log(this.bonus.quests);
         this.bonus.quests.forEach(b => {
             applyBonus(b);
         })

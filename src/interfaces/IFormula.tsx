@@ -1,4 +1,5 @@
 interface IFormula {
+    AP: { fFator: number, attrFator: number, attrDiv: Array<{ attr: number }> }
     AR: { fLvl: number, fTal: number, fAgi: number, add: number },
     DEF: { fLvl: number, fTal: number, fAgi: number, add: number },
     ABS: { fLvl: number, fFor: number, fTal: number, fAgi: number, add: number },
