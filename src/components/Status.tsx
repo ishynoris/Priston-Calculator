@@ -31,13 +31,10 @@ class Status extends React.Component<IStatusComp>{
         })(Script.stats);
     }
 
-    public setStatus(newCharStats: ICharacterStatus) {
+    public setStatus(newCharStats: ICharacterStatus | undefined) {
         this.charStats = newCharStats;
         this.statsBase = Object.assign(this.statsBase, newCharStats);
-        if (!this.state.hasCharStats) {
-            this.setState({ hasCharStats: true });
-            return;
-        }
+        this.setState({ hasCharStats: this.charStats !== undefined });
         this.updateStats();
     }
 
@@ -49,8 +46,7 @@ class Status extends React.Component<IStatusComp>{
     }
 
     public render() {
-        
-        if (this.charStats === undefined) {
+        if (!this.state.hasCharStats) {
             return null;
         }
 

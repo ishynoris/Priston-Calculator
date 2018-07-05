@@ -15,7 +15,7 @@ class SkillList extends React.Component<ISkillList>{
 
     constructor(props: ISkillList){
         super(props);
-        this.state = {skills: []};
+        this.state = { skills: [] };
     }
 
     public setSkills(newSkills: ISkills[]){

@@ -1,0 +1,887 @@
+/*#######################################################################*/
+
+/*      2004³â 9¿ù 22ÀÏ ----- mirjin.net ÇÁÅ×°ø½ÄÀ» ÂüÁ¶Çß½À´Ï´Ù.            */
+
+/*      2004³â 9¿ù 22ÀÏ ----- #1                                          */
+
+/*#######################################################################*/
+
+
+
+sd_PhysicalTraining = new Array("","10","20","30","40","50","60","70","80","90","100");
+
+sd_SwordMastery = new Array("","4","8","12","16","20","24","28","32","36","40");
+
+sd_DoubleCrash = new Array("","10","14","18","22","25","28","31","34","37","40");
+
+sd_Brandash = new Array("","10","16","22","28","34","40","46","52","58","64");
+
+sd_GrandCross = new Array("","35","40","45","50","55","60","65","70","75","80");
+
+
+
+sd_DoubleCrashMental = new Array("","18","20","22","24","27","30","33","36","39","42");
+
+sd_BrandashMental = new Array("","22","24","26","28","30","33","36","39","42","45");
+
+sd_GrandCrossMental = new Array("","30","33","36","39","42","45","48","51","54","57");
+
+
+
+function go(){
+
+	lv = parseInt(frm.level.value) ; // ·¾	
+
+	st = parseInt(frm.strength.value) ; // Èû
+
+	me = parseInt(frm.mental.value) ; // Á¤½Å
+
+	ag = parseInt(frm.agility.value) ; // Àç´É
+
+	de = parseInt(frm.dexterity.value) ; //¹ÎÃ¸
+
+	he = parseInt(frm.health.value) ; // °Ç°­
+
+
+
+	changejob2 =  parseInt(frm.changejob2.value) ; // 2Â÷Àü¾÷...
+
+	addbloodmix =  parseInt(frm.addbloodmix.value) ; // »ı¸íÃß°¡ ¹Í½º
+
+	addblood_amulet =  parseInt(frm.addblood_amulet.value) ; // ¾Æ¹Ä Ãß°¡ »ı¸í·Â
+
+	muscular_ring =  parseInt(frm.muscular_ring.value) ; // ¸µ Ãß°¡ ±Ù·Â
+
+	addblood_ring =  parseInt(frm.addblood_ring.value) ; // ¸µ Ãß°¡ »ı¸í·Â
+
+
+
+	if(lv < 1){frm.level.value=1; lv = 1; }
+
+	if(lv > 150){frm.level.value=150; lv = 150;}
+
+
+
+	if(st < 17){frm.strength.value=17; st = 17;}
+
+	if(me < 11){frm.mental.value=11; me = 11;}
+
+	if(ag < 21){frm.agility.value=21; ag = 21;}
+
+	if(de < 27){frm.dexterity.value=27; de = 27;}
+
+	if(he < 23){frm.health.value=23; he = 23;}
+
+
+
+	bpoint = 99; // ±âº» ½ºÅİ ÇÕ°è
+
+	udpoint = st + me + ag + de + he; //»ç¿ë ½ºÅİ ÇÔ°è
+
+
+
+/*
+
+- ±×³àµéÀ» À§ÇÏ¿© ( 30·¹º§ ÀÌ»ó ) - ÀâÈ­Á¡ ¾Ë¸®¾Æ, ÇÊ¸®¾Æ - º¸»ó: ½ºÅİÆ÷ÀÎÆ® +5 
+
+- The Cave ( 55·¹º§ ÀÌ»ó ) - ½ºÅ³¸¶½ºÅÍ º£¸£Ä­, ¸¶¹ı¼ö·Ã¼Ò ·¹ÀÌ¸ó - º¸»ó: ½ºÅ³Æ÷ÀÎÆ® +1 
+
+- ¹ÌÄÌ·¹¿ÍÀÇ ¿ìÁ¤ ( 70·¹º§ ÀÌ»ó ) - ½ÅÀü»çÁ¦ - º¸»ó: ½ºÅİÆ÷ÀÎÆ® +5 / ½ºÅ³Æ÷ÀÎÆ® +1 
+
+- ºÀÀÎµÈ Ç»¸® ( 80·¹º§ ÀÌ»ó ) - ½ÅÀü»çÁ¦ - º¸»ó: ½ºÅİÆ÷ÀÎÆ® + 5 /½ºÅ³Æ÷ÀÎÆ® +2 
+
+- Ä®¸®¾ÆÀÇ ´«¹° ( 85·¹º§ ÀÌ»ó ) - ½ÅÀü»çÁ¦ - º¸»ó: »ç¸Á°æÇèÄ¡ 1%ÇÏ¶ô 
+
+(ÁÖÀÇ »çÇ× :Ä®¸®¾ÆÀÇ ´«¹° Äù½ºÆ® ½ÃÀÛ½Ã Äù½ºÆ® ¾ÆÀÌÅÛÀÌ ÀÎº¥Åä¸®¿¡ µé¾î¿ÀÁö¸¸ »ç¸Á°æÇèÄ¡ ÇÏ¶ôÀÇ ¼º´ÉÀº Äù½ºÆ® ¿Ï·á ÈÄ Àû¿ë µË´Ï´Ù. ¶ÇÇÑ ÀÌ Äù½ºÆ®ÀÇ ÁøÇàÁß »ç¸ÁÇÏ°Ô µÇ¸é Äù½ºÆ® ¾ÆÀÌÅÛÀÌ »ç¶óÁö°Ô µÇ¸ç Ä®¸®¾ÆÀÇ ´«¹° Äù½ºÆ®¸¦ Ã³À½ºÎÅÍ ´Ù½Ã ¼öÇàÇØ¾ß ÇÕ´Ï´Ù. °æÇèÄ¡ º¸»óÀ» ¹Ş±â À§ÇØ¼­´Â Äù½ºÆ® ÁøÇàÁß »ç¸ÁÇÏ¿©¼­´Â ¾ÈµË´Ï´Ù.) 
+
+- À¯¶óºô¸®Áö ( 90·¹º§ ÀÌ»ó ) - À¯¶óºô¸®Áö Æ÷½º¸¶½ºÅÍ - º¸»ó: »ı¸í·Â(HP) +40 
+
+
+
+*/
+
+	force = Number(frm.force.value);
+
+	//alert(quest);
+
+	switch(force) { 
+
+		case 0 : f_add_degat = 0; break; 
+
+		case 1 : f_add_degat = 2; break; 
+
+		case 2 : f_add_degat = 4; break; 
+
+		case 3 : f_add_degat = 7; break; 
+
+		case 4 : f_add_degat = 10; break;   
+
+		case 5 : f_add_degat = 15; break; 
+
+		case 6 : f_add_degat = 25; break; 
+
+		case 7 : f_add_degat = 40; break; 
+
+		case 8 : f_add_degat = 60; break; 
+
+		case 9 : f_add_degat = 80; break; 
+
+		default : f_add_degat = 0; break; 
+
+	} 
+
+	quest = Number(frm.quest.value);
+
+	//alert(quest);
+
+	switch(quest) { 
+
+		case 0 : q_add_point = 0; q_add_spoint = 0; q_add_blood = 0; break; 
+
+		case 30 : q_add_point = 5; q_add_spoint = 0; q_add_blood = 0; break;  
+
+		case 55 : q_add_point = 5; q_add_spoint = 1; q_add_blood = 0; break;  
+
+		case 70 : q_add_point = 10; q_add_spoint = 2; q_add_blood = 0; break;  
+
+		case 80 : q_add_point = 15; q_add_spoint = 4; q_add_blood = 0; break;  
+
+		case 85 : q_add_point = 15; q_add_spoint = 4; q_add_blood = 0; break;  
+
+		case 90 : q_add_point = 15; q_add_spoint = 4; q_add_blood = 40; break;  
+
+		default : q_add_point = 0; q_add_spoint = 0; q_add_blood = 0; break; 
+
+	}
+
+	tpoint = (lv-1) * 5 ; //ÃÑ½ºÅİ
+
+	tpoint += q_add_point; // Äù½ºÆ® Æ÷ÀÎÆ® Ãß°¡
+
+	if(quest>=80) tpoint += (lv-79)*2;
+
+	if(quest>=90) tpoint += (lv-89)*3;
+
+	frm.tpoint.value = tpoint ; 
+
+	upoint = udpoint - bpoint ; //»ç¿ëÇÑ Æ÷ÀÎÆ®
+
+	frm.upoint.value = upoint ; 
+
+	rpoint = tpoint - udpoint + bpoint ; // ³²´Â Æ÷ÀÎÆ®
+
+	frm.rpoint.value = rpoint ;
+
+
+
+	frm.rpoint.style.color='#FFFFFF';
+
+	if (rpoint < 0) frm.rpoint.style.color='#FFFF00'; //---- ½ºÅİ¿À¹ö
+
+
+
+	myskillpoint = parseInt(Math.round((lv-9)/2));
+
+	myskillpoint += q_add_spoint; // Äù½ºÆ® ½ºÅ³Æ÷ÀÎÆ® Ãß°¡
+
+	if(myskillpoint<=0)myskillpoint=0;
+
+	frm.skill_point.value = myskillpoint;
+
+	skill_point();
+
+
+	// Health Point
+	//#### »ı¸í·Â #### (·¹º§*2.1) + (Èû*0.6) + (°Ç°­*2.2)-5
+
+	basic_blood = (lv*1.8) + (st*0.3) + (he*2.1) ; 
+
+	tblood = parseInt(basic_blood + changejob2 + addbloodmix + addblood_amulet + addblood_ring + q_add_blood) ;
+
+	frm.tblood.value = tblood; // ÃÑ »ı¸í·Â
+
+
+	//Mana Point
+	//#### ±â·Â #### (·¹º§*0.9)+(Á¤½Å*2.7)+¾Æ¹ÄÀÇ Ãß°¡ ±â·Â
+
+	mental_basic = (lv*0.6)+(me*2.2);//±âº» ±â·Â°è»ê
+
+	mental_amulet = Number(frm.mental_amulet.value);//¾Æ¹ÄÀÇ Ãß°¡±â·Â
+
+	addmentalmix =  Number(frm.addmentalmix.value) ; // ¾ÆÀÌÅÛ ±â·ÂÃß°¡ ¹Í½º
+
+	tmental = parseInt(mental_basic + mental_amulet + addmentalmix);
+
+	frm.tmental.value=tmental;
+
+
+	//RES point
+	//#### ±Ù·Â #### (·¦*2.3)+(Èû*0.5)+Á¤½Å+(Àç´É*0.5)+(°Ç°­*1.4)+80+Âø¿ëÇÑ ¸µÀÇ Ãß°¡ ±Ù·ÂÀÇ ÇÕ ³ªÀÌÆ® + ÇÇÁöÄÃÆ®·¹ÀÌ´×
+
+	muscular_basic = parseInt((lv*2.3)+(st*0.5)+me+(ag*0.5)+(he*1.4)+80+muscular_ring);
+
+	PhysicalTraining_skill = Number(frm.skill_5.value);//ÇÇÁöÄÃ Æ®·¹ÀÌ´× ´Ü°è
+
+	frm.tmuscular.value= muscular_basic;	
+
+	
+
+	// speed = 1.4 + lvl/180 + talent/150 + health/150 - weight/maxweight
+
+	basic_speed = 1.4 + (lv/150) + (ag/150) + (he/150) ; 
+
+	speed_boot = Number(frm.ms_boots.value)
+
+	tspeed = parseInt(basic_speed + speed_boot) ;
+
+	frm.tspeed.value = tspeed; 
+
+
+
+
+	//Weight
+	//#### ÀÎº¥Åä¸® #### (·¦*3)+(Èû*2)+(°Ç°­*1.5)+60
+
+	inven = parseInt((lv*3)+(st*2)+(he*1.5)+60);
+
+	frm.inven.value = inven;
+
+
+	//Ataque Rating
+	//#### ¸íÁß #### (level * 1.9)+(Talv *1.5)+(Agi*3.1)+(¾Ï¸´ÀÇ ±âº» ¸íÁß+Æ¯È­ ¸íÁß Lv/x)+(¹«±â ¸íÁß+¹«±âÀÇ Æ¯È­ ¸íÁß Lv/x) 
+
+	hitra_am_sp = parseInt(frm.hitra_am_sp.value);	// ¾Ï¸´ Æ¯¸í
+
+	if (hitra_am_sp != 0) hitra_am_sp = parseInt(lv/hitra_am_sp); // ¾Ï¸´ Æ¯¸í °è»ê
+
+	hitrate_basic = parseInt((lv*1.9)+(ag*1.5)+(de*3.1)); // ±âº»°ø½Ä
+
+	hitrate_amlit = parseInt(frm.hitra_am.value) + hitra_am_sp; // ¾Ï¸´ ÀÚÃ¼ ¸íÁß
+
+
+
+	hitrate_weapon = parseInt(frm.hitrate_weapon.value); // ¹«±â ±âº»¸íÁß
+
+	hitrate_added = Number(sd_PhysicalTraining[PhysicalTraining_skill]);
+
+	hitrate_add = parseInt(hitrate_weapon * (hitrate_added / 100));
+
+	hitra_weap_sp = parseInt(frm.hitra_weap_sp.value);	// ¹«±â Æ¯¸í
+
+	if (hitra_weap_sp != 0) hitra_weap_sp = parseInt(lv/hitra_weap_sp); // ¹«±â Æ¯¸í °è»ê
+
+
+
+	frm.thitrate.value = hitrate_basic + hitrate_amlit + hitrate_weapon + hitra_weap_sp + hitrate_add;
+
+
+	//Defense
+	//#### ¹æ¾î #### (·¹º§*1.4)+(Àç´É*0.25)+(¹ÎÃ¸*0.5)+(Âø¿ë ÇÏ°í ÀÖ´Â ¾ÆÀÌÅÛÀÇ ÃÑ ¹æ¾î·ÂÀÇ ÇÕ)
+
+	def_am = parseInt(frm.def_am.value); // ¾Ï¸´ ¹æ¾î
+
+	def_gauntlet = parseInt(frm.def_gauntlet.value); // Àå°© ¹æ¾î
+
+	def_boots = parseInt(frm.def_boots.value); // ºÎÃ÷ ¹æ¾î
+
+	def_shield = parseInt(frm.def_shield.value); // ¹æÆĞ ¹æ¾î
+
+	def_armor = parseInt(frm.def_armor.value); // °©¿Ê ¹æ¾î
+
+
+
+	defence_basic =(lv*1.4)+(ag*0.25)+(de*0.5);
+
+	defence_item = def_am + def_gauntlet + def_boots + def_shield + def_armor;
+
+	tot_defence = parseInt(defence_basic + defence_item);
+
+	frm.tdefence.value = tot_defence;
+
+
+
+
+
+
+
+
+
+	//#### °ø°İ·Â #### 
+
+/*
+
+1.±âº»µ¥¹ÌÁö 2-4 
+
+2.(¹ÎÃ¸+Àç´É)/40Àº ¹Îµ©, ¸Æµ©
+
+  {¾ÆÃÄ, ¾ÆÅ»ÀÇ °æ¿ì´Â (Èû+Àç´É)/40Àº ¹Îµ©, ¸Æµ©}
+
+  {¸ŞÄ«´Ï¼ÇÀÇ °æ¿ì´Â (¹ÎÃ¸+Àç´É)/45´Â ¹Îµ©, ¸Æµ©}
+
+  {¸ÅÁö¼Ç, ÇÁ¸®½ºÆ¼½ºÀÇ °æ¿ì´Â Àç´É/50Àº ¹Îµ©, ¸Æµ©}
+
+3.¹«±â µ¥¹ÌÁö * [1+(Èû/130)]
+
+  {¾ÆÃÄ, ¾ÆÅ»ÀÇ °æ¿ì´Â ¹«±â µ¥¹ÌÁö * [1+(¹ÎÃ¸/130)]} 
+
+  {¸ŞÄ«´Ï¼ÇÀÇ °æ¿ì´Â ¹«±â µ¥¹ÌÁö * [1+(Èû/150)]}
+
+  {¸ÅÁö¼ÇÀÇ °æ¿ì´Â ¹«±â µ¥¹ÌÁö * [1+(Á¤½Å/160)]}
+
+  {ÇÁ¸®½ºÆ¼½ºÀÇ °æ¿ì´Â ¹«±â µ¥¹ÌÁö * [1+(Á¤½Å/180)]}
+
+4.¹«±âÀÇ (ÃÖ¼Ò µ¥¹ÌÁö+ÃÖ´ë µ¥¹ÌÁö)/16 Àº ¹Îµ©.
+
+5.ÁÖ¹«±â±º µ¥¹ÌÁö ·¦/6 ¹Îµ©,¸Æµ©
+
+6.Æ¯È­ °ø°İ·ÂÀº ¸Æµ©¿¡ Àû¿ë  (¿Ïµå, ½ºÅÂÇÁ´Â Æ¯È­ °ø°İ·ÂÀÌ ¾ø½À´Ï´Ù.)
+
+*¿©±â ±îÁö°¡ ÆÄÀÌÅ©, ¸ÅÁö¼Ç, ÇÁ¸®½ºÆ¼½ºÀÇ °ø½ÄÀÔ´Ï´Ù. ±×¸®°í ÆÄÀÌÅÍ, ¾ÆÃÄ, ¾ÆÅ»¶õÅ¸, ¸ŞÄ«´Ï¼Ç, ³ªÀÌÆ® ¶ó¸é 7¹ø±îÁö ÇØ¾ß ÇÕ´Ï´Ù.
+
+7.¾ÆÃÄ, ÆÄÀÌÅÍ, ¾ÆÅ»¶õÅ¸, ¸ŞÄ«´Ï¼Ç, ³ªÀÌÆ® ´Â ½´ÆÃ¸¶½ºÅÍ¸®, ¸á·¹ÀÌ, ½º·ÎÀ®, ¸ŞÄ«´Ğ ¿şÆù, ¼Òµå ¸¶½ºÅÍ¸®¸¦ ¿Ã¸° %¸¸Å­ ¹«±â µ¥¹ÌÁö¿¡ °¡ÁßÇØ¼­ °è»ê. 
+
+*ÆÄÀÌÅÍÀÇ °æ¿ì ½½·¹ÀÌ¾î³ª Å¬·¹ÀÌ¸Ó Ã³·³ Ä® ¾²´Â °ÍÀº ´ç¿¬È÷ 5¹ø ÁÖ¹«±â±º µ¥¹ÌÁö »©°í °è»ê ÇÏ¼Å¾ß ÇÏ°í ½Ç¹ö °°Àº Ã¢ ¾²´Â ºĞÀº 5¹ø ÁÖ¹«±â±º°ú 7¹ø ¸á·¹ÀÌ ¸¶½ºÅÍ¸® »©°í °è»ê ÇÏ¼¼¾ß ÇÕ´Ï´Ù. */
+
+	//Atack Power
+	weapon_attack_min = parseInt(frm.we_at_min.value);
+
+	weapon_attack_max = parseInt(frm.we_at_max.value);
+
+	at_weap_sp = parseInt(frm.at_weap_sp.value);
+
+
+
+	attack_basic_min = 2 + parseInt((ag+de)/50) + parseInt(weapon_attack_min * (1+(de/130))) + parseInt((weapon_attack_min + weapon_attack_max)/16);
+
+	attack_basic_max = 3 + parseInt((ag+de)/45) + parseInt(weapon_attack_max * (1+(de/130)));
+
+	if(frm.main_weap_sp.checked==true){
+
+	attack_basic_min += parseInt(lv/6);
+
+	attack_basic_max += parseInt(lv/6);
+
+	}
+
+	if (at_weap_sp!=0){attack_basic_max += parseInt(lv/at_weap_sp) ;}
+
+	
+
+	weapon_M_skill = Number(frm.skill_2.value); // ¼Òµå ¸¶½ºÅÍ¸® ´Ü°è
+
+	if (weapon_M_skill>0)
+
+	{
+
+		sd_SwordMastery_added = Number(sd_SwordMastery[weapon_M_skill]); // ¼Òµå ¸¶½ºÅÍ¸® °¡Áß % °ª 
+
+		attack_basic_min += parseInt(weapon_attack_min*(sd_SwordMastery_added/100));
+
+		attack_basic_max += parseInt(weapon_attack_max*(sd_SwordMastery_added/100));
+
+	}
+
+	xtra_bonus =  parseInt((attack_basic_max+attack_basic_min)/20.0);
+
+	if (force>6){attack_basic_max += xtra_bonus ; attack_basic_min += xtra_bonus ;}
+
+	attack_basic_maxx = attack_basic_max + f_add_degat;
+
+	attack_basic_minx = attack_basic_min + f_add_degat;
+
+	frm.tattack.value=attack_basic_minx + "-"+ attack_basic_maxx;
+
+
+
+	//#### Èí¼ö #### {(Èû+Àç´É)/40} + {·¹º§/10} + {ÃÑ ¹æ¾î/100} + {¾ÆÀÌÅÛÀÇ ÃÑ Èí} + {1(:º¸³Ê½ºÈí)}
+
+	/*
+
+	*Èí.
+
+
+
+	1.(Èû+Àç´É)/40
+
+	2.·¦/10
+
+	3.ÃÑ ¹æ¾î/100
+
+	4.¾ÆÀÌÅÛÀÇ ÃÑ Èí
+
+	5.º¸³Ê½º Èí +1
+
+	6.ÈíÀÌ ÀÖ´Â Àåºñ Áß¿¡¼­ ÀÚ±â Æ¯È­ ¾ÆÀÌÅÛÀÇ °æ¿ì 2°³ ÀÌ»ó Âø¿ë½Ã 2ÈíÀÌ ¿À¸§.
+
+	7.ÈíÀÌ ÀÖ´Â Àåºñ Áß¿¡¼­ ¹«Æ¯È­ÀÇ °æ¿ì 2°³´ç 1ÈíÀÌ ¿À¸§.
+
+	*/
+
+	ab_gauntlet = Number(frm.ab_gauntlet.value);
+
+	ab_boots = Number(frm.ab_boots.value);
+
+	ab_shield = Number(frm.ab_shield.value);
+
+	ab_armor = Number(frm.ab_armor.value);
+
+
+
+	titem_ab = ab_gauntlet + ab_boots + ab_shield + ab_armor;//frm. //  ¾ÆÀÌÅÛÀÇ ÃÑÈí.;
+
+	tabsorption = parseInt(((st+ag)/40) + (lv/10) + (tot_defence/100) + (titem_ab) + 1 );
+
+	frm.tabsorption.value = tabsorption;
+
+
+
+
+
+
+
+	//#### ½ºÅ³ #### 
+
+	double_crash_skill_point = Number(frm.skill_4.value);	// ½ºÅ³Æ÷ÀÎÆ®
+
+	brandash_skill_point = Number(frm.skill_6.value);	// ½ºÅ³Æ÷ÀÎÆ®
+
+	grand_cross_skill_point = Number(frm.skill_12.value);	// ½ºÅ³Æ÷ÀÎÆ®
+
+
+
+	frm.skd_all_double_crash.value='';
+
+	frm.skd_times_double_crash.value='';
+
+	frm.skd_all_brandash.value='';
+
+	frm.skd_times_brandash.value='';
+
+	frm.skd_all_grand_cross.value='';
+
+	frm.skd_times_grand_cross.value='';
+
+
+
+	DC_ADD = sd_DoubleCrash[double_crash_skill_point];
+
+	BR_ADD = sd_Brandash[brandash_skill_point];
+
+	GC_ADD = sd_GrandCross[grand_cross_skill_point];
+
+
+
+	double_crash_min = attack_basic_min + parseInt(attack_basic_min*(DC_ADD/100)); //
+
+	double_crash_max = attack_basic_max + parseInt(attack_basic_max*(DC_ADD/100)); //
+
+	brandash_min = attack_basic_min + parseInt(attack_basic_min*(BR_ADD/100)); //
+
+	brandash_max = attack_basic_max + parseInt(attack_basic_max*(BR_ADD/100)); //
+
+	grand_cross_min = attack_basic_min + parseInt(attack_basic_min*(GC_ADD/100)); //
+
+	grand_cross_max = attack_basic_max + parseInt(attack_basic_max*(GC_ADD/100)); //
+
+
+
+	if(double_crash_skill_point > 0){
+
+		frm.skd_all_double_crash.value = double_crash_min + "-" + double_crash_max;
+
+		cnt_DC_use = parseInt(tmental / sd_DoubleCrashMental[double_crash_skill_point]);
+
+		mental_DC_remain = tmental % sd_DoubleCrashMental[double_crash_skill_point];
+
+		frm.skd_times_double_crash.value = cnt_DC_use + ' (' + sd_DoubleCrashMental[double_crash_skill_point] + ',' + mental_DC_remain + ')';
+
+		}
+
+	if(brandash_skill_point > 0){
+
+		frm.skd_all_brandash.value = brandash_min + "-" + brandash_max;
+
+		cnt_BR_use = parseInt(tmental / sd_BrandashMental[brandash_skill_point]);
+
+		mental_BR_remain = tmental % sd_BrandashMental[brandash_skill_point];
+
+		frm.skd_times_brandash.value = cnt_BR_use + ' (' + sd_BrandashMental[brandash_skill_point] + ',' + mental_BR_remain + ')';
+
+		}
+
+	if(grand_cross_skill_point > 0){
+
+		frm.skd_all_grand_cross.value = grand_cross_min + "-" + grand_cross_max;
+
+		cnt_GC_use = parseInt(tmental / sd_GrandCrossMental[grand_cross_skill_point]);
+
+		mental_GC_remain = tmental % sd_GrandCrossMental[grand_cross_skill_point];
+
+		frm.skd_times_grand_cross.value = cnt_GC_use + ' (' + sd_GrandCrossMental[grand_cross_skill_point] + ',' + mental_GC_remain + ')';
+
+		}
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+function chk(obj){
+
+	lv = frm.level.value;
+
+
+
+	obj.value="0";
+
+	if(obj.checked==true){obj.value="15";}
+
+
+
+	if(lv <40){alert("Quest lvl 40: you didn't reach this lvl.^^ (quest skill tier 3)");obj.checked=false; frm.level.focus();return;}
+
+
+
+	go();
+
+}
+
+
+
+function questchk(){
+
+
+
+	quest = Number(frm.quest.value);
+
+	switch(quest) { 
+
+		case 30 :  if(lv<30){alert("Quest lvl 30: you didn't reach this lvl^^"); frm.quest.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 55 :  if(lv<55){alert("Quest lvl 55: you didn't reach this lvl^^"); frm.quest.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 70 :  if(lv<70){alert("Quest lvl 70: you didn't reach this lvl^^"); frm.quest.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 80 :  if(lv<80){alert("Quest lvl 80: you didn't reach this lvl^^"); frm.quest.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 85 :  if(lv<85){alert("Quest lvl 85: you didn't reach this lvl^^"); frm.quest.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 90 :  if(lv<90){alert("Quest lvl 90: you didn't reach this lvl^^"); frm.quest.selectedIndex=0; frm.level.focus(); return;} break;  
+
+	}  
+
+
+
+	go();
+
+}
+
+function forcechk(){
+
+
+
+	force = Number(frm.force.value);
+
+	switch(force) { 
+
+		case 1 :  if(lv>19){alert("Lucidy Force requiert lvl 1-19: you don't have this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 2 :  if(lv>29){alert("Sereno Force requiert lvl 1-29: you don't have this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 3 :  if(lv>39){alert("Fadeo Force requiert lvl 1-39: you don't have this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 4 :  if(lv>49){alert("Sparky Force requiert lvl 1-49: you don't have this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 5 :  if(lv<50){alert("Raident Force requiert lvl 50: you didn't reach this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 6 :  if(lv<50){alert("Transparo Force requiert lvl 50: you didn't reach this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 7 :  if(lv<50){alert("Murky Force requiert lvl 50: you didn't reach this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+		case 8 :  if(lv<50){alert("Devine Force requiert lvl 50: you didn't reach this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+		
+		case ç :  if(lv<50){alert("Devine Force requiert lvl 50: you didn't reach this lvl^^"); frm.force.selectedIndex=0; frm.level.focus(); return;} break;  
+
+	} 
+
+
+
+	go();
+
+}
+
+
+
+
+
+function chkskn(obj){
+
+	skn = obj.value;
+
+	if (skn>10)
+
+	{
+
+		obj.value='10';
+
+	}
+
+	chkskdn();
+
+	go();
+
+}
+
+function chkskdn(){
+
+	for(i=12; i>0; i--){
+
+		myOBJ = eval("frm.skill_"+i);
+
+		myV = myOBJ.value;
+
+		if (myV>0)break;
+
+	}
+
+
+
+	for (j = i-1; j > 0 ; j--)
+
+	{
+
+		myV = eval("frm.skill_"+j+".value");
+
+		if(myV == 0){eval("frm.skill_"+j+".value='1';")}
+
+	}
+
+}
+
+
+
+function uppoint(idx){
+
+	idx = Number(idx);
+
+	lv = frm.level.value;
+
+	myPoint = Number(eval("frm.skill_"+idx+".value"));
+
+	//if(idx > 8 && lv < 40){alert("40 ÀÌ»ó ·¾À» Âï¾î(^^)ÁÖ¼¼¿ä"); frm.level.focus(); return;}
+
+	if(myPoint < 10){
+
+		myPoint += 1;
+
+		eval("frm.skill_"+idx+".value=myPoint");
+
+		} 
+
+	chkskdn();
+
+	go();
+
+}
+
+function chkLS(obj){
+
+	for (i = obj; i = 0 ; i--)
+
+	{
+
+		myV = eval("frm.skill_"+obj+".value");
+
+		if(myV == 0){eval("frm.skill_"+obj+".value=='1';")}
+
+	}
+
+}
+
+
+
+
+
+function downpoint(idx){
+
+	myPoint = Number(eval("frm.skill_"+idx+".value"));
+
+	if(myPoint > 0){
+
+		myPoint -= 1;
+
+		eval("frm.skill_"+idx+".value=myPoint");
+
+		} 
+
+		chkskdn();
+
+		go();
+
+}
+
+
+
+function skill_point(){
+
+	myUsedpoint = Number(frm.skill_point.value);
+
+	for(i = 1; i <= 12; i++){
+
+		myUsedpoint -= (Number(eval("frm.skill_"+i+".value")));
+
+	}
+
+	frm.skill_point_remain.value = myUsedpoint;
+
+}
+
+
+
+function AGing(mode){
+
+	myPoint = Number(frm.mental_aging.value);
+
+	if(mode == 'up' && myPoint < 10)myPoint += 1;
+
+	if(mode == 'down' && myPoint > 0)myPoint -=1;
+
+	frm.mental_aging.value = myPoint;
+
+	go();
+
+}
+
+
+
+function SpHit(mode){
+
+	myPoint = Number(frm.hitra_am_sp.value);
+
+	if(mode == 'up' && myPoint < 3)myPoint += 1;
+
+	if(mode == 'down' && myPoint > 0)myPoint -=1;
+
+	frm.hitra_am_sp.value = myPoint;
+
+	go();
+
+}
+
+
+
+function SpHitWeap(mode){
+
+	myPoint = Number(frm.hitra_weap_sp.value);
+
+	if(mode == 'up' && myPoint < 3)myPoint += 1;
+
+	if(mode == 'down' && myPoint > 0)myPoint -=1;
+
+	frm.hitra_weap_sp.value = myPoint;
+
+	go();
+
+}
+
+
+
+function SpActWeap(mode){
+
+	myPoint = Number(frm.at_weap_sp.value);
+
+	if(mode == 'up' && myPoint < 7)myPoint += 1;
+
+	if(mode == 'down' && myPoint == 3)myPoint = 0;
+
+	if(mode == 'down' && myPoint > 3)myPoint -=1;
+
+	if(mode == 'up' && myPoint < 3)myPoint = 3;
+
+	frm.at_weap_sp.value = myPoint;
+
+	go();
+
+}
+
+
+
+
+
+
+
+//-------------------- ¿ÀÅä ÅÜ °ü·Ã ÀÚ¹Ù½ºÅ©¸³Æ®
+
+
+
+var isNN = (navigator.appName.indexOf("Netscape")!=-1);
+
+
+
+function autoTab(input,len, e) {
+
+        var keyCode = (isNN) ? e.which : e.keyCode; 
+
+        var filter = (isNN) ? [0,8,9] : [0,8,9,16,17,18,37,38,39,40,46];
+
+        if(input.value.length >= len && !containsElement(filter,keyCode)) {
+
+        input.value = input.value.slice(0, len);
+
+        input.form[(getIndex(input)+1) % input.form.length].focus();
+
+}
+
+
+
+function containsElement(arr, ele) {
+
+        var found = false, index = 0;
+
+        while(!found && index < arr.length)
+
+        if(arr[index] == ele)
+
+        found = true;
+
+        else
+
+        index++;
+
+        return found;
+
+}
+
+
+
+function getIndex(input) {
+
+        var index = -1, i = 0, found = false;
+
+        while (i < input.form.length && index == -1)
+
+        if (input.form[i] == input)index = i;
+
+        else i++;
+
+        return index;
+
+        }
+
+return true;
+
+}
+
+
+

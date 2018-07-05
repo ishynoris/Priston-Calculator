@@ -4,17 +4,28 @@ import Script from '../assets/js/Script';
 import IBonus from '../interfaces/IBonus';
 import IChar from '../interfaces/IChar';
 import ICharacterStatus from '../interfaces/ICharacterStatus';
-import IQuest from '../interfaces/IQuest';
+import IItem from '../interfaces/IItem';
 import IStatusInput from '../interfaces/IStatusInput';
 import IStatusResult from '../interfaces/IStatusResult';
+import CharSelect from './CharSelect';
 import Quests from './Quests';
+import Result from './Result';
+import SetItem from './SetItem';
+import ShitftEquip from './ShitftEquip';
 import Skills from './Skills';
 import Status from './Status';
+import Title from './Title';
 
 interface ICharDetail {
-    quests: IQuest[],
-    onCalculateResult: (result: IStatusResult) => void,
-};
+    onCharChanged?: (char: IChar | undefined) => void
+}
+const radioTitles = ['Arma', 'Escudo', 'Orbital'];
+const radios = {
+    indexChecked: 0,
+    lastIndex: radioTitles.length - 1,
+    name: 'Status',
+    titles: radioTitles,
+}
 
 class CharDetail extends React.Component<ICharDetail>{
 
@@ -25,15 +36,23 @@ class CharDetail extends React.Component<ICharDetail>{
     private status: Status | null;
     private skills: Skills | null;
     private quests: Quests | null;
+	private result: Result | null;
+    private itensKit: SetItem | null;
+    private itensPri: SetItem | null;
+    private itensSet: SetItem | null;
 
     constructor(props: ICharDetail) {
         super(props);
         this.bonus = [];
         this.inputs = [];
+        this.status = null;
+        this.skills = null;
+        this.quests = null;
         this.state = { hasChar: false };
     }
 
-    public setChar(newChar: IChar) {
+    public setChar(newChar: IChar | undefined) {
+        
         this.char = newChar;
         if (!this.state.hasChar) {
             this.setState({ hasChar: true });
@@ -42,40 +61,13 @@ class CharDetail extends React.Component<ICharDetail>{
         this.updateChar();
     }
 
-    public addInputValues(inputs: IStatusInput[]) {
-        this.inputs = this.inputs.concat(inputs);
-        console.log(this.inputs);
-    }
-
-    public itemChanged(title: string, newValue: number, oldValue: number) {
-        const attrCod = Script.getCodByAttr(title);
-        if (attrCod === undefined) {
-            return;
-        }
-
-        const contains = this.bonus.find(b => {
-            return b.cod === attrCod;
-        })
-        if (contains === undefined) {
-            this.bonus.push({ cod: attrCod, value: newValue });
-        } else {
-            const index = this.bonus.indexOf(contains);
-            const val = newValue > oldValue ? (newValue - oldValue) : (oldValue - newValue) * -1;
-            this.bonus[index].value += val;
-        }
-        const results = this.calculate(this.char);
-        if (this.props.onCalculateResult !== undefined) {
-            this.props.onCalculateResult(results);
-        }
-    }
-
     public render() {
-
-        if (this.char === undefined) {
-            return null;
-        }
-        return (
-            <div>
+        const chars: IChar[] = Script.getChars();
+        const details = () => {
+            if (this.char === undefined){
+                return null;
+            }
+            return <div>
                 <Status
                     ref={ref => this.status = ref}
                     onStatusChanged={this.onStatusChanged} />
@@ -84,8 +76,42 @@ class CharDetail extends React.Component<ICharDetail>{
                     onSkillChanged={this.onSkillChanged} />
                 <Quests
                     ref={ref => this.quests = ref}
-                    quests={this.props.quests}
                     onQuestsChanged={this.onQuestChanged} />
+            </div>
+        }
+        return (
+            <div className="row">
+                <div className="block col-lg-2">
+                    <Title title="Personagens" />
+                    <CharSelect
+                        title={"Selecione um personagem:"}
+                        name={"Personagens"}
+                        chars={chars} 
+                        onCharSelect={this.onCharSelect}/>
+                    { details() }
+                </div>
+                <div className="block col-lg-6">
+                    <Title title="Equipamentos" />
+                    <SetItem 
+                        ref={ref => this.itensKit = ref}
+                        onItemChanged={this.itemChanged} />
+                    <SetItem 
+                        ref={ref => this.itensSet = ref}
+                        onItemChanged={this.itemChanged} />
+                    <ShitftEquip
+                        name={radios.name}
+                        titles={radios.titles}
+                        default={radios.indexChecked}
+                        onSelectedCallback={this.onSelectEquip} />
+                    <SetItem 
+                        ref={ref => this.itensPri = ref}
+                        onItemChanged={this.itemChanged} 
+                        onInputValues={this.addInputValues} />
+                </div>
+                <div className="col-lg-2">
+                    <Title title="Resultados" />
+                    <Result ref={ref => this.result = ref} />
+                </div>
             </div>
         );
     }
@@ -98,32 +124,38 @@ class CharDetail extends React.Component<ICharDetail>{
         this.updateChar();
     }
 
-    private updateChar() {
-
-        const char = this.char;
-        if (char === undefined) {
-            this.props.onCalculateResult(Script.defResult());
-            return;
-        }
+	private updateChar() {
         if (this.status !== null) {
-            this.status.setStatus(char.stats);
+            this.status.setStatus(this.char === undefined ? undefined : this.char.stats);
         }
-
         if (this.skills !== null) {
-            this.skills.setSkills(char.skills);
+            this.skills.setSkills(this.char === undefined ? [] : this.char.skills);
         }
-
         if (this.quests !== null) {
-            this.quests.setQuest(0);
+            this.quests.setQuest(this.char === undefined ? [] : Script.getQuests());
         }
+        if (this.itensKit !== null) {
+			this.itensKit.initState(Script.getSetByName(Script.sets.kit));
+		}
+		if (this.itensSet !== null) {
+			this.itensSet.initState(Script.getSetByName(Script.sets.set));
+		}
+		if (this.itensPri !== null) {
+			const primario = Script.getSetByName(Script.sets.primario);
+			const item = Script.getItem(radios.titles[radios.indexChecked]);
+			if (item !== undefined) {
+				primario.push(item);
+			}
+			this.itensPri.initState(primario);
+		}
+        this.setResult();
     }
-
+    
     private onStatusChanged = (charStats: ICharacterStatus) => {
 
         if (this.char !== undefined) {
             this.char.stats = charStats;
-            const result = this.calculate(this.char);
-            this.props.onCalculateResult(result);
+            this.setResult();
         }
     }
 
@@ -146,7 +178,9 @@ class CharDetail extends React.Component<ICharDetail>{
                     const val = inputValue(names.arma + "-" + cod);
                     asNumber += percent ? val * value / 100 : val;
                     result.AR.value = asNumber;
-                    this.props.onCalculateResult(result);
+                    if(this.result !== null) {
+                        this.result.setResult(result);
+                    }
                 }
             break;
         }
@@ -184,6 +218,74 @@ class CharDetail extends React.Component<ICharDetail>{
         })
         this.status.setQuestBonus(newStats);
         return true;
+    }
+    
+    private onCharSelect = (name: string, index: number, char: IChar | undefined): boolean => {
+        const charsDone = [Script.chars.Arqueira]
+      
+        const charName = char === undefined ? undefined : char.name;
+        if (charName !== undefined && charsDone.indexOf(charName) < 0){
+            alert ("Ainda não é possível calcular a build para  " + charName + ". :("
+                + "\nEstamos trabalhando nisso. :)");
+            return false;
+        }
+        if (this.props.onCharChanged !== undefined) {
+            this.props.onCharChanged(char);
+        }
+		const newChar = Script.getCharDetail(charName);
+		this.setChar(newChar);
+		return true;
+	}
+
+    private itemChanged = (title: string, newValue: number, oldValue: number) => {
+        const attrCod = Script.getCodByAttr(title);
+        if (attrCod === undefined) {
+            return;
+        }
+
+        const contains = this.bonus.find(b => {
+            return b.cod === attrCod;
+        })
+        if (contains === undefined) {
+            this.bonus.push({ cod: attrCod, value: newValue });
+        } else {
+            const index = this.bonus.indexOf(contains);
+            const val = newValue > oldValue ? (newValue - oldValue) : (oldValue - newValue) * -1;
+            this.bonus[index].value += val;
+        }
+        this.setResult();
+    }
+
+    private onSelectEquip = (index: number) => {
+        const item: IItem | undefined = Script.getItem(radios.titles[index]);
+		if (item !== undefined && this.itensPri !== null) {
+			this.itensPri.addItem(item, radios.lastIndex);
+		}
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private addInputValues = (inputs: IStatusInput[]) => {
+        this.inputs = this.inputs.concat(inputs);
+    }
+
+    private setResult = () => {
+        if (this.result !== null) {
+            const result = this.calculate(this.char)
+            this.result.setResult(result);
+        }
     }
 
     private calculate = (char: IChar | undefined): IStatusResult => {
