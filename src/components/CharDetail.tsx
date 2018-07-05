@@ -31,7 +31,7 @@ class CharDetail extends React.Component<ICharDetail>{
 
     public state: { hasChar: boolean }
     private char: IChar | undefined;
-    private bonus: IBonus[];
+    private bonus: { itens: IBonus[], quests: IBonus[], mixes: IBonus[] };
     private inputs: IStatusInput[];
     private status: Status | null;
     private skills: Skills | null;
@@ -43,7 +43,7 @@ class CharDetail extends React.Component<ICharDetail>{
 
     constructor(props: ICharDetail) {
         super(props);
-        this.bonus = [];
+        this.bonus = { itens: [], quests: [], mixes: [] };
         this.inputs = [];
         this.status = null;
         this.skills = null;
@@ -172,7 +172,7 @@ class CharDetail extends React.Component<ICharDetail>{
             case Script.codes.AP: break;
 
             case Script.codes.AR:
-                const result = this.calculate(this.char);
+                const result = this.calculateResults();
                 let asNumber = Number(result.AR.value);
                 if (!isNaN(asNumber)) {
                     const val = inputValue(names.arma + "-" + cod);
@@ -205,6 +205,7 @@ class CharDetail extends React.Component<ICharDetail>{
             return false;
         }
 
+        this.bonus.quests = [];
         questsDone.forEach(q => {
             q.bonus.forEach(b => {
                 if (b.cod === Script.codes.STS) {
@@ -215,11 +216,12 @@ class CharDetail extends React.Component<ICharDetail>{
                     newStats += dif * b.value + b.value;
                 }
                 if (b.cod === Script.codes.HP || b.cod === Script.codes.HPadd) {
-                    newStats += b.value;
+                    this.bonus.quests.push(b);
                 }
             })
         })
         this.status.setQuestBonus(newStats);
+        this.setResult();
         return true;
     }
     
@@ -245,16 +247,17 @@ class CharDetail extends React.Component<ICharDetail>{
         if (attrCod === undefined) {
             return;
         }
-
-        const contains = this.bonus.find(b => {
+        const bItens = this.bonus.itens;
+        const contains = bItens.find(b => {
             return b.cod === attrCod;
         })
         if (contains === undefined) {
-            this.bonus.push({ cod: attrCod, value: newValue });
+            bItens.push({ cod: attrCod, value: newValue });
         } else {
-            const index = this.bonus.indexOf(contains);
-            const val = newValue > oldValue ? (newValue - oldValue) : (oldValue - newValue) * -1;
-            this.bonus[index].value += val;
+            const index = bItens.indexOf(contains);
+            bItens[index].value += newValue > oldValue 
+                ? (newValue - oldValue) 
+                : -(oldValue - newValue);
         }
         this.setResult();
     }
@@ -264,21 +267,7 @@ class CharDetail extends React.Component<ICharDetail>{
 		if (item !== undefined && this.itensPri !== null) {
 			this.itensPri.addItem(item, radios.lastIndex);
 		}
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private addInputValues = (inputs: IStatusInput[]) => {
         this.inputs = this.inputs.concat(inputs);
@@ -286,13 +275,13 @@ class CharDetail extends React.Component<ICharDetail>{
 
     private setResult = () => {
         if (this.result !== null) {
-            const result = this.calculate(this.char)
+            const result = this.calculateResults()
             this.result.setResult(result);
         }
     }
 
-    private calculate = (char: IChar | undefined): IStatusResult => {
-
+    private calculateResults = (): IStatusResult => {
+        const char = this.char;
         if (char === undefined || char.formula === undefined) {
             return Script.defResult();
         }
@@ -317,15 +306,25 @@ class CharDetail extends React.Component<ICharDetail>{
                 + (stats.int) + (RES.fVit * stats.vit) + RES.add),
         }
 
-        this.bonus.forEach(b => {
-            switch (b.cod) {
-                case Script.itens.AR.cod: values.AR += b.value; break;
-                case Script.itens.DEF.cod: values.DEF += b.value; break;
-                case Script.itens.ABS.cod: values.ABS += b.value; break;
-                case Script.itens.HPadd.cod: values.HP += b.value; break;
-                case Script.itens.MPadd.cod: values.MP += b.value; break;
-                case Script.itens.RESadd.cod: values.RES += b.value; break;
+        const applyBonus = (bonus: IBonus) => {
+            switch (bonus.cod) {
+                case Script.itens.AR.cod: values.AR += bonus.value; break;
+                case Script.itens.DEF.cod: values.DEF += bonus.value; break;
+                case Script.itens.ABS.cod: values.ABS += bonus.value; break;
+                case Script.itens.HP.cod: values.HP += bonus.value; break;
+                case Script.itens.HPadd.cod: values.HP += bonus.value; break;
+                case Script.itens.MP.cod: values.MP += bonus.value; break;
+                case Script.itens.MPadd.cod: values.MP += bonus.value; break;
+                case Script.itens.RES.cod: values.RES += bonus.value; break;
+                case Script.itens.RESadd.cod: values.RES += bonus.value; break;
             }
+        }
+        console.log(this.bonus.quests);
+        this.bonus.quests.forEach(b => {
+            applyBonus(b);
+        })
+        this.bonus.itens.forEach(b => {
+            applyBonus(b);
         })
         return Script.defResult(values);
     }
