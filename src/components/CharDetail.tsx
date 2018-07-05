@@ -214,6 +214,9 @@ class CharDetail extends React.Component<ICharDetail>{
                     const dif = level - q.level;
                     newStats += dif * b.value + b.value;
                 }
+                if (b.cod === Script.codes.HP || b.cod === Script.codes.HPadd) {
+                    newStats += b.value;
+                }
             })
         })
         this.status.setQuestBonus(newStats);
@@ -225,8 +228,8 @@ class CharDetail extends React.Component<ICharDetail>{
       
         const charName = char === undefined ? undefined : char.name;
         if (charName !== undefined && charsDone.indexOf(charName) < 0){
-            alert ("Ainda não é possível calcular a build para  " + charName + ". :("
-                + "\nEstamos trabalhando nisso. :)");
+            alert ("Ainda não é possível calcular a build para " + charName + ". :("
+                + "\nMas estamos trabalhando nisso. :)");
             return false;
         }
         if (this.props.onCharChanged !== undefined) {
