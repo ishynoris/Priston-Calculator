@@ -20,17 +20,6 @@ class InputText extends React.Component<IInputText>{
         this.state = { value: "" }
     }
 
-    public onChanged = (e: React.FormEvent<HTMLInputElement>) => {
-        let val = Number(e.currentTarget.value);
-        if (!isNaN(val)) {
-            if(this.props.minValue !== undefined){
-                const minValue = this.props.minValue;
-                val = val > minValue ? val : minValue;
-            }
-            this.setState({ value: val.toString() });
-        }
-    }
-
     public asNumber(): number {
         return Number(this.state.value);
     }
@@ -39,21 +28,26 @@ class InputText extends React.Component<IInputText>{
         this.setState({ value: newValue });
     }
 
-    public renderValue() {
-        let classes = "value";
-        if (this.props.disable) {
-            classes = "disable";
-            const toNumber = Number(this.state.value);
-            const value = isNaN(toNumber) ? this.state.value : toNumber;
-            if (value < 0){
-                classes += " invalid";
-            }
-            return <label className={classes}>{value}</label>
-        }
-        return <input className={classes} type="number" value={this.state.value} onChange={this.onChanged} />
-    }
-
     public render() {
+
+        const renderValue = () => {
+            let classes = "value";
+            if (this.props.disable) {
+                classes = "disable";
+                const toNumber = Number(this.state.value);
+                const value = isNaN(toNumber) ? this.state.value : toNumber;
+                if (value < 0){
+                    classes += " invalid";
+                }
+                return <label className={classes}>{value}</label>
+            }
+            return <input 
+                className={classes} 
+                type="number" 
+                value={this.state.value} 
+                onChange={this.onChanged}
+                onBlur={this.onBlur} />
+        }
 
         return (
             <div className="row align-items-center">
@@ -61,7 +55,7 @@ class InputText extends React.Component<IInputText>{
                     <TitleSmall title={this.props.title} />
                 </div>
                 <div className="col-md-5">
-                    {this.renderValue()}
+                    {renderValue()}
                 </div>
             </div>
         );
@@ -77,6 +71,21 @@ class InputText extends React.Component<IInputText>{
         const disable = this.props.disable === undefined ? false : this.props.disable;
         if (!disable && !isNaN(newValue) && !isNaN(oldValue)) {
             this.props.onChangeValue(this.props.title, newValue, oldValue);
+        }
+    }
+
+    private onChanged = (e: React.FormEvent<HTMLInputElement>) => {
+        this.setState({ value: e.currentTarget.value });
+    }
+    
+    private onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        let val = Number(e.currentTarget.value);
+        if (!isNaN(val)) {
+            if(this.props.minValue !== undefined){
+                const minValue = this.props.minValue;
+                val = val > minValue ? val : minValue;
+            }
+            this.setState({ value: val.toString() });
         }
     }
 }

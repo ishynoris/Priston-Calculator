@@ -1,6 +1,7 @@
 .value, .disable{
     font-size: .7em;
     font-weight: 700;
+    height: 90%;
     width: 100%;
 }
 .value{
