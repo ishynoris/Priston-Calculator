@@ -303,7 +303,8 @@ class CharDetail extends React.Component<ICharDetail>{
         const f = char.formula;
         const statAttr = getStatsByCode(f.AP.attrFator);
         const minArma = getAttrByCode(Script.codes.APmin);
-        const maxArma = getAttrByCode(Script.codes.APmax);        
+        const maxArma = getAttrByCode(Script.codes.APmax);
+        const maxArmaAdd = getAttrByCode(Script.codes.APadd);
         const passive = 32;
 
         const div: number[] = [];
@@ -315,15 +316,17 @@ class CharDetail extends React.Component<ICharDetail>{
         });
 
         const def = (f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add;
-        const multi = (statAttr === -1 || minArma === 0) ? 0 : (1 / f.AP.fFator * statAttr * minArma);
+        const multi = (statAttr === -1 || minArma === 0) ? 0 : (1 / f.AP.fFator * statAttr);
         const sumAttrs = div.reduce((d, i) => d + i , 0);
+        const maxAdd = maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0;
 
         const values = {
             ABS: Math.trunc((stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
                             + (stats.agi / f.ABS.fAgi) + (def / 100) + f.ABS.add),
-            APmax: 0,
-            APmin: 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc(multi) 
-                        + Math.trunc((minArma + maxArma) / 16) + Math.trunc(minArma * passive / 100),
+            APmax: 6 + (maxArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc(maxAdd)
+                        + Math.trunc(multi * maxArma) + Math.trunc(maxArma * passive / 100),
+            APmin: 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc((minArma + maxArma) / 16)
+                        + Math.trunc(multi * minArma) + Math.trunc(minArma * passive / 100),
             AR: Math.trunc((stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add),
             DEF: Math.trunc(def),
             HP: Math.trunc((f.HP.fLvl * stats.lvl) + (f.HP.fAgi * stats.agi) + (f.HP.fVit * stats.vit) + f.HP.add),
