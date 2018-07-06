@@ -1,5 +1,8 @@
 body{
-    padding-left: 10px;
+    background-image: url('../images/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 .block{
     /*padding: 0 0 0 20px;
@@ -9,12 +12,12 @@ body{
     padding: 1px;
 }
 .title{
-    color: #333;
+    color: #e7e7e7;
     font-size: 1em;
     font-weight: 400;
 }
 .margin-title{
-    margin: 5px 0 -5px 0;
+    margin: 2px 0 -2px 0;
 }
 .small-title{
     font-weight: bold;
@@ -23,10 +26,13 @@ body{
     font-size: 8pt;
 }
 .background{
-    background-color: #8a785b;
+    background-image: url('../images/background-item.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 .outter-border{
-    border: 2px solid #664e41;
+    border: 2px solid #573e26;
 }
 .inner-border{
     border: 1px ridge #55453c;

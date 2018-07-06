@@ -3,28 +3,25 @@ import * as React from 'react';
 interface IAnchors { icon: string, link: string, target: string }
 
 const Footer = (props: {}) => {
-
+    const defaultColor = '#e7e7e7';
     const footer: React.CSSProperties = {
-        padding: '30px 0 20px 0',
+        padding: '20px 0 20px 0',
         textAlign: 'center'
     };
     const label: React.CSSProperties = {
+        color: defaultColor,
         fontFamily: 'Trebuchet Ms',
-        fontSize: '8pt',
-        fontWeight: 'bold',
+        fontSize: '9pt',
     }
     const icons: React.CSSProperties = {
-        color: '#7f453c',
+        color: defaultColor,
         margin: '0 7px 0 7px',
     }
-
     const anchors = ((ancs: IAnchors[]) => {
         return ancs.map((a, i) => {
-            return (
-                <a key={i} style={icons} href={a.link} target={a.target}>
-                    <i className={a.icon} />
-                </a>
-            )
+            return <a key={i} style={icons} href={a.link} target={a.target}>
+                <i className={a.icon} />
+            </a>
         })
     })([
         { icon: 'fab fa-github fa-lg', link: 'https://github.com/ishynoris/Priston-Calculator', target: '__blank' },

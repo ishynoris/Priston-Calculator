@@ -80,7 +80,7 @@ class CharDetail extends React.Component<ICharDetail>{
             </div>
         }
         return (
-            <div className="row">
+            <div className="row" style={{ margin: 0 }}>
                 <div className="block col-lg-2">
                     <Title title="Personagens" />
                     <CharSelect
