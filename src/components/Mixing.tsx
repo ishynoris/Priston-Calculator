@@ -12,12 +12,13 @@ interface IItem {
 
 class Mixing extends React.Component<IItem>{
     
-    public state = {
-        checked: true,
-    }
+    public state: { checked: boolean }
+    private selectMix: Select | null;
 
-    public onChanged = (check: boolean) => {
-        this.setState({checked: check});
+    constructor (props: IItem){
+        super(props)
+        this.state = { checked: true }
+        this.selectMix = null;
     }
 
     public render(){
@@ -33,17 +34,29 @@ class Mixing extends React.Component<IItem>{
             return vals;
         })();
         return <div className="row padding">
-                <div className="col-sm-4">
-                    <CheckBox text={"Mix?"} onChangeCallback={this.onChanged} />
-                </div>
-                <div className="col-sm-8">
-                <Select 
-                    name={this.props.name} 
-                    values={values} 
-                    disabled={this.state.checked}
-                    onSelectedCallback={this.onSelected}/>
-                </div>
+            <div className="col-sm-4">
+                <CheckBox text={"Mix?"} onChangeCallback={this.onChecked} />
             </div>
+            <div className="col-sm-8">
+            <Select 
+                ref={ref => this.selectMix = ref}
+                name={this.props.name} 
+                values={values} 
+                disabled={this.state.checked}
+                onSelectedCallback={this.onSelected}/>
+            </div>
+        </div>
+    }
+
+    private onChecked = (check: boolean) => {
+        
+        if (this.props.onMixSelected !== undefined) {
+            this.props.onMixSelected(this.props.name, undefined);
+        }
+        if (this.selectMix !== null) {
+            this.selectMix.changeValue(0);
+        }
+        this.setState({ checked: check });
     }
 
     private onSelected = (name: string, index: number, value: string): boolean => {
