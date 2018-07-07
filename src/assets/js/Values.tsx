@@ -3,7 +3,8 @@ import IItem from '../../interfaces/IItem';
 
 enum codes {
     ABS, ABSadd, AGI, AP, APmax, APmin, APadd, AR, ARadd, DEF, DEFadd, EP, FOR,
-    HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT
+    HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT,
+    Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton
 }
 
 const itensCode = {
@@ -68,32 +69,32 @@ const itensList = [
 ]
 
 const itensName = {
-    amuleto: 'Amuleto',
-    anel: 'Anel',
-    arma: 'Arma',
-    armadura: 'Armadura',
-    bota: 'Bota',
-    bracel: 'Bracel',
-    escudo: 'Escudo',
-    luva: 'Luva',
-    orbital: 'Orbital',
-    shelton: 'Shelton',
+    amuleto: { cod: codes.Amuleto, title: codes.Amuleto.toString() },
+    anel: { cod: codes.Aneis, title: codes.Aneis.toString() },
+    arma: { cod: codes.Arma, title: codes.Arma.toString() },
+    armadura: { cod: codes.Armadura, title: codes.Armadura.toString() },
+    bota: { cod: codes.Bota, title: codes.Bota.toString() },
+    bracel: { cod: codes.Bracel, title: codes.Bracel.toString() },
+    escudo: { cod: codes.Escudo, title: codes.Escudo.toString() },
+    luva: { cod: codes.Luva, title: codes.Luva.toString() },
+    orbital: { cod: codes.Orbital, title: codes.Orbital.toString() },
+    shelton: { cod: codes.Shelton, title: codes.Shelton.toString() },
 }
 const status = [itensCode.LVL, itensCode.FOR, itensCode.INT, itensCode.TAL, itensCode.AGI, itensCode.VIT, itensCode.STS]
 
 const result = [itensCode.AR, itensCode.AP, itensCode.DEF, itensCode.ABS, itensCode.HP, itensCode.MP, itensCode.RES]
 
 const itens: IItem[] = [
-    { name: itensName.amuleto, item: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
-    { name: itensName.anel, item: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
-    { name: itensName.arma, item: [itensCode.APmin, itensCode.APmax, itensCode.AR, itensCode.APadd, itensCode.ARadd] },
-    { name: itensName.armadura, item: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.bota, item: [itensCode.DEF, itensCode.ABSadd] },
-    { name: itensName.bracel, item: [itensCode.AR, itensCode.DEF, itensCode.ARadd] },
-    { name: itensName.escudo, item: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.luva, item: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.orbital, item: [itensCode.DEF, itensCode.ABSadd] },
-    { name: itensName.shelton, item: [itensCode.KIT], },
+    { name: itensName.amuleto.title, item: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
+    { name: itensName.anel.title, item: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
+    { name: itensName.arma.title, item: [itensCode.APmin, itensCode.APmax, itensCode.AR, itensCode.APadd, itensCode.ARadd] },
+    { name: itensName.armadura.title, item: [itensCode.DEFadd, itensCode.ABSadd] },
+    { name: itensName.bota.title, item: [itensCode.DEF, itensCode.ABSadd] },
+    { name: itensName.bracel.title, item: [itensCode.AR, itensCode.DEF, itensCode.ARadd] },
+    { name: itensName.escudo.title, item: [itensCode.DEFadd, itensCode.ABSadd] },
+    { name: itensName.luva.title, item: [itensCode.DEFadd, itensCode.ABSadd] },
+    { name: itensName.orbital.title, item: [itensCode.DEF, itensCode.ABSadd] },
+    { name: itensName.shelton.title, item: [itensCode.KIT], },
 ]
 
 const values = {

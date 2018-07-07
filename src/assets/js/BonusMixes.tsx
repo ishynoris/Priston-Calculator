@@ -4,7 +4,7 @@ import Values from './Values';
 const codes = Values.codes;
 
 const mixArmadura: IMixes = {
-    item: Values.itensName.armadura,
+    item: Values.itensName.armadura.title,
     type: [
         {   
             bonus: [{ cod: codes.DEF, value: 20 }],
@@ -114,7 +114,7 @@ const mixArmadura: IMixes = {
 };
 
 const mixArma: IMixes = {
-    item: Values.itensName.arma,
+    item: Values.itensName.arma.title,
     type: [
         {
             bonus: [{ cod: codes.AR, value: 50 }],
@@ -232,15 +232,19 @@ const mixArma: IMixes = {
 };
 
 const mixEscudo: IMixes = {
-    item: Values.itensName.escudo,
+    item: Values.itensName.escudo.title,
     type: [
+        {
+            bonus: [{ cod: codes.DEF, value: 10 }],
+            title: 'Defesa +10'
+        },
         {
             bonus: [{ cod: codes.HP, value: 10 }],
             title: 'HP +10'
         },
         {
             bonus: [{ cod: codes.DEF, value: 10, percent: true }],
-            title: '%'
+            title: 'Defesa +10%'
         },
         {
             bonus: [{ cod: codes.DEF, value: 15 }, { cod: codes.ABS, value: 0.3 }],
@@ -252,7 +256,7 @@ const mixEscudo: IMixes = {
         },
         {
             bonus: [{ cod: codes.DEF, value: 10 }, { cod: codes.ABS, value: 0.6 }],
-            title: ' / Absorção +0.6'
+            title: 'Defesa +10 / Absorção +0.6'
         },
         {
             bonus: [{ cod: codes.DEF, value: 20 }, { cod: codes.ABS, value: 0.3 }],
@@ -307,7 +311,7 @@ const mixEscudo: IMixes = {
             title: 'Defesa +60 / Taxa de bloqueio +5%'
         },
         {
-            bonus: [{ cod: codes.ABS, value: 2 }, { cod: codes.HP, value: 20 }, { cod: codes.HP, value: 20 }],
+            bonus: [{ cod: codes.ABS, value: 2 }, { cod: codes.HP, value: 20 }, { cod: codes.MP, value: 20 }],
             title: 'Absorção +2.0 / HP +20 / MP +20'
         },
         {
@@ -318,7 +322,7 @@ const mixEscudo: IMixes = {
 };
 
 const mixOrbital: IMixes = {
-    item: Values.itensName.orbital,
+    item: Values.itensName.orbital.title,
     type: [
         {
             bonus: [{ cod: codes.APmin, value: 1 }],

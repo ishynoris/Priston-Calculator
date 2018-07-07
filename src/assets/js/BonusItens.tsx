@@ -11,7 +11,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.MPadd, value: 0 }, 
             { cod: codes.RESadd, value: 0 }
         ],
-        name: itensName.amuleto
+        name: itensName.amuleto.title
     },
     {
         bonus: [
@@ -19,7 +19,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.MPadd, value: 0 }, 
             { cod: codes.RESadd, value: 0 }
         ],
-        name: itensName.anel
+        name: itensName.anel.title
     },
     {
         bonus: [
@@ -29,7 +29,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.APadd, value: 0 }, 
             { cod: codes.ARadd, value: 0 }, 
         ],
-        name: itensName.arma
+        name: itensName.arma.title
     },
     {
         bonus: [
@@ -38,7 +38,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.DEFadd, value: 0 }, 
             { cod: codes.ABSadd, value: 0 },
         ],
-        name: itensName.armadura
+        name: itensName.armadura.title
     },
     {
         bonus: [
@@ -46,7 +46,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.ABS, value: 0 }, 
             { cod: codes.ABSadd, value: 0 },
         ],
-        name: itensName.bota
+        name: itensName.bota.title
     },
     {
         bonus: [
@@ -54,7 +54,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.DEF, value: 0 }, 
             { cod: codes.ARadd, value: 0 },
         ],
-        name: itensName.bracel
+        name: itensName.bracel.title
     },
     {
         bonus: [
@@ -63,7 +63,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.DEFadd, value: 0 }, 
             { cod: codes.ABSadd, value: 0 },
         ],
-        name: itensName.escudo
+        name: itensName.escudo.title
     },
     {
         bonus: [
@@ -72,7 +72,7 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.DEFadd, value: 0 }, 
             { cod: codes.ABSadd, value: 0 },
         ],
-        name: itensName.luva
+        name: itensName.luva.title
     },
     {
         bonus: [
@@ -80,10 +80,10 @@ const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
             { cod: codes.ABS, value: 0 }, 
             { cod: codes.ABSadd, value: 0 },
         ],
-        name: itensName.orbital
+        name: itensName.orbital.title
     },
     {
-        bonus: [], name: itensName.shelton
+        bonus: [], name: itensName.shelton.title
     },
 ]
 

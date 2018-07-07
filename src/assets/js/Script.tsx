@@ -76,15 +76,15 @@ class Script {
         const itens = Values.itens;
         const names = Script.itensName;
 
-        const kit = [names.amuleto, names.anel, names.shelton];
-        const primario = [names.arma, names.armadura];
-        const set = [names.luva, names.bracel, names.bota];
+        const kit = [names.amuleto.title, names.anel.title, names.shelton.title];
+        const primario = [names.arma.title, names.armadura.title];
+        const set = [names.luva.title, names.bracel.title, names.bota.title];
 
         return itens.filter(i => {
             return name === Script.sets.kit ? existsIn(i.name, kit)
                 : name === Script.sets.primario ? existsIn(i.name, primario)
-                    : name === Script.sets.set ? existsIn(i.name, set)
-                        : false;
+                : name === Script.sets.set ? existsIn(i.name, set)
+                : false;
         });
     }
 

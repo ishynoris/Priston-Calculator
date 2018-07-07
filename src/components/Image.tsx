@@ -22,16 +22,17 @@ class Image extends React.Component<IImage>{
 
     public setImage = () => {
         const item = this.props.item;
-        return item === Values.itensName.amuleto ? Image.images.amuleto
-            : item === Values.itensName.anel ? Image.images.anel
-            : item === Values.itensName.arma ? Image.images.arma
-            : item === Values.itensName.armadura ? Image.images.armadura
-            : item === Values.itensName.bota ? Image.images.bota
-            : item === Values.itensName.bracel ? Image.images.bracel
-            : item === Values.itensName.escudo ? Image.images.escudo
-            : item === Values.itensName.luva ? Image.images.luva
-            : item === Values.itensName.orbital ? Image.images.orbital
-            : item === Values.itensName.shelton ? Image.images.shelton
+        const itensName = Values.itensName
+        return item === itensName.amuleto.title ? Image.images.amuleto
+            : item === itensName.anel.title ? Image.images.anel
+            : item === itensName.arma.title ? Image.images.arma
+            : item === itensName.armadura.title ? Image.images.armadura
+            : item === itensName.bota.title ? Image.images.bota
+            : item === itensName.bracel.title ? Image.images.bracel
+            : item === itensName.escudo.title ? Image.images.escudo
+            : item === itensName.luva.title ? Image.images.luva
+            : item === itensName.orbital.title ? Image.images.orbital
+            : item === itensName.shelton.title ? Image.images.shelton
             : undefined;
     }
 
@@ -59,7 +60,7 @@ class Image extends React.Component<IImage>{
             return null;
         }
 
-        if (this.props.item === Values.itensName.anel) {
+        if (this.props.item === Values.itensName.anel.title) {
             return this.doubleImage(image);
         }
         return this.simpleImage(image);
