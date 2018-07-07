@@ -69,16 +69,16 @@ const itensList = [
 ]
 
 const itensName = {
-    amuleto: { cod: codes.Amuleto, title: codes.Amuleto.toString() },
-    anel: { cod: codes.Aneis, title: codes.Aneis.toString() },
-    arma: { cod: codes.Arma, title: codes.Arma.toString() },
-    armadura: { cod: codes.Armadura, title: codes.Armadura.toString() },
-    bota: { cod: codes.Bota, title: codes.Bota.toString() },
-    bracel: { cod: codes.Bracel, title: codes.Bracel.toString() },
-    escudo: { cod: codes.Escudo, title: codes.Escudo.toString() },
-    luva: { cod: codes.Luva, title: codes.Luva.toString() },
-    orbital: { cod: codes.Orbital, title: codes.Orbital.toString() },
-    shelton: { cod: codes.Shelton, title: codes.Shelton.toString() },
+    amuleto: { cod: codes.Amuleto, title: "Amuleto" },
+    anel: { cod: codes.Aneis, title: "Aneis" },
+    arma: { cod: codes.Arma, title: "Arma" },
+    armadura: { cod: codes.Armadura, title: "Armadura" },
+    bota: { cod: codes.Bota, title: "Bota" },
+    bracel: { cod: codes.Bracel, title: "Bracel" },
+    escudo: { cod: codes.Escudo, title: "Escudo" },
+    luva: { cod: codes.Luva, title: "Luva" },
+    orbital: { cod: codes.Orbital, title: "Orbital" },
+    shelton: { cod: codes.Shelton, title: "Shelton" },
 }
 const status = [itensCode.LVL, itensCode.FOR, itensCode.INT, itensCode.TAL, itensCode.AGI, itensCode.VIT, itensCode.STS]
 
