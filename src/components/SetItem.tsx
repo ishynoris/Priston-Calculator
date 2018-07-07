@@ -1,11 +1,13 @@
 import * as React from 'react';
 
 import IItem from '../interfaces/IItem';
+import IMix from '../interfaces/IMix';
 import IStatusInput from '../interfaces/IStatusInput';
 import Item from './Item';
 
 interface ISetItem { 
     onItemChanged: (title: string, value: number, oldValue: number ) => void,
+    onMixSelected: (name: string, mix: IMix) => void,
     onInputValues?: (inputs: IStatusInput[]) => void,
 }
 
@@ -57,6 +59,7 @@ class SetItem extends React.Component<ISetItem>{
                                 onlyImage={repeated}
                                 onChangeValue={this.onChanged}
                                 onInputsCreated={this.inputs} 
+                                onMixSelected={this.onMixSelected}
 							/>;
                         })
                     }
@@ -84,6 +87,12 @@ class SetItem extends React.Component<ISetItem>{
     private inputs = (inputs: IStatusInput[]) => {
         if (this.props.onInputValues !== undefined) {
             this.props.onInputValues(inputs);
+        }
+    }
+
+    private onMixSelected = (name: string, mix: IMix) => {
+        if (this.props.onMixSelected !== undefined) {
+            this.props.onMixSelected(name, mix);
         }
     }
 }

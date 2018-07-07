@@ -1,11 +1,14 @@
 import * as React from 'react';
 
-import Script from '../assets/js/Script';
 import IMix from '../interfaces/IMix';
 import CheckBox from './CheckBox';
 import Select from './Select';
 
-interface IItem {item: string};
+interface IItem { 
+    name: string, 
+    mixes: IMix[],
+    onMixSelected?: (name: string, mix: IMix | undefined) => void
+};
 
 class Mixing extends React.Component<IItem>{
     
@@ -17,33 +20,38 @@ class Mixing extends React.Component<IItem>{
         this.setState({checked: check});
     }
 
-    public getValues (mixes: IMix[]): Array<{value: string, option: string}>{
-        const values: Array<{value: string, option: string}> = [];
-        mixes.forEach(m => {
-            const value = JSON.stringify(m.bonus);
-            values.push({"value": value, "option": m.title})
-        });
-        return values;
-    }
-
     public render(){
-        
-        const mixes = Script.getMixesByItem(this.props.item);
-        if(mixes === undefined){
+        if(this.props.mixes.length === 0){
             return null;
         }
-
-        const values = this.getValues(mixes.type);
-        return( 
-            <div className="row padding">
+        const values = (() => {
+            const vals: Array<{value: string, option: string}> = [];
+            vals.push({ value: "-", option: "-" });
+            this.props.mixes.forEach(m => {
+                vals.push({ value: JSON.stringify(m.bonus), option: m.title })
+            });
+            return vals;
+        })();
+        return <div className="row padding">
                 <div className="col-sm-4">
                     <CheckBox text={"Mix?"} onChangeCallback={this.onChanged} />
                 </div>
                 <div className="col-sm-8">
-                    <Select name={mixes.item} values={values} disabled={this.state.checked}/>
+                <Select 
+                    name={this.props.name} 
+                    values={values} 
+                    disabled={this.state.checked}
+                    onSelectedCallback={this.onSelected}/>
                 </div>
             </div>
-        )
+    }
+
+    private onSelected = (name: string, index: number, value: string): boolean => {
+        if (this.props.onMixSelected !== undefined) {
+            const mix = index === 0 ? undefined : this.props.mixes[index - 1];
+            this.props.onMixSelected(this.props.name, mix);
+        }
+        return true;
     }
 }
 

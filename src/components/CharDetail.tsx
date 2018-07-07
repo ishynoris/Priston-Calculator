@@ -5,6 +5,7 @@ import IBonus from '../interfaces/IBonus';
 import IChar from '../interfaces/IChar';
 import ICharacterStatus from '../interfaces/ICharacterStatus';
 import IItem from '../interfaces/IItem';
+import IMix from '../interfaces/IMix';
 import IStatusInput from '../interfaces/IStatusInput';
 import IStatusResult from '../interfaces/IStatusResult';
 import CharSelect from './CharSelect';
@@ -31,7 +32,7 @@ class CharDetail extends React.Component<ICharDetail>{
 
     public state: { hasChar: boolean }
     private char: IChar | undefined;
-    private bonus: { itens: IBonus[], quests: IBonus[], mixes: IBonus[] };
+    private bonus: { itens: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
     private inputs: IStatusInput[];
     private status: Status | null;
     private skills: Skills | null;
@@ -94,10 +95,12 @@ class CharDetail extends React.Component<ICharDetail>{
                     <Title title="Equipamentos" />
                     <SetItem 
                         ref={ref => this.itensKit = ref}
-                        onItemChanged={this.itemChanged} />
+                        onItemChanged={this.itemChanged}
+                        onMixSelected={this.mixSelected} />
                     <SetItem 
                         ref={ref => this.itensSet = ref}
-                        onItemChanged={this.itemChanged} />
+                        onItemChanged={this.itemChanged}
+                        onMixSelected={this.mixSelected} />
                     <ShitftEquip
                         name={radios.name}
                         titles={radios.titles}
@@ -105,7 +108,8 @@ class CharDetail extends React.Component<ICharDetail>{
                         onSelectedCallback={this.onSelectEquip} />
                     <SetItem 
                         ref={ref => this.itensPri = ref}
-                        onItemChanged={this.itemChanged} 
+                        onItemChanged={this.itemChanged}
+                        onMixSelected={this.mixSelected} 
                         onInputValues={this.addInputValues} />
                 </div>
                 <div className="col-lg-2">
@@ -261,6 +265,24 @@ class CharDetail extends React.Component<ICharDetail>{
         this.setResult();
     }
 
+    private mixSelected = (name: string, val: IMix | undefined) => {
+        
+        const mixes = this.bonus.mixes;
+        const item = mixes.find(m => {
+            return m.item === name;
+        });
+
+        if (item === undefined && val !== undefined) {
+            mixes.push({ item: name, mix: val });
+        } else if (item !== undefined && val === undefined) {
+            mixes.splice(mixes.indexOf(item), 1);
+        } else if (item !== undefined && val !== undefined) {
+            item.mix = val;
+        }
+        console.log(mixes);
+        this.setResult();
+    }
+
     private onSelectEquip = (index: number) => {
         const item: IItem | undefined = Script.getItem(radios.titles[index]);
 		if (item !== undefined && this.itensPri !== null) {
@@ -348,12 +370,11 @@ class CharDetail extends React.Component<ICharDetail>{
                 case Script.itens.RESadd.cod: values.RES += bonus.value; break;
             }
         }
-        this.bonus.quests.forEach(b => {
-            applyBonus(b);
-        })
-        this.bonus.itens.forEach(b => {
-            applyBonus(b);
-        })
+        this.bonus.mixes.forEach(m => 
+            m.mix.bonus.forEach(b => 
+                applyBonus(b)));
+        this.bonus.quests.forEach(q => applyBonus(q));
+        this.bonus.itens.forEach(i => applyBonus(i));
         return Script.defResult(values);
     }
 }
