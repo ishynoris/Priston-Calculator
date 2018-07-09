@@ -266,7 +266,6 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
     private mixSelected = (name: string, val: IMix | undefined) => {
-        
         const mixes = this.bonus.mixes;
         const item = mixes.find(m => {
             return m.item === name;
@@ -283,8 +282,12 @@ class CharDetail extends React.Component<ICharDetail>{
         this.setResult();
     }
 
-    private onSelectEquip = (index: number) => {
-        const item: IItem | undefined = Script.getItem(radios.titles[index]);
+    private onSelectEquip = (value: string, oldValue?: string) => {
+        
+        if (oldValue !== undefined) {
+            this.mixSelected(oldValue, undefined);
+        }
+        const item: IItem | undefined = Script.getItem(value);
 		if (item !== undefined && this.itensPri !== null) {
 			this.itensPri.addItem(item, radios.lastIndex);
 		}
