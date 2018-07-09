@@ -48,6 +48,12 @@ class Mixing extends React.Component<IItem>{
         </div>
     }
 
+    public componentDidUpdate() {
+        if (this.selectMix !== null) {
+            this.selectMix.changeValue(0);
+        }
+    }
+
     private onChecked = (check: boolean) => {
         
         if (this.props.onMixSelected !== undefined) {
