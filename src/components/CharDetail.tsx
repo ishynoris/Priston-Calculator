@@ -20,7 +20,7 @@ import Title from './Title';
 interface ICharDetail {
     onCharChanged?: (char: IChar | undefined) => void
 }
-const radioTitles = ['Arma', 'Escudo', 'Orbital'];
+const radioTitles = ['Duas mãos', 'Escudo', 'Orbital'];
 const radios = {
     indexChecked: 0,
     lastIndex: radioTitles.length - 1,
@@ -288,8 +288,12 @@ class CharDetail extends React.Component<ICharDetail>{
             this.mixSelected(oldValue, undefined);
         }
         const item: IItem | undefined = Script.getItem(value);
-		if (item !== undefined && this.itensPri !== null) {
-			this.itensPri.addItem(item, radios.lastIndex);
+		if (this.itensPri !== null) {
+            if (item === undefined) {
+                this.itensPri.removeItem(radios.lastIndex);
+            } else {
+                this.itensPri.addItem(item, radios.lastIndex);
+            }
 		}
     }
 

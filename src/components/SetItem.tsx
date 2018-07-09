@@ -35,6 +35,13 @@ class SetItem extends React.Component<ISetItem>{
 
         this.setState({ itens: mItens });
     }
+
+    public removeItem(index?: number) {
+        const mItens = this.state.itens;
+        const position = index !== undefined ? index : mItens.length - 1;
+        mItens.splice(position, 1);
+        this.setState({ itens: mItens });
+    }
     
     public render() {
 
