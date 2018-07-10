@@ -9,12 +9,10 @@ import '../assets/css/App.css';
 class App extends React.Component {
 
 	public render() {
-		return (
-			<div>
-				<CharDetail onCharChanged={this.charChanged}/>
-				<Footer />
-			</div>
-		)
+		return <div>
+			<CharDetail onCharChanged={this.charChanged}/>
+			<Footer />
+		</div>
 	}
 
 	public componentDidMount () {

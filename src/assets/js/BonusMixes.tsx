@@ -2,9 +2,15 @@ import IMixes from '../../interfaces/IMixes';
 import Values from './Values';
 
 const codes = Values.codes;
+const itens = {
+    arma: Values.itensName.arma.title,
+    armadura: Values.itensName.armadura.title,
+    escudo: Values.itensName.escudo.title,
+    orbital: Values.itensName.orbital.title,
+}
 
 const mixArmadura: IMixes = {
-    item: Values.itensName.armadura.title,
+    item: itens.armadura,
     type: [
         {   
             bonus: [{ cod: codes.DEF, value: 20 }],
@@ -44,7 +50,7 @@ const mixArmadura: IMixes = {
         },
         {
             bonus: [{ cod: codes.DEF, value: 10 }, { cod: codes.ABS, value: 1.5 }],
-            title: ' / Absorção +1.5',
+            title: 'Defesa +10 / Absorção +1.5',
         },
         {
             bonus: [{ cod: codes.ABS, value: 2 }],
@@ -114,7 +120,7 @@ const mixArmadura: IMixes = {
 };
 
 const mixArma: IMixes = {
-    item: Values.itensName.arma.title,
+    item: itens.arma,
     type: [
         {
             bonus: [{ cod: codes.AR, value: 50 }],
@@ -232,7 +238,7 @@ const mixArma: IMixes = {
 };
 
 const mixEscudo: IMixes = {
-    item: Values.itensName.escudo.title,
+    item: itens.escudo,
     type: [
         {
             bonus: [{ cod: codes.DEF, value: 10 }],
@@ -322,7 +328,7 @@ const mixEscudo: IMixes = {
 };
 
 const mixOrbital: IMixes = {
-    item: Values.itensName.orbital.title,
+    item: itens.orbital,
     type: [
         {
             bonus: [{ cod: codes.APmin, value: 1 }],

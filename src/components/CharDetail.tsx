@@ -34,21 +34,15 @@ class CharDetail extends React.Component<ICharDetail>{
     private char: IChar | undefined;
     private bonus: { itens: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
     private inputs: IStatusInput[];
-    private status: Status | null;
-    private skills: Skills | null;
-    private quests: Quests | null;
-	private result: Result | null;
-    private itensKit: SetItem | null;
-    private itensPri: SetItem | null;
-    private itensSet: SetItem | null;
+    private detail: { status: Status | null, skills: Skills | null, quests: Quests | null, result: Result | null }
+    private sets: { kit: SetItem | null, pri: SetItem | null, set: SetItem | null }
 
     constructor(props: ICharDetail) {
         super(props);
         this.bonus = { itens: [], quests: [], mixes: [] };
         this.inputs = [];
-        this.status = null;
-        this.skills = null;
-        this.quests = null;
+        this.detail = { status: null, skills: null, quests: null, result: null }
+        this.sets = { kit: null, pri: null, set: null }
         this.state = { hasChar: false };
     }
 
@@ -70,13 +64,13 @@ class CharDetail extends React.Component<ICharDetail>{
             }
             return <div>
                 <Status
-                    ref={ref => this.status = ref}
+                    ref={ref => this.detail.status = ref}
                     onStatusChanged={this.onStatusChanged} />
                 <Skills
-                    ref={ref => this.skills = ref}
+                    ref={ref => this.detail.skills = ref}
                     onSkillChanged={this.onSkillChanged} />
                 <Quests
-                    ref={ref => this.quests = ref}
+                    ref={ref => this.detail.quests = ref}
                     onQuestsChanged={this.onQuestChanged} />
             </div>
         }
@@ -94,11 +88,11 @@ class CharDetail extends React.Component<ICharDetail>{
                 <div className="block col-lg-6">
                     <Title title="Equipamentos" />
                     <SetItem 
-                        ref={ref => this.itensKit = ref}
+                        ref={ref => this.sets.kit = ref}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} />
                     <SetItem 
-                        ref={ref => this.itensSet = ref}
+                        ref={ref => this.sets.set = ref}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} />
                     <ShitftEquip
@@ -107,14 +101,14 @@ class CharDetail extends React.Component<ICharDetail>{
                         default={radios.indexChecked}
                         onSelectedCallback={this.onSelectEquip} />
                     <SetItem 
-                        ref={ref => this.itensPri = ref}
+                        ref={ref => this.sets.pri = ref}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} 
                         onInputValues={this.addInputValues} />
                 </div>
                 <div className="col-lg-2">
                     <Title title="Resultados" />
-                    <Result ref={ref => this.result = ref} />
+                    <Result ref={ref => this.detail.result = ref} />
                 </div>
             </div>
         );
@@ -129,28 +123,28 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
 	private updateChar() {
-        if (this.status !== null) {
-            this.status.setStatus(this.char === undefined ? undefined : this.char.stats);
+        if (this.detail.status !== null) {
+            this.detail.status.setStatus(this.char === undefined ? undefined : this.char.stats);
         }
-        if (this.skills !== null) {
-            this.skills.setSkills(this.char === undefined ? [] : this.char.skills);
+        if (this.detail.skills !== null) {
+            this.detail.skills.setSkills(this.char === undefined ? [] : this.char.skills);
         }
-        if (this.quests !== null) {
-            this.quests.setQuest(this.char === undefined ? [] : Script.getQuests());
+        if (this.detail.quests !== null) {
+            this.detail.quests.setQuest(this.char === undefined ? [] : Script.getQuests());
         }
-        if (this.itensKit !== null) {
-			this.itensKit.initState(Script.getSetByName(Script.sets.kit));
+        if (this.sets.kit !== null) {
+			this.sets.kit.initState(Script.getSetByName(Script.sets.kit));
 		}
-		if (this.itensSet !== null) {
-			this.itensSet.initState(Script.getSetByName(Script.sets.set));
+		if (this.sets.set !== null) {
+			this.sets.set.initState(Script.getSetByName(Script.sets.set));
 		}
-		if (this.itensPri !== null) {
+		if (this.sets.pri !== null) {
 			const primario = Script.getSetByName(Script.sets.primario);
 			const item = Script.getItem(radios.titles[radios.indexChecked]);
 			if (item !== undefined) {
 				primario.push(item);
 			}
-			this.itensPri.initState(primario);
+			this.sets.pri.initState(primario);
 		}
         this.setResult();
     }
@@ -181,8 +175,8 @@ class CharDetail extends React.Component<ICharDetail>{
                     const val = inputValue(names.arma + "-" + cod);
                     asNumber += percent ? val * value / 100 : val;
                     result.AR.value = asNumber;
-                    if(this.result !== null) {
-                        this.result.setResult(result);
+                    if(this.detail.result !== null) {
+                        this.detail.result.setResult(result);
                     }
                 }
             break;
@@ -192,7 +186,7 @@ class CharDetail extends React.Component<ICharDetail>{
 
     private onQuestChanged = (name: string, index: number, value: string): boolean => {
         let newStats = 0;
-        if (this.char === undefined || this.status === null) {
+        if (this.char === undefined || this.detail.status === null) {
             return false;
         }
 
@@ -223,7 +217,7 @@ class CharDetail extends React.Component<ICharDetail>{
                 }
             })
         })
-        this.status.setQuestBonus(newStats);
+        this.detail.status.setQuestBonus(newStats);
         this.setResult();
         return true;
     }
@@ -288,11 +282,11 @@ class CharDetail extends React.Component<ICharDetail>{
             this.mixSelected(oldValue, undefined);
         }
         const item: IItem | undefined = Script.getItem(value);
-		if (this.itensPri !== null) {
+		if (this.sets.pri !== null) {
             if (item === undefined) {
-                this.itensPri.removeItem(radios.lastIndex);
+                this.sets.pri.removeItem(radios.lastIndex);
             } else {
-                this.itensPri.addItem(item, radios.lastIndex);
+                this.sets.pri.addItem(item, radios.lastIndex);
             }
 		}
     }
@@ -302,9 +296,9 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
     private setResult = () => {
-        if (this.result !== null) {
+        if (this.detail.result !== null) {
             const result = this.calculateResults()
-            this.result.setResult(result);
+            this.detail.result.setResult(result);
         }
     }
 
