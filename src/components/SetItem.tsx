@@ -1,14 +1,13 @@
 import * as React from 'react';
 
+import IAttr from '../interfaces/IAttr';
 import IItem from '../interfaces/IItem';
 import IMix from '../interfaces/IMix';
-import IStatusInput from '../interfaces/IStatusInput';
 import Item from './Item';
 
 interface ISetItem { 
-    onItemChanged: (title: string, value: number, oldValue: number ) => void,
+    onItemChanged: (title: string, attr: IAttr, oldValue: number ) => void,
     onMixSelected: (name: string, mix: IMix) => void,
-    onInputValues?: (inputs: IStatusInput[]) => void,
 }
 
 class SetItem extends React.Component<ISetItem>{
@@ -49,54 +48,44 @@ class SetItem extends React.Component<ISetItem>{
         if (itens.length === 0) {
             return null;
         }
+        const titles = (attrs: IAttr[] ) => {
+            const vals: string[] = []
+            attrs.forEach(a => {
+                vals.push(a.title);
+            })
+            return vals;
+        };
         
         const lastsItens: string[] = [];
-        return (
-                <div className="row item-row">
-                    {
-                        itens.map((item, index) => {
-                            const repeated = lastsItens.indexOf(item.name) > -1;
-                            if (!repeated) {
-                                lastsItens.push(item.name);
-                            }
-                            return <Item
-                                key={index}
-                                name={item.name}
-                                titles={this.getTitles(item)}
-                                onlyImage={repeated}
-                                onChangeValue={this.onChanged}
-                                onInputsCreated={this.inputs} 
-                                onMixSelected={this.onMixSelected}
-							/>;
-                        })
+        return <div className="row item-row">
+            {
+                itens.map((item, index) => {
+                    const repeated = lastsItens.indexOf(item.name) > -1;
+                    if (!repeated) {
+                        lastsItens.push(item.name);
                     }
-                </div>
-        );
+                    return <Item
+                        key={index}
+                        name={item.name}
+                        titles={titles(item.attrs)}
+                        onlyImage={repeated}
+                        onChangeValue={this.onChanged}
+                        onMixSelected={this.onMixSelected} />;
+                })
+            }
+        </div>
     }
+
     public shouldComponentUpdate(nextProps: {}, nextState: { itens: IItem[] }) {
         return nextState !== this.state;
     }
 
-    private getTitles = (item: IItem): string[] => {
-        const titles: string[] = [];
-        item.item.forEach(i => {
-            titles.push(i.title);
-        })
-        return titles;
-    }
-
-    private onChanged = (title: string, value: number, oldValue: number) => {
+    private onChanged = (title: string, attr: IAttr, oldValue: number) => {
         if (this.props.onItemChanged !== undefined) {
-            this.props.onItemChanged(title, value, oldValue);
+            this.props.onItemChanged(title, attr, oldValue);
         }
     }
-
-    private inputs = (inputs: IStatusInput[]) => {
-        if (this.props.onInputValues !== undefined) {
-            this.props.onInputValues(inputs);
-        }
-    }
-
+    
     private onMixSelected = (name: string, mix: IMix) => {
         if (this.props.onMixSelected !== undefined) {
             this.props.onMixSelected(name, mix);

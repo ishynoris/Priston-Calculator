@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import Script from '../assets/js/Script';
+import IAttr from '../interfaces/IAttr';
 import IMix from '../interfaces/IMix';
-import IStatusInput from '../interfaces/IStatusInput';
 import Image from './Image'
 import InputText from './InputText';
 import Mixing from './Mixing';
@@ -11,38 +11,20 @@ interface IItem {
     name: string, 
     titles: string[], 
     onlyImage?: boolean
-    onChangeValue?: (title: string, value: number, oldValue: number) => void,
+    onChangeValue?: (title: string, attr: IAttr, oldValue: number) => void,
     onMixSelected?: (cod: string, mix: IMix | undefined) => void,
-    onInputsCreated?: (inputs: IStatusInput[]) => void,
 };
 
 class Item extends React.Component<IItem>{
 
-    private inputs: IStatusInput[];
-    
     constructor (props: IItem){
         super(props);
-        this.inputs = [];
     }
 
     public render() {
-
-        const putAtIndex = (text: string, item: InputText | null, index: number) => {
-            const element = { 
-                element: item,
-                title: this.props.name + "-" + Script.getCodByAttr(text)
-            };
-            if (this.inputs.length <= index) {
-                this.inputs.push(element);
-            } else {
-                this.inputs[index] = element;
-            }
-        }
-        
         const inputs = () => {
             return this.props.titles.map((t, i) => {
                 return <InputText 
-                    ref={ref => putAtIndex(t, ref, i)}
                     key={i} 
                     title={t + ":"} 
                     onChangeValue={this.onChangeValue} />
@@ -72,15 +54,15 @@ class Item extends React.Component<IItem>{
         );
     }
 
-    public componentDidMount () {
-        if(this.props.onInputsCreated !== undefined) {
-            this.props.onInputsCreated(this.inputs);
+    private onChangeValue = (attrName: string, val: number, oldValue: number) => {
+        if(this.props.onChangeValue === undefined){
+            return;
         }
-    }
-
-    private onChangeValue = (title: string, value: number, oldValue: number) => {
-        if(this.props.onChangeValue !== undefined){
-            this.props.onChangeValue(title.replace(":", ""), value, oldValue);
+        attrName = attrName.replace(":", "");
+        const code = Script.getCodByAttr(attrName);
+        if (code !== undefined) {
+            const attr: IAttr = { cod: code, title: attrName, value: val }
+            this.props.onChangeValue(this.props.name, attr, oldValue);
         }
     }
 

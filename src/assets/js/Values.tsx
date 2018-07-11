@@ -1,5 +1,4 @@
 import IItem from '../../interfaces/IItem';
-// import BonusItens from './BonusItens';
 
 enum codes {
     ABS, ABSadd, AGI, AP, APmax, APmin, APadd, AR, ARadd, DEF, DEFadd, EP, FOR,
@@ -8,33 +7,33 @@ enum codes {
 }
 
 const itensCode = {
-    ABS: { cod: codes.ABS, title: "Absorção" },
-    ABSadd: { cod: codes.ABSadd, title: "Absorção (+add)" },
-    AGI: { cod: codes.AGI, title: "Agilidade" },
-    AP: { cod: codes.AP, title: "Poder de Ataque" },
-    APadd: { cod: codes.APadd, title: "Poder de Ataque (+add)" },
-    APmax: { cod: codes.APmax, title: "Poder de Ataque (max)" },
-    APmin: { cod: codes.APmin, title: "Poder de Ataque (min)" },
-    AR: { cod: codes.AR, title: "Taxa de Ataque" },
-    ARadd: { cod: codes.ARadd, title: "Taxa de Ataque (+add)" },
-    DEF: { cod: codes.DEF, title: "Defesa" },
-    DEFadd: { cod: codes.DEFadd, title: "Defesa (+add)" },
-    EP: { cod: codes.EP, title: "Pontos de Elite" },
-    FOR: { cod: codes.FOR, title: "Força" },
-    HP: { cod: codes.HP, title: "HP" },
-    HPadd: { cod: codes.HPadd, title: "HP adicional" },
-    INT: { cod: codes.INT, title: "Inteligência" },
-    KIT: { cod: codes.KIT, title: "'kit-shelton-1'" },
-    LVL: { cod: codes.LVL, title: "Level" },
-    MP: { cod: codes.MP, title: "MP" },
-    MPadd: { cod: codes.MPadd, title: "MP adicional" },
-    RES: { cod: codes.RES, title: "RES" },
-    RESadd: { cod: codes.RESadd, title: "RES adicional" },
-    SP: { cod: codes.SP, title: "Pontos Especiais" },
-    STS: { cod: codes.STS, title: "Status" },
-    STSP: { cod: codes.STSp, title: "Status (bonus)" },
-    TAL: { cod: codes.TAL, title: "Talento" },
-    VIT: { cod: codes.VIT, title: "Vitalidade" },
+    ABS: { cod: codes.ABS, title: "Absorção", value: 0 },
+    ABSadd: { cod: codes.ABSadd, title: "Absorção (+add)", value: 0 },
+    AGI: { cod: codes.AGI, title: "Agilidade", value: 0 },
+    AP: { cod: codes.AP, title: "Poder de Ataque", value: 0 },
+    APadd: { cod: codes.APadd, title: "Poder de Ataque (+add)", value: 0 },
+    APmax: { cod: codes.APmax, title: "Poder de Ataque (max)", value: 0 },
+    APmin: { cod: codes.APmin, title: "Poder de Ataque (min)", value: 0 },
+    AR: { cod: codes.AR, title: "Taxa de Ataque", value: 0 },
+    ARadd: { cod: codes.ARadd, title: "Taxa de Ataque (+add)", value: 0 },
+    DEF: { cod: codes.DEF, title: "Defesa", value: 0 },
+    DEFadd: { cod: codes.DEFadd, title: "Defesa (+add)", value: 0 },
+    EP: { cod: codes.EP, title: "Pontos de Elite", value: 0 },
+    FOR: { cod: codes.FOR, title: "Força", value: 0 },
+    HP: { cod: codes.HP, title: "HP", value: 0 },
+    HPadd: { cod: codes.HPadd, title: "HP adicional", value: 0 },
+    INT: { cod: codes.INT, title: "Inteligência", value: 0 },
+    KIT: { cod: codes.KIT, title: "'kit-shelton-1'", value: 0 },
+    LVL: { cod: codes.LVL, title: "Level", value: 0 },
+    MP: { cod: codes.MP, title: "MP", value: 0 },
+    MPadd: { cod: codes.MPadd, title: "MP adicional", value: 0 },
+    RES: { cod: codes.RES, title: "RES", value: 0 },
+    RESadd: { cod: codes.RESadd, title: "RES adicional", value: 0 },
+    SP: { cod: codes.SP, title: "Pontos Especiais", value: 0 },
+    STS: { cod: codes.STS, title: "Status", value: 0 },
+    STSP: { cod: codes.STSp, title: "Status (bonus)", value: 0 },
+    TAL: { cod: codes.TAL, title: "Talento", value: 0 },
+    VIT: { cod: codes.VIT, title: "Vitalidade", value: 0 },
 }
 
 const itensList = [
@@ -85,16 +84,16 @@ const status = [itensCode.LVL, itensCode.FOR, itensCode.INT, itensCode.TAL, iten
 const result = [itensCode.AR, itensCode.AP, itensCode.DEF, itensCode.ABS, itensCode.HP, itensCode.MP, itensCode.RES]
 
 const itens: IItem[] = [
-    { name: itensName.amuleto.title, item: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
-    { name: itensName.anel.title, item: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
-    { name: itensName.arma.title, item: [itensCode.APmin, itensCode.APmax, itensCode.AR, itensCode.APadd, itensCode.ARadd] },
-    { name: itensName.armadura.title, item: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.bota.title, item: [itensCode.DEF, itensCode.ABSadd] },
-    { name: itensName.bracel.title, item: [itensCode.AR, itensCode.DEF, itensCode.ARadd] },
-    { name: itensName.escudo.title, item: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.luva.title, item: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.orbital.title, item: [itensCode.DEF, itensCode.ABSadd] },
-    { name: itensName.shelton.title, item: [itensCode.KIT], },
+    { name: itensName.amuleto.title, attrs: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
+    { name: itensName.anel.title, attrs: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
+    { name: itensName.arma.title, attrs: [itensCode.APmin, itensCode.APmax, itensCode.AR, itensCode.APadd, itensCode.ARadd] },
+    { name: itensName.armadura.title, attrs: [itensCode.DEFadd, itensCode.ABSadd] },
+    { name: itensName.bota.title, attrs: [itensCode.DEF, itensCode.ABSadd] },
+    { name: itensName.bracel.title, attrs: [itensCode.AR, itensCode.DEF, itensCode.ARadd] },
+    { name: itensName.escudo.title, attrs: [itensCode.DEFadd, itensCode.ABSadd] },
+    { name: itensName.luva.title, attrs: [itensCode.DEFadd, itensCode.ABSadd] },
+    { name: itensName.orbital.title, attrs: [itensCode.DEF, itensCode.ABSadd] },
+    { name: itensName.shelton.title, attrs: [itensCode.KIT], },
 ]
 
 const values = {

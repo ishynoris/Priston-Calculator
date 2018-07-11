@@ -17,11 +17,11 @@ class InputText extends React.Component<IInputText>{
 
     constructor(props: IInputText) {
         super(props);
-        this.state = { value: "" }
+        this.state = { value: props.minValue !== undefined ? props.minValue.toString() : "0" }
     }
 
-    public asNumber(): number {
-        return Number(this.state.value);
+    public getValue(): { title: string, value: number } {
+        return { title: this.props.title, value: Number(this.state.value) };
     }
 
     public setValue(newValue: string) {
@@ -33,12 +33,9 @@ class InputText extends React.Component<IInputText>{
         const renderValue = () => {
             let classes = "value";
             if (this.props.disable) {
-                classes = "disable";
                 const toNumber = Number(this.state.value);
                 const value = isNaN(toNumber) ? this.state.value : toNumber;
-                if (value < 0){
-                    classes += " invalid";
-                }
+                classes = "disable" + (value < 0 ? " invalid" : "");
                 return <label className={classes}>{value}</label>
             }
             return <input 
@@ -61,13 +58,20 @@ class InputText extends React.Component<IInputText>{
         );
     }
 
-    public componentDidUpdate(prevProps: IInputText, prevState: { value: string }) {
+    public componentDidMount() {
+        this.onChangeValue();
+    }
 
+    public componentDidUpdate(prevProps: IInputText, prevState: { value: number }) {
+        this.onChangeValue(prevState.value);
+    }
+
+    private onChangeValue = (oldValue?: number) => {
         if(this.props.onChangeValue === undefined){
             return;
         }
         const newValue = Number(this.state.value);
-        const oldValue = Number(prevState.value);
+        oldValue = oldValue === undefined ? NaN : oldValue;
         const disable = this.props.disable === undefined ? false : this.props.disable;
         if (!disable && !isNaN(newValue) && !isNaN(oldValue)) {
             this.props.onChangeValue(this.props.title, newValue, oldValue);

@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import Script from '../assets/js/Script';
+import IAttr from '../interfaces/IAttr';
 import IBonus from '../interfaces/IBonus';
 import IChar from '../interfaces/IChar';
 import ICharacterStatus from '../interfaces/ICharacterStatus';
 import IItem from '../interfaces/IItem';
 import IMix from '../interfaces/IMix';
-import IStatusInput from '../interfaces/IStatusInput';
 import IStatusResult from '../interfaces/IStatusResult';
 import CharSelect from './CharSelect';
 import Quests from './Quests';
@@ -32,15 +32,15 @@ class CharDetail extends React.Component<ICharDetail>{
 
     public state: { hasChar: boolean }
     private char: IChar | undefined;
-    private bonus: { itens: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
-    private inputs: IStatusInput[];
+    private bonus: { quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
+    private itens: { kit: IItem[], set: IItem[], prim: IItem[] }
     private detail: { status: Status | null, skills: Skills | null, quests: Quests | null, result: Result | null }
     private sets: { kit: SetItem | null, pri: SetItem | null, set: SetItem | null }
 
     constructor(props: ICharDetail) {
         super(props);
-        this.bonus = { itens: [], quests: [], mixes: [] };
-        this.inputs = [];
+        this.bonus = { quests: [], mixes: [] };
+        this.itens = { kit: [], set: [], prim: [] }
         this.detail = { status: null, skills: null, quests: null, result: null }
         this.sets = { kit: null, pri: null, set: null }
         this.state = { hasChar: false };
@@ -64,6 +64,7 @@ class CharDetail extends React.Component<ICharDetail>{
             }
             return <div>
                 <Status
+                    stats={Script.stats}
                     ref={ref => this.detail.status = ref}
                     onStatusChanged={this.onStatusChanged} />
                 <Skills
@@ -103,8 +104,7 @@ class CharDetail extends React.Component<ICharDetail>{
                     <SetItem 
                         ref={ref => this.sets.pri = ref}
                         onItemChanged={this.itemChanged}
-                        onMixSelected={this.mixSelected} 
-                        onInputValues={this.addInputValues} />
+                        onMixSelected={this.mixSelected} />
                 </div>
                 <div className="col-lg-2">
                     <Title title="Resultados" />
@@ -123,6 +123,16 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
 	private updateChar() {
+        const getItens = (names: string[]): IItem[] => {
+            const itens: IItem[] = [];
+            names.forEach(n => {
+                const item = Script.getItem(n);
+                if (item !== undefined) {
+                    itens.push(item);
+                }
+            })
+            return itens;
+        }
         if (this.detail.status !== null) {
             this.detail.status.setStatus(this.char === undefined ? undefined : this.char.stats);
         }
@@ -133,19 +143,20 @@ class CharDetail extends React.Component<ICharDetail>{
             this.detail.quests.setQuest(this.char === undefined ? [] : Script.getQuests());
         }
         if (this.sets.kit !== null) {
-			this.sets.kit.initState(Script.getSetByName(Script.sets.kit));
+            const names = [Script.itensName.amuleto.title, Script.itensName.anel.title];
+            this.itens.kit = getItens(names);
+			this.sets.kit.initState(this.itens.kit);
 		}
 		if (this.sets.set !== null) {
-			this.sets.set.initState(Script.getSetByName(Script.sets.set));
+            const names = [Script.itensName.bracel.title, Script.itensName.luva.title, Script.itensName.bota.title ]
+            this.itens.set = getItens(names)
+			this.sets.set.initState(this.itens.set);
 		}
 		if (this.sets.pri !== null) {
-			const primario = Script.getSetByName(Script.sets.primario);
-			const item = Script.getItem(radios.titles[radios.indexChecked]);
-			if (item !== undefined) {
-				primario.push(item);
-			}
-			this.sets.pri.initState(primario);
-		}
+            const names = [Script.itensName.arma.title, Script.itensName.armadura.title, radios.titles[radios.indexChecked]]
+            this.itens.prim = getItens(names);
+			this.sets.pri.initState(this.itens.prim);
+        }
         this.setResult();
     }
     
@@ -157,7 +168,7 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
     private onSkillChanged = (cod: number, value: number, percent: boolean): boolean => {
-        const names = Script.itensName;
+        /* const names = Script.itensName;
         const inputValue = (name: string) => {
             const input = this.inputs.find(i => {
                 return i.title === name;
@@ -180,7 +191,7 @@ class CharDetail extends React.Component<ICharDetail>{
                     }
                 }
             break;
-        }
+        }*/
         return true;
     }
 
@@ -234,28 +245,20 @@ class CharDetail extends React.Component<ICharDetail>{
         if (this.props.onCharChanged !== undefined) {
             this.props.onCharChanged(char);
         }
-		const newChar = Script.getCharDetail(charName);
-		this.setChar(newChar);
+        const newChar = Script.getCharDetail(charName);
+        this.setChar(newChar);
 		return true;
 	}
 
-    private itemChanged = (title: string, newValue: number, oldValue: number) => {
-        const attrCod = Script.getCodByAttr(title);
-        if (attrCod === undefined) {
-            return;
-        }
-        const bItens = this.bonus.itens;
-        const contains = bItens.find(b => {
-            return b.cod === attrCod;
-        })
-        if (contains === undefined) {
-            bItens.push({ cod: attrCod, value: newValue });
-        } else {
-            const index = bItens.indexOf(contains);
-            bItens[index].value += newValue > oldValue 
-                ? (newValue - oldValue) 
-                : -(oldValue - newValue);
-        }
+    private itemChanged = (title: string, attr: IAttr, oldValue: number) => {
+        
+        const item = this.getItem(title);
+        if (item === undefined) { return };
+        item.attrs.forEach((a, i, t) => {
+            if (a.cod === attr.cod) {
+                t[i] = attr;
+            }
+        });
         this.setResult();
     }
 
@@ -272,7 +275,6 @@ class CharDetail extends React.Component<ICharDetail>{
         } else if (item !== undefined && val !== undefined) {
             item.mix = val;
         }
-        console.log(mixes);
         this.setResult();
     }
 
@@ -291,10 +293,6 @@ class CharDetail extends React.Component<ICharDetail>{
 		}
     }
 
-    private addInputValues = (inputs: IStatusInput[]) => {
-        this.inputs = this.inputs.concat(inputs);
-    }
-
     private setResult = () => {
         if (this.detail.result !== null) {
             const result = this.calculateResults()
@@ -307,9 +305,13 @@ class CharDetail extends React.Component<ICharDetail>{
         if (char === undefined || char.formula === undefined) {
             return Script.defResult();
         }
-        const getAttrByCode = (code: number): number => {
-            const attr = this.bonus.itens.find(b => {
-                return b.cod === code;
+        const getAttrByCode = (itemName: string, code: number): number => {
+            const item = this.getItem(itemName);
+            if (item === undefined) {
+                return 0;
+            }
+            const attr = item.attrs.find(a => {
+                return a.cod === code;
             });
             return attr === undefined ? 0 : attr.value;
         }
@@ -325,9 +327,9 @@ class CharDetail extends React.Component<ICharDetail>{
         const stats = char.stats;
         const f = char.formula;
         const statAttr = getStatsByCode(f.AP.attrFator);
-        const minArma = getAttrByCode(Script.codes.APmin);
-        const maxArma = getAttrByCode(Script.codes.APmax);
-        const maxArmaAdd = getAttrByCode(Script.codes.APadd);
+        const minArma = getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
+        const maxArma = getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
+        const maxArmaAdd = getAttrByCode(Script.itensName.arma.title, Script.codes.APadd);
         const passive = 32;
 
         const div: number[] = [];
@@ -371,12 +373,16 @@ class CharDetail extends React.Component<ICharDetail>{
                 case Script.itens.RESadd.cod: values.RES += bonus.value; break;
             }
         }
-        this.bonus.mixes.forEach(m => 
-            m.mix.bonus.forEach(b => 
-                applyBonus(b)));
+        this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyBonus(b)));
         this.bonus.quests.forEach(q => applyBonus(q));
-        this.bonus.itens.forEach(i => applyBonus(i));
         return Script.defResult(values);
+    }
+
+    private getItem = (name: string) => {
+        const itens = this.itens.kit.concat(this.itens.set).concat(this.itens.prim);
+        return itens.find(i => {
+            return i.name === name;
+        })
     }
 }
 

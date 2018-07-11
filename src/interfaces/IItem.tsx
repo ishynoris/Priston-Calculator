@@ -1,3 +1,5 @@
-interface IItem {name: string, item: Array<{cod: number, title: string}>}
+import IAttr from "./IAttr";
+
+interface IItem { name: string, attrs: IAttr[] }
 
 export default IItem;

@@ -71,29 +71,13 @@ class Script {
         });
         return item === undefined ? undefined : item.cod;
     }
-
-    public static getSetByName(name: string): IItem[] {
-        const itens = Values.itens;
-        const names = Script.itensName;
-
-        const kit = [names.amuleto.title, names.anel.title, names.shelton.title];
-        const primario = [names.arma.title, names.armadura.title];
-        const set = [names.luva.title, names.bracel.title, names.bota.title];
-
-        return itens.filter(i => {
-            return name === Script.sets.kit ? existsIn(i.name, kit)
-                : name === Script.sets.primario ? existsIn(i.name, primario)
-                : name === Script.sets.set ? existsIn(i.name, set)
-                : false;
-        });
-    }
-
-    public static getCharDetail(char: string | undefined): IChar | undefined {
-        if (char === undefined) {
+    
+    public static getCharDetail(charName?: string): IChar | undefined {
+        if (charName === undefined) {
             return undefined;
         }
         return CharacterStatus.charDetail.find(c => {
-            return c.name === char;
+            return c.name === charName;
         });
     }
 
@@ -114,9 +98,6 @@ class Script {
 
 function val(v?: number): string | number {
     return v === undefined || v < 0 ? "-" : v;
-}
-function existsIn(name: string, values: string[]): boolean {
-    return values.indexOf(name) > -1;
 }
 
 export default Script;
