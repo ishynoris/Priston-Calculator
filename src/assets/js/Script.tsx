@@ -97,7 +97,7 @@ class Script {
 }
 
 function val(v?: number): string | number {
-    return v === undefined || v < 0 ? "-" : v;
+    return v === undefined || v < 0 ? "-" : Math.trunc(v);
 }
 
 export default Script;

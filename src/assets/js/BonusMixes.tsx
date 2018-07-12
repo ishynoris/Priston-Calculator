@@ -331,7 +331,7 @@ const mixOrbital: IMixes = {
     item: itens.orbital,
     type: [
         {
-            bonus: [{ cod: codes.APmin, value: 1 }],
+            bonus: [{ cod: codes.DEF, value: 10 }],
             title: 'Defesa +10',
         },
         {

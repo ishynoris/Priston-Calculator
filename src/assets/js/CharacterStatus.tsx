@@ -54,7 +54,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         formula: {
             ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
-            AP: { fFator: 130, attrFator: codes.AGI, attrDiv: [{ attr: codes.TAL }] },
+            AP: { fFator: 130, attrFator: codes.AGI, attrDiv: [codes.TAL] },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
