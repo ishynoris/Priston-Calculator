@@ -91,7 +91,7 @@ const itens: IItem[] = [
     { name: itensName.anel.title, attrs: [statsCode.HPadd, statsCode.MPadd, statsCode.RESadd] },
     { name: itensName.arma.title, attrs: [statsCode.APmin, statsCode.APmax, statsCode.AR, statsCode.APadd, statsCode.ARadd] },
     { name: itensName.armadura.title, attrs: [statsCode.DEFadd, statsCode.ABSadd] },
-    { name: itensName.bonus.title, attrs: [statsCode.HPadd, statsCode.MPadd, statsCode.RESadd, statsCode.AR, statsCode.DEFadd, statsCode.ABSadd] },
+    { name: itensName.bonus.title, attrs: [statsCode.AR, statsCode.DEFadd, statsCode.ABSadd, statsCode.HPadd, statsCode.MPadd, statsCode.RESadd] },
     { name: itensName.bota.title, attrs: [statsCode.DEFadd, statsCode.ABSadd] },
     { name: itensName.bracel.title, attrs: [statsCode.DEFadd, statsCode.AR, statsCode.ARadd] },
     { name: itensName.escudo.title, attrs: [statsCode.DEFadd, statsCode.ABSadd] },

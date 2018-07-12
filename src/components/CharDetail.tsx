@@ -33,16 +33,16 @@ class CharDetail extends React.Component<ICharDetail>{
     public state: { hasChar: boolean }
     private char: IChar | undefined;
     private bonus: { quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
-    private itens: { kit: IItem[], set: IItem[], prim: IItem[] }
+    private itens: { kit: IItem[], set: IItem[], prim: IItem[], bonus: IItem[] }
     private detail: { status: Status | null, skills: Skills | null, quests: Quests | null, result: Result | null }
-    private sets: { kit: SetItem | null, pri: SetItem | null, set: SetItem | null }
+    private sets: { kit: SetItem | null, pri: SetItem | null, set: SetItem | null, bonus: SetItem | null }
 
     constructor(props: ICharDetail) {
         super(props);
         this.bonus = { quests: [], mixes: [] };
-        this.itens = { kit: [], set: [], prim: [] }
+        this.itens = { kit: [], set: [], prim: [], bonus: [] }
         this.detail = { status: null, skills: null, quests: null, result: null }
-        this.sets = { kit: null, pri: null, set: null }
+        this.sets = { kit: null, pri: null, set: null, bonus: null }
         this.state = { hasChar: false };
     }
 
@@ -107,6 +107,11 @@ class CharDetail extends React.Component<ICharDetail>{
                         onMixSelected={this.mixSelected} />
                 </div>
                 <div className="col-lg-2">
+                    <Title title="Bonus e Adicionais" />
+                    <SetItem 
+                        ref={ref => this.sets.bonus = ref}
+                        onItemChanged={this.itemChanged}
+                        onMixSelected={this.mixSelected} />
                     <Title title="Resultados" />
                     <Result ref={ref => this.detail.result = ref} />
                 </div>
@@ -156,6 +161,11 @@ class CharDetail extends React.Component<ICharDetail>{
             const names = [Script.itensName.arma.title, Script.itensName.armadura.title, radios.titles[radios.indexChecked]]
             this.itens.prim = getItens(names);
 			this.sets.pri.initState(this.itens.prim);
+        }
+		if (this.sets.bonus !== null) {
+            const names = [Script.itensName.bonus.title]
+            this.itens.bonus = getItens(names);
+			this.sets.bonus.initState(this.itens.bonus);
         }
         this.setResult();
     }
@@ -318,11 +328,12 @@ class CharDetail extends React.Component<ICharDetail>{
         const stats = char.stats;
         const f = char.formula;
         const statAttr = getStatsByCode(f.AP.attrFator);
+        const arBracelAdd = this.getAttrByCode(Script.itensName.bracel.title, Script.codes.ARadd);
+        const arArmaAdd = this.getAttrByCode(Script.itensName.arma.title, Script.codes.ARadd);
         const minArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
         const maxArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
         const maxArmaAdd = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APadd);
         const passive = 32;
-
         const div: number[] = [];
         f.AP.attrDiv.forEach(a => {
             const result = getStatsByCode(a.attr);
@@ -335,6 +346,8 @@ class CharDetail extends React.Component<ICharDetail>{
         const multi = (statAttr === -1 || minArma === 0) ? 0 : (1 / f.AP.fFator * statAttr);
         const maxAdd = maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0;
         const values = { ABS: 0, APmax: 0, APmin: 0, AR: 0, DEF: 0, HP: 0, MP: 0, RES: 0 }
+        let arAdd = arArmaAdd > 0 ? stats.lvl / arArmaAdd : 0;
+        arAdd += arBracelAdd > 0 ? stats.lvl / arBracelAdd : 0;
 
         const applyBonus = (bonus: IBonus | IAttr) => {
             switch (bonus.cod) {
@@ -356,7 +369,8 @@ class CharDetail extends React.Component<ICharDetail>{
         this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyBonus(b)));
         this.bonus.quests.forEach(q => applyBonus(q));
 
-        values.AR += Math.trunc((stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add);
+        values.AR += Math.trunc((stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) 
+                    + arAdd + f.AR.add);
         values.APmin += 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc((minArma + maxArma) / 16)
                     + Math.trunc(multi * minArma) + Math.trunc(minArma * passive / 100);
         values.APmax += 6 + (maxArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc(maxAdd)
@@ -372,7 +386,7 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
     private getAllItens = (): IItem[] => {
-        return this.itens.kit.concat(this.itens.set).concat(this.itens.prim);
+        return this.itens.kit.concat(this.itens.set).concat(this.itens.prim).concat(this.itens.bonus);
     }
 
     private getItem = (name: string) => {
