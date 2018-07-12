@@ -16,24 +16,39 @@ class Result extends React.Component<{}>{
     }
 
     public setResult(result: IStatusResult) {
-        this.setState({ status: this.asStatus(result) });
+        const asStatus = ((results: IStatusResult): IStatus[] => {
+            return [
+                { name: results.AR.title, default: results.AR.value.toString(), disable: true },
+                { name: results.AP.title, default: results.AP.value.toString(), disable: true },
+                { name: results.DEF.title, default: results.DEF.value.toString(), disable: true },
+                { name: results.ABS.title, default: results.ABS.value.toString(), disable: true },
+                { name: results.HP.title, default: results.HP.value.toString(), disable: true },
+                { name: results.MP.title, default: results.MP.value.toString(), disable: true },
+                { name: results.RES.title, default: results.RES.value.toString(), disable: true },
+            ];
+        })(result)
+        this.setState({ status: asStatus });
     }
 
     public render() {
-        return (
-            <div className="item-size outter-border background padding">
-                {
-                    this.state.status.map((v, i) => {
-                        return <InputText
-                            ref={ref => this.putAtIndex(ref, i) }
-                            key={i}
-                            title={v.name + ":"}
-                            disable={v.disable}
-                        />
-                    })
-                }
-            </div>
-        );
+
+        const putAtIndex = (item: InputText | null, index: number) => {
+            if (this.inputs.length <= index) {
+                this.inputs.push({ input: item });
+            } else {
+                this.inputs[index].input = item;
+            }
+        }
+        return <div className="item-size outter-border background padding">
+            { this.state.status.map((v, i) => {
+                return <InputText
+                    ref={ref => putAtIndex(ref, i) }
+                    key={i}
+                    title={v.name + ":"}
+                    disable={v.disable}
+                />
+            })}
+        </div>
     }
 
     public componentDidUpdate() {
@@ -46,26 +61,6 @@ class Result extends React.Component<{}>{
             }
             return item;
         });
-    }
-
-    private asStatus = (results: IStatusResult): IStatus[] => {
-        return [
-            { name: results.AR.title, default: results.AR.value.toString(), disable: true },
-            { name: results.AP.title, default: results.AP.value.toString(), disable: true },
-            { name: results.DEF.title, default: results.DEF.value.toString(), disable: true },
-            { name: results.ABS.title, default: results.ABS.value.toString(), disable: true },
-            { name: results.HP.title, default: results.HP.value.toString(), disable: true },
-            { name: results.MP.title, default: results.MP.value.toString(), disable: true },
-            { name: results.RES.title, default: results.RES.value.toString(), disable: true },
-        ];
-    }
-
-    private putAtIndex = (item: InputText | null, index: number) => {
-        if (this.inputs.length <= index) {
-            this.inputs.push({ input: item });
-        } else {
-            this.inputs[index] = { input: item }
-        }
     }
 }
 

@@ -31,27 +31,26 @@ class Item extends React.Component<IItem>{
             })
         };
         const mixes = Script.getMixesByItem(this.props.name);
-        const attrClass = this.props.titles.length > 0 ? "inner-border padding" : "";
+        let attrClass = this.props.titles.length > 0 ? "padding" : "";
+        attrClass += Image.hasImage(this.props.name) ? " inner-border" : "";
 
-        return (
-            <div className={"item-size background outter-border padding"}>
-                <Image item={this.props.name} />
-                {(() => {
-                    if (this.props.onlyImage) {
-                        return null;
-                    }
-                    return <div>
-                        <Mixing 
-                            name={this.props.name} 
-                            mixes={mixes !== undefined ? mixes.type : []}
-                            onMixSelected={this.onMixSelected} />
-                        <div className={attrClass}>
-                            { inputs() }
-                        </div>
+        return <div className={"item-size background outter-border padding"}>
+            <Image item={this.props.name} />
+            {(() => {
+                if (this.props.onlyImage) {
+                    return null;
+                }
+                return <div>
+                    <Mixing 
+                        name={this.props.name} 
+                        mixes={mixes !== undefined ? mixes.type : []}
+                        onMixSelected={this.onMixSelected} />
+                    <div className={attrClass}>
+                        { inputs() }
                     </div>
-                })()}
-            </div>
-        );
+                </div>
+            })()}
+        </div>
     }
 
     private onChangeValue = (attrName: string, val: number, oldValue: number) => {

@@ -7,6 +7,10 @@ interface IImage { item: string }
 
 class Image extends React.Component<IImage>{
 
+
+    public static hasImage (name: string): boolean {
+        return this.setImage(name) !== undefined
+    }
     private static images = {
         amuleto: require("../assets/images/amuleto.png"),
         anel: require("../assets/images/anel.png"),
@@ -20,8 +24,7 @@ class Image extends React.Component<IImage>{
         shelton: require("../assets/images/shelton.png"),
     }
 
-    public setImage = () => {
-        const item = this.props.item;
+    private static setImage = (item: string) => {
         const itensName = Values.itensName
         return item === itensName.amuleto.title ? Image.images.amuleto
             : item === itensName.anel.title ? Image.images.anel
@@ -37,25 +40,21 @@ class Image extends React.Component<IImage>{
     }
 
     public simpleImage = (image: string) => { 
-        return (
-            <div className="center" >
-                <img src={image} />
-            </div>
-        )
+        return <div className="center" >
+            <img src={image} />
+        </div>
     }
 
     public doubleImage = (image: string) => {
-        return (
-            <div className="center" >
-                <img src={image} className="double" />
-                <img src={image} className="double" />
-            </div>
-        )
+        return <div className="center" >
+            <img src={image} className="double" />
+            <img src={image} className="double" />
+        </div>
+        
     }
 
     public render() {
-
-        const image = this.setImage();
+        const image = Image.setImage(this.props.item);
         if(image === undefined){
             return null;
         }
