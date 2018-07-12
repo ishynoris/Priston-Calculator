@@ -12,42 +12,42 @@ class Script {
 
     public static sets = { kit: "Kit", primario: "Primario", set: "Set" }
     public static codes = Values.codes;
-    public static itens = Values.itensCode;
+    public static status = Values.statsCode;
     public static chars = CharacterStatus.names;
     public static itensName = Values.itensName;
     public static stats = [
-        Script.itens.LVL.title,
-        Script.itens.FOR.title,
-        Script.itens.INT.title,
-        Script.itens.TAL.title,
-        Script.itens.AGI.title,
-        Script.itens.VIT.title,
-        Script.itens.STS.title
+        Script.status.LVL.title,
+        Script.status.FOR.title,
+        Script.status.INT.title,
+        Script.status.TAL.title,
+        Script.status.AGI.title,
+        Script.status.VIT.title,
+        Script.status.STS.title
     ]
 
     public static defResult = (values?: { ABS: number, APmin: number, APmax: number, AR: number, DEF: number, HP: number, MP: number, RES: number }): IStatusResult => {
 
         if (values === undefined) {
             return {
-                ABS: { title: Values.itensCode.ABS.title, value: val() },
-                AP: { title: Values.itensCode.AP.title, value: val() },
-                AR: { title: Values.itensCode.AR.title, value: val() },
-                DEF: { title: Values.itensCode.DEF.title, value: val() },
-                HP: { title: Values.itensCode.HP.title, value: val() },
-                MP: { title: Values.itensCode.MP.title, value: val() },
-                RES: { title: Values.itensCode.RES.title, value: val() },
+                ABS: { title: Script.status.ABS.title, value: val() },
+                AP: { title: Script.status.AP.title, value: val() },
+                AR: { title: Script.status.AR.title, value: val() },
+                DEF: { title: Script.status.DEF.title, value: val() },
+                HP: { title: Script.status.HP.title, value: val() },
+                MP: { title: Script.status.MP.title, value: val() },
+                RES: { title: Script.status.RES.title, value: val() },
             }
         }
         const min = val(values.APmin);
         const max = val(values.APmax);
         return {
-            ABS: { title: Values.itensCode.ABS.title, value: val(values.ABS) },
-            AP: { title: Values.itensCode.AP.title, value: min + "-" + max },
-            AR: { title: Values.itensCode.AR.title, value: val(values.AR) },
-            DEF: { title: Values.itensCode.DEF.title, value: val(values.DEF) },
-            HP: { title: Values.itensCode.HP.title, value: val(values.HP) },
-            MP: { title: Values.itensCode.MP.title, value: val(values.MP) },
-            RES: { title: Values.itensCode.RES.title, value: val(values.RES) },
+            ABS: { title: Script.status.ABS.title, value: val(values.ABS) },
+            AP: { title: Script.status.AP.title, value: min + "-" + max },
+            AR: { title: Script.status.AR.title, value: val(values.AR) },
+            DEF: { title: Script.status.DEF.title, value: val(values.DEF) },
+            HP: { title: Script.status.HP.title, value: val(values.HP) },
+            MP: { title: Script.status.MP.title, value: val(values.MP) },
+            RES: { title: Script.status.RES.title, value: val(values.RES) },
         }
     }
 
@@ -66,7 +66,7 @@ class Script {
 
     public static getCodByAttr(attr: string): number | undefined {
 
-        const item = Values.itensList.find(i => {
+        const item = Values.statsList.find(i => {
             return i.title === attr;
         });
         return item === undefined ? undefined : item.cod;

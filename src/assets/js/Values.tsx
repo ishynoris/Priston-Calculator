@@ -3,10 +3,10 @@ import IItem from '../../interfaces/IItem';
 enum codes {
     ABS, ABSadd, AGI, AP, APmax, APmin, APadd, AR, ARadd, DEF, DEFadd, EP, FOR,
     HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT,
-    Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton
+    Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton, BonusAdd
 }
 
-const itensCode = {
+const statsCode = {
     ABS: { cod: codes.ABS, title: "Absorção", value: 0 },
     ABSadd: { cod: codes.ABSadd, title: "Absorção (+add)", value: 0 },
     AGI: { cod: codes.AGI, title: "Agilidade", value: 0 },
@@ -16,6 +16,7 @@ const itensCode = {
     APmin: { cod: codes.APmin, title: "Poder de Ataque (min)", value: 0 },
     AR: { cod: codes.AR, title: "Taxa de Ataque", value: 0 },
     ARadd: { cod: codes.ARadd, title: "Taxa de Ataque (+add)", value: 0 },
+    BonusAdd: { cod: codes.BonusAdd, title: "Bônus/Adicionais", value: 0 },
     DEF: { cod: codes.DEF, title: "Defesa", value: 0 },
     DEFadd: { cod: codes.DEFadd, title: "Defesa (+add)", value: 0 },
     EP: { cod: codes.EP, title: "Pontos de Elite", value: 0 },
@@ -36,35 +37,36 @@ const itensCode = {
     VIT: { cod: codes.VIT, title: "Vitalidade", value: 0 },
 }
 
-const itensList = [
+const statsList = [
 
-    { cod: codes.ABS, title: itensCode.ABS.title },
-    { cod: codes.ABSadd, title: itensCode.ABSadd.title },
-    { cod: codes.AGI, title: itensCode.AGI.title },
-    { cod: codes.AP, title: itensCode.AP.title },
-    { cod: codes.APadd, title: itensCode.APadd.title },
-    { cod: codes.APmax, title: itensCode.APmax.title },
-    { cod: codes.APmin, title: itensCode.APmin.title },
-    { cod: codes.AR, title: itensCode.AR.title },
-    { cod: codes.ARadd, title: itensCode.ARadd.title },
-    { cod: codes.DEF, title: itensCode.DEF.title },
-    { cod: codes.DEFadd, title: itensCode.DEFadd.title },
-    { cod: codes.EP, title: itensCode.EP.title },
-    { cod: codes.FOR, title: itensCode.FOR.title },
-    { cod: codes.HP, title: itensCode.HP.title },
-    { cod: codes.HPadd, title: itensCode.HPadd.title },
-    { cod: codes.INT, title: itensCode.INT.title },
-    { cod: codes.KIT, title: itensCode.KIT.title },
-    { cod: codes.LVL, title: itensCode.LVL.title },
-    { cod: codes.MP, title: itensCode.MP.title },
-    { cod: codes.MPadd, title: itensCode.MPadd.title },
-    { cod: codes.RES, title: itensCode.RES.title },
-    { cod: codes.RESadd, title: itensCode.RESadd.title },
-    { cod: codes.SP, title: itensCode.SP.title },
-    { cod: codes.STS, title: itensCode.STS.title },
-    { cod: codes.STSp, title: itensCode.STSP.title },
-    { cod: codes.TAL, title: itensCode.TAL.title },
-    { cod: codes.VIT, title: itensCode.VIT.title },
+    { cod: codes.ABS, title: statsCode.ABS.title },
+    { cod: codes.ABSadd, title: statsCode.ABSadd.title },
+    { cod: codes.AGI, title: statsCode.AGI.title },
+    { cod: codes.AP, title: statsCode.AP.title },
+    { cod: codes.APadd, title: statsCode.APadd.title },
+    { cod: codes.APmax, title: statsCode.APmax.title },
+    { cod: codes.APmin, title: statsCode.APmin.title },
+    { cod: codes.AR, title: statsCode.AR.title },
+    { cod: codes.ARadd, title: statsCode.ARadd.title },
+    { cod: codes.BonusAdd, title: statsCode.BonusAdd.title },
+    { cod: codes.DEF, title: statsCode.DEF.title },
+    { cod: codes.DEFadd, title: statsCode.DEFadd.title },
+    { cod: codes.EP, title: statsCode.EP.title },
+    { cod: codes.FOR, title: statsCode.FOR.title },
+    { cod: codes.HP, title: statsCode.HP.title },
+    { cod: codes.HPadd, title: statsCode.HPadd.title },
+    { cod: codes.INT, title: statsCode.INT.title },
+    { cod: codes.KIT, title: statsCode.KIT.title },
+    { cod: codes.LVL, title: statsCode.LVL.title },
+    { cod: codes.MP, title: statsCode.MP.title },
+    { cod: codes.MPadd, title: statsCode.MPadd.title },
+    { cod: codes.RES, title: statsCode.RES.title },
+    { cod: codes.RESadd, title: statsCode.RESadd.title },
+    { cod: codes.SP, title: statsCode.SP.title },
+    { cod: codes.STS, title: statsCode.STS.title },
+    { cod: codes.STSp, title: statsCode.STSP.title },
+    { cod: codes.TAL, title: statsCode.TAL.title },
+    { cod: codes.VIT, title: statsCode.VIT.title },
 ]
 
 const itensName = {
@@ -72,6 +74,7 @@ const itensName = {
     anel: { cod: codes.Aneis, title: "Aneis" },
     arma: { cod: codes.Arma, title: "Arma" },
     armadura: { cod: codes.Armadura, title: "Armadura" },
+    bonus: { cod: codes.BonusAdd, title: statsCode.BonusAdd.title },
     bota: { cod: codes.Bota, title: "Bota" },
     bracel: { cod: codes.Bracel, title: "Bracel" },
     escudo: { cod: codes.Escudo, title: "Escudo" },
@@ -79,30 +82,31 @@ const itensName = {
     orbital: { cod: codes.Orbital, title: "Orbital" },
     shelton: { cod: codes.Shelton, title: "Shelton" },
 }
-const status = [itensCode.LVL, itensCode.FOR, itensCode.INT, itensCode.TAL, itensCode.AGI, itensCode.VIT, itensCode.STS]
+const status = [statsCode.LVL, statsCode.FOR, statsCode.INT, statsCode.TAL, statsCode.AGI, statsCode.VIT, statsCode.STS]
 
-const result = [itensCode.AR, itensCode.AP, itensCode.DEF, itensCode.ABS, itensCode.HP, itensCode.MP, itensCode.RES]
+const result = [statsCode.AR, statsCode.AP, statsCode.DEF, statsCode.ABS, statsCode.HP, statsCode.MP, statsCode.RES]
 
 const itens: IItem[] = [
-    { name: itensName.amuleto.title, attrs: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
-    { name: itensName.anel.title, attrs: [itensCode.HPadd, itensCode.MPadd, itensCode.RESadd] },
-    { name: itensName.arma.title, attrs: [itensCode.APmin, itensCode.APmax, itensCode.AR, itensCode.APadd, itensCode.ARadd] },
-    { name: itensName.armadura.title, attrs: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.bota.title, attrs: [itensCode.DEF, itensCode.ABSadd] },
-    { name: itensName.bracel.title, attrs: [itensCode.AR, itensCode.DEF, itensCode.ARadd] },
-    { name: itensName.escudo.title, attrs: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.luva.title, attrs: [itensCode.DEFadd, itensCode.ABSadd] },
-    { name: itensName.orbital.title, attrs: [itensCode.DEF, itensCode.ABSadd] },
-    { name: itensName.shelton.title, attrs: [itensCode.KIT], },
+    { name: itensName.amuleto.title, attrs: [statsCode.HPadd, statsCode.MPadd, statsCode.RESadd] },
+    { name: itensName.anel.title, attrs: [statsCode.HPadd, statsCode.MPadd, statsCode.RESadd] },
+    { name: itensName.arma.title, attrs: [statsCode.APmin, statsCode.APmax, statsCode.AR, statsCode.APadd, statsCode.ARadd] },
+    { name: itensName.armadura.title, attrs: [statsCode.DEFadd, statsCode.ABSadd] },
+    { name: itensName.bonus.title, attrs: [statsCode.HPadd, statsCode.MPadd, statsCode.RESadd, statsCode.AR, statsCode.DEFadd, statsCode.ABSadd] },
+    { name: itensName.bota.title, attrs: [statsCode.DEFadd, statsCode.ABSadd] },
+    { name: itensName.bracel.title, attrs: [statsCode.DEFadd, statsCode.AR, statsCode.ARadd] },
+    { name: itensName.escudo.title, attrs: [statsCode.DEFadd, statsCode.ABSadd] },
+    { name: itensName.luva.title, attrs: [statsCode.DEFadd, statsCode.ABSadd] },
+    { name: itensName.orbital.title, attrs: [statsCode.DEF, statsCode.ABSadd] },
+    { name: itensName.shelton.title, attrs: [statsCode.KIT], },
 ]
 
 const values = {
     "codes": codes,
     "itens": itens,
-    "itensCode": itensCode,
-    "itensList": itensList,
     "itensName": itensName,
     "result": result,
+    "statsCode": statsCode,
+    "statsList": statsList,
     "status": status,
 }
 

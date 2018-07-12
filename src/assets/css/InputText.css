@@ -1,5 +1,5 @@
 .value, .disable{
-    font-size: .7em;
+    font-size: .75em;
     font-weight: 700;
     height: 90%;
     width: 100%;
@@ -18,4 +18,7 @@
     color: #bf1100;
     font-size: .75em;
     border-bottom: .1em solid #bf1100;   
+}
+.with-mix{
+    color: #0099ff;
 }

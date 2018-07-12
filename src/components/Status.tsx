@@ -45,16 +45,16 @@ class Status extends React.Component<IStatusComp>{
             if(this.stats.base === undefined){
                 return 0
             }
-            return stat === Script.itens.LVL.title ? this.stats.base.lvl 
-                : stat === Script.itens.FOR.title ? this.stats.base.for 
-                : stat === Script.itens.INT.title ? this.stats.base.int 
-                : stat === Script.itens.TAL.title ? this.stats.base.tal 
-                : stat === Script.itens.AGI.title ? this.stats.base.agi 
-                : stat === Script.itens.VIT.title ? this.stats.base.vit
+            return stat === Script.status.LVL.title ? this.stats.base.lvl 
+                : stat === Script.status.FOR.title ? this.stats.base.for 
+                : stat === Script.status.INT.title ? this.stats.base.int 
+                : stat === Script.status.TAL.title ? this.stats.base.tal 
+                : stat === Script.status.AGI.title ? this.stats.base.agi 
+                : stat === Script.status.VIT.title ? this.stats.base.vit
                 : 0;
         } 
         const  getTotalStat = (text: string, item: InputText | null) => {
-            if (text === Script.itens.STS.title) {
+            if (text === Script.status.STS.title) {
                 this.stats.total = item;
             }
         }
@@ -67,7 +67,7 @@ class Status extends React.Component<IStatusComp>{
                     key={i}
                     title={s + ":"}
                     minValue={minValue(s)}
-                    disable={s === Script.itens.STS.title}
+                    disable={s === Script.status.STS.title}
                     onChangeValue={this.onStatusChanged} />
             })}
             </div>
@@ -94,12 +94,12 @@ class Status extends React.Component<IStatusComp>{
 
         if (this.stats.char !== undefined){
             switch (title) {
-                case Script.itens.LVL.title: this.stats.char.lvl = value; break;
-                case Script.itens.FOR.title: this.stats.char.for = value; break;
-                case Script.itens.AGI.title: this.stats.char.agi = value; break;
-                case Script.itens.TAL.title: this.stats.char.tal = value; break;
-                case Script.itens.INT.title: this.stats.char.int = value; break;
-                case Script.itens.VIT.title: this.stats.char.vit = value; break;
+                case Script.status.LVL.title: this.stats.char.lvl = value; break;
+                case Script.status.FOR.title: this.stats.char.for = value; break;
+                case Script.status.AGI.title: this.stats.char.agi = value; break;
+                case Script.status.TAL.title: this.stats.char.tal = value; break;
+                case Script.status.INT.title: this.stats.char.int = value; break;
+                case Script.status.VIT.title: this.stats.char.vit = value; break;
             }
 
             this.calcTotalStats();

@@ -305,16 +305,7 @@ class CharDetail extends React.Component<ICharDetail>{
         if (char === undefined || char.formula === undefined) {
             return Script.defResult();
         }
-        const getAttrByCode = (itemName: string, code: number): number => {
-            const item = this.getItem(itemName);
-            if (item === undefined) {
-                return 0;
-            }
-            const attr = item.attrs.find(a => {
-                return a.cod === code;
-            });
-            return attr === undefined ? 0 : attr.value;
-        }
+        
         const getStatsByCode = (code: number): number => {
             return code === Script.codes.FOR ? char.stats.for 
                     : code === Script.codes.AGI ? char.stats.agi
@@ -327,9 +318,9 @@ class CharDetail extends React.Component<ICharDetail>{
         const stats = char.stats;
         const f = char.formula;
         const statAttr = getStatsByCode(f.AP.attrFator);
-        const minArma = getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
-        const maxArma = getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
-        const maxArmaAdd = getAttrByCode(Script.itensName.arma.title, Script.codes.APadd);
+        const minArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
+        const maxArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
+        const maxArmaAdd = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APadd);
         const passive = 32;
 
         const div: number[] = [];
@@ -340,49 +331,66 @@ class CharDetail extends React.Component<ICharDetail>{
             }
         });
 
-        const def = (f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add;
-        const multi = (statAttr === -1 || minArma === 0) ? 0 : (1 / f.AP.fFator * statAttr);
         const sumAttrs = div.reduce((d, i) => d + i , 0);
+        const multi = (statAttr === -1 || minArma === 0) ? 0 : (1 / f.AP.fFator * statAttr);
         const maxAdd = maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0;
+        const values = { ABS: 0, APmax: 0, APmin: 0, AR: 0, DEF: 0, HP: 0, MP: 0, RES: 0 }
 
-        const values = {
-            ABS: Math.trunc((stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
-                            + (stats.agi / f.ABS.fAgi) + (def / 100) + f.ABS.add),
-            APmax: 6 + (maxArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc(maxAdd)
-                        + Math.trunc(multi * maxArma) + Math.trunc(maxArma * passive / 100),
-            APmin: 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc((minArma + maxArma) / 16)
-                        + Math.trunc(multi * minArma) + Math.trunc(minArma * passive / 100),
-            AR: Math.trunc((stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add),
-            DEF: Math.trunc(def),
-            HP: Math.trunc((f.HP.fLvl * stats.lvl) + (f.HP.fAgi * stats.agi) + (f.HP.fVit * stats.vit) + f.HP.add),
-            MP: Math.trunc((f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add),
-            RES: Math.trunc((f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
-                + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add),
-        }
-
-        const applyBonus = (bonus: IBonus) => {
+        const applyBonus = (bonus: IBonus | IAttr) => {
             switch (bonus.cod) {
-                case Script.itens.AR.cod: values.AR += bonus.value; break;
-                case Script.itens.DEF.cod: values.DEF += bonus.value; break;
-                case Script.itens.ABS.cod: values.ABS += bonus.value; break;
-                case Script.itens.HP.cod: values.HP += bonus.value; break;
-                case Script.itens.HPadd.cod: values.HP += bonus.value; break;
-                case Script.itens.MP.cod: values.MP += bonus.value; break;
-                case Script.itens.MPadd.cod: values.MP += bonus.value; break;
-                case Script.itens.RES.cod: values.RES += bonus.value; break;
-                case Script.itens.RESadd.cod: values.RES += bonus.value; break;
+                case Script.status.AR.cod: values.AR += bonus.value; break;
+                case Script.status.ARadd.cod: values.AR += bonus.value; break;
+                case Script.status.DEF.cod: values.DEF += bonus.value; break;
+                case Script.status.DEFadd.cod: values.DEF += bonus.value; break;
+                case Script.status.ABS.cod: values.ABS += bonus.value; break;
+                case Script.status.ABSadd.cod: values.ABS += bonus.value; break;
+                case Script.status.HP.cod: values.HP += bonus.value; break;
+                case Script.status.HPadd.cod: values.HP += bonus.value; break;
+                case Script.status.MP.cod: values.MP += bonus.value; break;
+                case Script.status.MPadd.cod: values.MP += bonus.value; break;
+                case Script.status.RES.cod: values.RES += bonus.value; break;
+                case Script.status.RESadd.cod: values.RES += bonus.value; break;
             }
         }
+        this.getAllItens().forEach(i => i.attrs.forEach(a => applyBonus(a)));
         this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyBonus(b)));
         this.bonus.quests.forEach(q => applyBonus(q));
+
+        values.AR += Math.trunc((stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add);
+        values.APmin += 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc((minArma + maxArma) / 16)
+                    + Math.trunc(multi * minArma) + Math.trunc(minArma * passive / 100);
+        values.APmax += 6 + (maxArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc(maxAdd)
+                    + Math.trunc(multi * maxArma) + Math.trunc(maxArma * passive / 100);
+        values.DEF += Math.trunc((f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add);
+        values.ABS += Math.trunc((stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
+                    + (stats.agi / f.ABS.fAgi) + (values.DEF / 100) + f.ABS.add);
+        values.HP += Math.trunc((f.HP.fLvl * stats.lvl) + (f.HP.fAgi * stats.agi) + (f.HP.fVit * stats.vit) + f.HP.add),
+        values.MP += Math.trunc((f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add),
+        values.RES += Math.trunc((f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
+                    + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add)
         return Script.defResult(values);
     }
 
+    private getAllItens = (): IItem[] => {
+        return this.itens.kit.concat(this.itens.set).concat(this.itens.prim);
+    }
+
     private getItem = (name: string) => {
-        const itens = this.itens.kit.concat(this.itens.set).concat(this.itens.prim);
+        const itens = this.getAllItens();
         return itens.find(i => {
             return i.name === name;
         })
+    }
+
+    private getAttrByCode = (itemName: string, code: number): number => {
+        const item = this.getItem(itemName);
+        if (item === undefined) {
+            return 0;
+        }
+        const attr = item.attrs.find(a => {
+            return a.cod === code;
+        });
+        return attr === undefined ? 0 : attr.value;
     }
 }
 
