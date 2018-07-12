@@ -7,6 +7,7 @@ import IChar from '../interfaces/IChar';
 import ICharacterStatus from '../interfaces/ICharacterStatus';
 import IItem from '../interfaces/IItem';
 import IMix from '../interfaces/IMix';
+import ISkills from '../interfaces/ISkills';
 import IStatusResult from '../interfaces/IStatusResult';
 import CharSelect from './CharSelect';
 import Quests from './Quests';
@@ -32,14 +33,14 @@ class CharDetail extends React.Component<ICharDetail>{
 
     public state: { hasChar: boolean }
     private char: IChar | undefined;
-    private bonus: { quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
+    private bonus: { skills: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
     private itens: { kit: IItem[], set: IItem[], prim: IItem[], bonus: IItem[] }
     private detail: { status: Status | null, skills: Skills | null, quests: Quests | null, result: Result | null }
     private sets: { kit: SetItem | null, pri: SetItem | null, set: SetItem | null, bonus: SetItem | null }
 
     constructor(props: ICharDetail) {
         super(props);
-        this.bonus = { quests: [], mixes: [] };
+        this.bonus = { skills: [], quests: [], mixes: [] };
         this.itens = { kit: [], set: [], prim: [], bonus: [] }
         this.detail = { status: null, skills: null, quests: null, result: null }
         this.sets = { kit: null, pri: null, set: null, bonus: null }
@@ -138,11 +139,20 @@ class CharDetail extends React.Component<ICharDetail>{
             })
             return itens;
         }
+        const getSkillValues = (skills: ISkills[]): IBonus[] => {
+            const bonus: IBonus[] = [];
+            skills.forEach(s => {
+                bonus.push({ cod: s.codBonus, value: s.values[0], percent: s.percent })
+            })
+            return bonus;
+        }
         if (this.detail.status !== null) {
             this.detail.status.setStatus(this.char === undefined ? undefined : this.char.stats);
         }
         if (this.detail.skills !== null) {
-            this.detail.skills.setSkills(this.char === undefined ? [] : this.char.skills);
+            const skills = this.char === undefined ? [] : this.char.skills;
+            this.bonus.skills = getSkillValues(skills);
+            this.detail.skills.setSkills(skills);
         }
         if (this.detail.quests !== null) {
             this.detail.quests.setQuest(this.char === undefined ? [] : Script.getQuests());
@@ -177,31 +187,24 @@ class CharDetail extends React.Component<ICharDetail>{
         }
     }
 
-    private onSkillChanged = (cod: number, value: number, percent: boolean): boolean => {
-        /* const names = Script.itensName;
-        const inputValue = (name: string) => {
-            const input = this.inputs.find(i => {
-                return i.title === name;
-            });
-            return input === undefined || input.element === null ? 0 : input.element.asNumber();
-        };
-
-        switch (cod) {
-            case Script.codes.AP: break;
-
-            case Script.codes.AR:
-                const result = this.calculateResults();
-                let asNumber = Number(result.AR.value);
-                if (!isNaN(asNumber)) {
-                    const val = inputValue(names.arma + "-" + cod);
-                    asNumber += percent ? val * value / 100 : val;
-                    result.AR.value = asNumber;
-                    if(this.detail.result !== null) {
-                        this.detail.result.setResult(result);
-                    }
-                }
-            break;
-        }*/
+    private onSkillChanged = (bonus: IBonus): boolean => {
+        if (this.char === undefined) {
+            return false;
+        }
+        if (this.bonus.skills.length === 0) {
+            this.bonus.skills.push(bonus);
+        } else {
+            const skill = this.bonus.skills.find(s => {
+                return s.cod === bonus.cod;
+            })
+            if (skill === undefined) {
+                this.bonus.skills.push(bonus);
+            } else {
+                skill.value = bonus.value;
+            }
+        }
+        console.log(this.bonus.skills);
+        this.setResult();
         return true;
     }
 
@@ -315,73 +318,98 @@ class CharDetail extends React.Component<ICharDetail>{
         if (char === undefined || char.formula === undefined) {
             return Script.defResult();
         }
-        
         const getStatsByCode = (code: number): number => {
             return code === Script.codes.FOR ? char.stats.for 
-                    : code === Script.codes.AGI ? char.stats.agi
-                    : code === Script.codes.INT ? char.stats.int
-                    : code === Script.codes.TAL ? char.stats.tal
-                    : code === Script.codes.VIT ? char.stats.vit
-                    : -1;
+                : code === Script.codes.AGI ? char.stats.agi
+                : code === Script.codes.INT ? char.stats.int
+                : code === Script.codes.TAL ? char.stats.tal
+                : code === Script.codes.VIT ? char.stats.vit
+                : -1;
+        }
+        const attrDivs = (attrDiv: number[]): number[] => {
+            const result: number[] = []
+            attrDiv.forEach(a => {
+                const stat = getStatsByCode(a);
+                if (stat !== -1){
+                    result.push(stat)
+                }
+            });
+            return result;
         }
 
         const stats = char.stats;
         const f = char.formula;
-        const statAttr = getStatsByCode(f.AP.attrFator);
-        const arBracelAdd = this.getAttrByCode(Script.itensName.bracel.title, Script.codes.ARadd);
-        const arArmaAdd = this.getAttrByCode(Script.itensName.arma.title, Script.codes.ARadd);
-        const minArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
-        const maxArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
-        const maxArmaAdd = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APadd);
-        const passive = 32;
-        const div: number[] = [];
-        f.AP.attrDiv.forEach(a => {
-            const result = getStatsByCode(a.attr);
-            if (result !== -1){
-                div.push(result)
-            }
-        });
-
-        const sumAttrs = div.reduce((d, i) => d + i , 0);
-        const multi = (statAttr === -1 || minArma === 0) ? 0 : (1 / f.AP.fFator * statAttr);
-        const maxAdd = maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0;
         const values = { ABS: 0, APmax: 0, APmin: 0, AR: 0, DEF: 0, HP: 0, MP: 0, RES: 0 }
-        let arAdd = arArmaAdd > 0 ? stats.lvl / arArmaAdd : 0;
-        arAdd += arBracelAdd > 0 ? stats.lvl / arBracelAdd : 0;
 
-        const applyBonus = (bonus: IBonus | IAttr) => {
-            switch (bonus.cod) {
-                case Script.status.AR.cod: values.AR += bonus.value; break;
-                case Script.status.ARadd.cod: values.AR += bonus.value; break;
-                case Script.status.DEF.cod: values.DEF += bonus.value; break;
-                case Script.status.DEFadd.cod: values.DEF += bonus.value; break;
-                case Script.status.ABS.cod: values.ABS += bonus.value; break;
-                case Script.status.ABSadd.cod: values.ABS += bonus.value; break;
-                case Script.status.HP.cod: values.HP += bonus.value; break;
-                case Script.status.HPadd.cod: values.HP += bonus.value; break;
-                case Script.status.MP.cod: values.MP += bonus.value; break;
-                case Script.status.MPadd.cod: values.MP += bonus.value; break;
-                case Script.status.RES.cod: values.RES += bonus.value; break;
-                case Script.status.RESadd.cod: values.RES += bonus.value; break;
+        const div = attrDivs(f.AP.attrDiv);
+        const statAttr = getStatsByCode(f.AP.attrFator);
+        const passive = 32;
+
+        const multi = (statAttr === -1) ? (1 / f.AP.fFator * statAttr) : 0;
+        let minArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
+        let maxArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
+        const maxArmaAdd = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APadd);
+        const sumAttrs = div.reduce((d, i) => d + i , 0);
+        
+        const applyItens = (attr: IAttr) => {
+            if (attr.cod === Script.codes.AR) {
+                values.AR += attr.value;
+            } else if (attr.cod === Script.codes.ARadd ) {
+                values.AR += attr.value > 0 ? stats.lvl / attr.value : 0;
+            } else if (attr.cod === Script.codes.DEF || attr.cod === Script.codes.DEFadd) {
+                values.DEF += attr.value;
+            } else if (attr.cod === Script.codes.ABS || attr.cod === Script.codes.ABSadd) {
+                values.ABS += attr.value;
+            } else if (attr.cod === Script.codes.HP || attr.cod === Script.codes.HPadd) { 
+                values.HP += attr.value;
+            } else if (attr.cod === Script.codes.MP || attr.cod === Script.codes.MPadd) { 
+                values.MP += attr.value;
+            } else if (attr.cod === Script.codes.RES || attr.cod === Script.codes.RESadd) { 
+                values.RES += attr.value;
             }
         }
-        this.getAllItens().forEach(i => i.attrs.forEach(a => applyBonus(a)));
-        this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyBonus(b)));
-        this.bonus.quests.forEach(q => applyBonus(q));
+        const applyMixes = (itemName: string, bonus: IBonus) => {
+            const attr = this.getAttrByCode(itemName, bonus.cod);
+            if (bonus.cod === Script.codes.AR) {
+                values.AR += !bonus.percent ? bonus.value 
+                        : bonus.percent ? attr * bonus.value / 100 
+                        : 0;
+            } else if (bonus.cod === Script.codes.APmin) {
+                minArma += bonus.value;
+            } else if (bonus.cod === Script.codes.APmax) {
+                maxArma += bonus.value;
+            } else if (bonus.cod === Script.codes.DEF) {
+                values.DEF += !bonus.percent ? bonus.value
+                        : bonus.percent ? attr * bonus.value / 100
+                        : 0;
+            } else if (bonus.cod === Script.codes.ABS) {
+                values.ABS += !bonus.percent ? bonus.value
+                        : bonus.percent ? attr * bonus.value / 100
+                        : 0;
+            } else if (bonus.cod === Script.codes.HP) {
+                values.HP += bonus.value;
+            } else if (bonus.cod === Script.codes.MP) {
+                values.MP += bonus.value;
+            } else if (bonus.cod === Script.codes.RES) {
+                values.RES += bonus.value;
+            }    
+        }
 
-        values.AR += Math.trunc((stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) 
-                    + arAdd + f.AR.add);
-        values.APmin += 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc((minArma + maxArma) / 16)
-                    + Math.trunc(multi * minArma) + Math.trunc(minArma * passive / 100);
-        values.APmax += 6 + (maxArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) + Math.trunc(maxAdd)
-                    + Math.trunc(multi * maxArma) + Math.trunc(maxArma * passive / 100);
-        values.DEF += Math.trunc((f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add);
-        values.ABS += Math.trunc((stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
-                    + (stats.agi / f.ABS.fAgi) + (values.DEF / 100) + f.ABS.add);
-        values.HP += Math.trunc((f.HP.fLvl * stats.lvl) + (f.HP.fAgi * stats.agi) + (f.HP.fVit * stats.vit) + f.HP.add),
-        values.MP += Math.trunc((f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add),
-        values.RES += Math.trunc((f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
-                    + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add)
+        this.getAllItens().forEach(i => i.attrs.forEach(a => applyItens(a)));
+        this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyMixes(m.item, b)));
+        
+        values.AR += (stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add;
+        values.APmin += 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+                    + Math.trunc((minArma + maxArma) / 16) + Math.trunc(multi * minArma) + Math.trunc(minArma * passive / 100);
+        values.APmax += 6 + (maxArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+                    + Math.trunc(maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0) + Math.trunc(multi * maxArma) + Math.trunc(maxArma * passive / 100);
+        values.DEF += (f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add;
+        values.ABS += (stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
+                    + (stats.agi / f.ABS.fAgi) + (values.DEF / 100) + f.ABS.add;
+        values.HP += (f.HP.fLvl * stats.lvl) + (f.HP.fAgi * stats.agi) + (f.HP.fVit * stats.vit) + f.HP.add;
+        values.MP += (f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add;
+        values.RES += (f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
+                    + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add;
         return Script.defResult(values);
     }
 

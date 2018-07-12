@@ -1,25 +1,26 @@
 import * as React from 'react';
 
+import IBonus from '../interfaces/IBonus';
 import ISkills from '../interfaces/ISkills';
 import Select from './Select';
 import Title from './Title';
-import TitleSmall  from "./TitleSmall";
+import TitleSmall from "./TitleSmall";
 
 interface ISkillList {
-    onSkillChanged?: (cod: number, value: number, percent: boolean) => boolean
+    onSkillChanged?: (bonus: IBonus) => boolean
 }
 
 class SkillList extends React.Component<ISkillList>{
 
-    public state: {skills: ISkills[]}
+    public state: { skills: ISkills[] }
 
-    constructor(props: ISkillList){
+    constructor(props: ISkillList) {
         super(props);
         this.state = { skills: [] };
     }
 
-    public setSkills(newSkills: ISkills[]){
-        this.setState({skills: newSkills});
+    public setSkills(newSkills: ISkills[]) {
+        this.setState({ skills: newSkills });
     }
 
     public render() {
@@ -28,20 +29,14 @@ class SkillList extends React.Component<ISkillList>{
         if (skills.length === 0) {
             return null;
         }
-        let key = 0;
-        return (
-            <div>
-                <Title title="Habilidades" />
-                <div className="item-size outter-border background padding">
-                {
-                    skills.map(s => {
-                        return this.renderSkills(key++, s);
-                    })
-                }
-                </div>
+        return <div>
+            <Title title="Habilidades" />
+            <div className="item-size outter-border background padding">
+                {skills.map((s, i) => {
+                    return this.renderSkills(i, s);
+                })}
             </div>
-            
-        );
+        </div>
     }
 
     private renderSkills = (key: number, skill: ISkills) => {
@@ -51,33 +46,27 @@ class SkillList extends React.Component<ISkillList>{
                 return { value: v + "", option: k + "" };
             });
         })();
-        return (
-            <div key={key} className="row">
-                <div className="col-sm-7">
-                    <TitleSmall title={skill.name} />
-                </div>
-                <div className="col-sm-5 skl-size">
-                    <Select name={skill.name} values={values} onSelectedCallback={this.onSeleted}/>
-                </div>
+        return <div key={key} className="row">
+            <div className="col-sm-7">
+                <TitleSmall title={skill.name} />
             </div>
-        )
+            <div className="col-sm-5 skl-size">
+                <Select name={skill.name} values={values} onSelectedCallback={this.onSeleted} />
+            </div>
+        </div>
     }
 
     private onSeleted = (name: string, index: number, value: string): boolean => {
-        
         if (this.props.onSkillChanged === undefined) {
             return true;
         }
-
         const skill = this.state.skills.find(s => {
             return s.name === name;
         });
-
-        if (skill === undefined){
+        if (skill === undefined) {
             return false;
         }
-        const percent = skill.percent === undefined ? false : skill.percent;
-        return this.props.onSkillChanged(skill.codBonus, skill.values[index], percent);
+        return this.props.onSkillChanged({ cod: skill.codBonus, value: skill.values[index], percent: skill.percent });
     }
 }
 export default SkillList;
