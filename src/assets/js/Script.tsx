@@ -1,4 +1,5 @@
 import IChar from '../../interfaces/IChar';
+import IForces from '../../interfaces/IForces';
 import IItem from '../../interfaces/IItem';
 import IMixes from '../../interfaces/IMixes';
 import IQuest from '../../interfaces/IQuest';
@@ -89,6 +90,10 @@ class Script {
 
     public static getQuests(): IQuest[] {
         return QuestList;
+    }
+
+    public static getBonusAP(): { forces: IForces[] }  {
+        return { forces: Values.forces };
     }
 
     public static getChars(): IChar[] {

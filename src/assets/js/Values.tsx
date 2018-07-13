@@ -1,9 +1,12 @@
+import IForces from '../../interfaces/IForces';
 import IItem from '../../interfaces/IItem';
 
 enum codes {
     ABS, ABSadd, AGI, AP, APmax, APmin, APadd, AR, ARadd, DEF, DEFadd, EP, FOR,
     HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT,
-    Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton, BonusAdd
+    Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton, BonusAdd,
+    Lucidy, Sereno, Fadeo, Sparky, Raident, Transparo, Murky, Devine, Celesto, Mirage,
+    Inferna, Enigma, Bellum
 }
 
 const statsCode = {
@@ -69,6 +72,22 @@ const statsList = [
     { cod: codes.VIT, title: statsCode.VIT.title },
 ]
 
+const forcesName = {
+    Bellum: { cod: codes.Bellum, title: "Bellum" },
+    Celesto: { cod: codes.Celesto, title: "Celesto" },
+    Devine: { cod: codes.Devine, title: "Devine" },
+    Enigma: { cod: codes.Enigma, title: "Enigma" },
+    Fadeo: { cod: codes.Fadeo, title: "Fadeo" },
+    Inferna: { cod: codes.Inferna, title: "Inferna" },
+    Lucidy: { cod: codes.Lucidy, title: "Lucidy" },
+    Mirage: { cod: codes.Mirage, title: "Mirage" },
+    Murky: { cod: codes.Murky, title: "Murky" },
+    Raident: { cod: codes.Raident, title: "Raident" },
+    Sereno: { cod: codes.Sereno, title: "Sereno" }, 
+    Sparky: { cod: codes.Sparky, title: "Sparky" },
+    Transparo: { cod: codes.Transparo, title: "Transparo" },
+}
+
 const itensName = {
     amuleto: { cod: codes.Amuleto, title: "Amuleto" },
     anel: { cod: codes.Aneis, title: "Aneis" },
@@ -100,8 +119,25 @@ const itens: IItem[] = [
     { name: itensName.shelton.title, attrs: [statsCode.KIT], },
 ]
 
+const forces: IForces[] = [
+    { force: forcesName.Lucidy, bonus: [{ cod: codes.AP, value: 2 }] }, 
+    { force: forcesName.Sereno, bonus: [{ cod: codes.AP, value: 4 }] }, 
+    { force: forcesName.Fadeo, bonus: [{ cod: codes.AP, value: 7 }] }, 
+    { force: forcesName.Sparky,  bonus: [{ cod: codes.AP, value: 10 }] }, 
+    { force: forcesName.Raident, bonus: [{ cod: codes.AP, value: 15 }] },
+    { force: forcesName.Transparo, bonus: [{ cod: codes.AP, value: 25 }] },
+    { force: forcesName.Murky, bonus: [{ cod: codes.AP, value: 40 }, { cod: codes.AP, value: 10, percent: true }] },
+    { force: forcesName.Devine, bonus: [{ cod: codes.AP, value: 60 }, { cod: codes.AP, value: 10, percent: true }] },
+    { force: forcesName.Celesto, bonus: [{ cod: codes.AP, value: 80 }, { cod: codes.AP, value: 10, percent: true }] },
+    { force: forcesName.Mirage, bonus: [{ cod: codes.AP, value: 100 }, { cod: codes.AP, value: 10, percent: true }] },
+    { force: forcesName.Inferna, bonus: [{ cod: codes.AP, value: 120 }, { cod: codes.AP, value: 15, percent: true }] },
+    { force: forcesName.Enigma, bonus: [{ cod: codes.AP, value: 140 }, { cod: codes.AP, value: 15, percent: true }] },
+    { force: forcesName.Bellum, bonus: [{ cod: codes.AP, value: 160 }, { cod: codes.AP, value: 15, percent: true }] },
+]
+
 const values = {
     "codes": codes,
+    "forces": forces,
     "itens": itens,
     "itensName": itensName,
     "result": result,

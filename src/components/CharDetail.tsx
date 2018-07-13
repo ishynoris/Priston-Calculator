@@ -5,10 +5,12 @@ import IAttr from '../interfaces/IAttr';
 import IBonus from '../interfaces/IBonus';
 import IChar from '../interfaces/IChar';
 import ICharacterStatus from '../interfaces/ICharacterStatus';
+import IForces from '../interfaces/IForces';
 import IItem from '../interfaces/IItem';
 import IMix from '../interfaces/IMix';
 import ISkills from '../interfaces/ISkills';
 import IStatusResult from '../interfaces/IStatusResult';
+import BonusAP from './BonusAP';
 import CharSelect from './CharSelect';
 import Quests from './Quests';
 import Result from './Result';
@@ -59,6 +61,7 @@ class CharDetail extends React.Component<ICharDetail>{
 
     public render() {
         const chars: IChar[] = Script.getChars();
+        const bonus: { forces: IForces[] } = Script.getBonusAP();
         const details = () => {
             if (this.char === undefined){
                 return null;
@@ -74,6 +77,9 @@ class CharDetail extends React.Component<ICharDetail>{
                 <Quests
                     ref={ref => this.detail.quests = ref}
                     onQuestsChanged={this.onQuestChanged} />
+                <BonusAP 
+                    forces={bonus.forces} 
+                    onForceSelected={this.onForceSelected} />
             </div>
         }
         return (
@@ -244,6 +250,11 @@ class CharDetail extends React.Component<ICharDetail>{
         this.setResult();
         return true;
     }
+
+    private onForceSelected = (bonus: IForces | undefined): boolean => {
+        console.log(bonus);
+        return true;
+    }
     
     private onCharSelect = (name: string, index: number, char: IChar | undefined): boolean => {
         const charsDone = [Script.chars.Arqueira]
@@ -353,7 +364,7 @@ class CharDetail extends React.Component<ICharDetail>{
         const addPercent = (bonus: IBonus, attr: number) => {
             return bonus.percent ? attr * bonus.value / 100 : bonus.value;
         }
-        
+
         const applyValues = (bonus: IBonus, itemName?: string) => {
             const attr = itemName === undefined ? 0 : this.getAttrByCode(itemName, bonus.cod);
             const add = addPercent(bonus, attr);
