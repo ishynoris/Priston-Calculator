@@ -26,17 +26,20 @@ const Footer = (props: {}) => {
     })([
         { icon: 'fab fa-github fa-lg', link: 'https://github.com/ishynoris/Priston-Calculator', target: '__blank' },
         { icon: 'fab fa-facebook-f fa-lg', link: 'https://www.facebook.com/anailson.mota.7', target: '__blank' },
-        { icon: 'fas fa-envelope fa-lg', link: 'mailto:mota.a.santos@gmail.com', target: '' },
+        { icon: 'fas fa-envelope fa-lg', link: 'mailto:mota.a.santos@gmail.com?subject=Priston Calculator', target: '' },
     ]);
 
     return (
         <div style={footer}>
             <label style={label}>
-                Anailson Santos Mota<i style={icons} className="fas fa-cog fa-spin fa-lg" />(v. alfa)
+                Encontrou algum erro? Quer sugerir alguma alteração? Entre em contato. <a style={icons}><i className={"fas fa-heart"} /></a>
             </label>
             <div>
                 {anchors}
             </div>
+            <label style={label}>
+                Anailson Santos Mota<i style={icons} className="fas fa-cog fa-spin fa-lg" />(v. alfa)
+            </label>
         </div>
     )
 }
