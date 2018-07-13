@@ -61,7 +61,7 @@ class CharDetail extends React.Component<ICharDetail>{
 
     public render() {
         const chars: IChar[] = Script.getChars();
-        const bonus: { forces: IForces[] } = Script.getBonusAP();
+        const bonus: { forces: IForces[], another: IForces[] } = Script.getBonusAP();
         const details = () => {
             if (this.char === undefined){
                 return null;
@@ -78,7 +78,8 @@ class CharDetail extends React.Component<ICharDetail>{
                     ref={ref => this.detail.quests = ref}
                     onQuestsChanged={this.onQuestChanged} />
                 <BonusAP 
-                    forces={bonus.forces} 
+                    forces={bonus.forces}
+                    another={bonus.another}
                     onForceSelected={this.onForceSelected} />
             </div>
         }

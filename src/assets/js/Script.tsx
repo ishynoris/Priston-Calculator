@@ -92,8 +92,8 @@ class Script {
         return QuestList;
     }
 
-    public static getBonusAP(): { forces: IForces[] }  {
-        return { forces: Values.forces };
+    public static getBonusAP(): { forces: IForces[], another: IForces[] }  {
+        return { forces: Values.forces, another: Values.bonusAP };
     }
 
     public static getChars(): IChar[] {

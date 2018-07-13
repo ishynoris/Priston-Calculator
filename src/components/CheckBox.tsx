@@ -2,7 +2,11 @@ import * as React from 'react';
 
 import '../assets/css/CheckBox.css';
 
-interface ICheckBox {text:string, checked?: boolean, onChangeCallback?: (check: boolean) => void}
+interface ICheckBox {
+    text: string, 
+    checked?: boolean, 
+    onChangeCallback?: (title: string, check: boolean) => void
+}
 
 class CheckBox extends React.Component<ICheckBox>{
     
@@ -22,7 +26,7 @@ class CheckBox extends React.Component<ICheckBox>{
 
         this.setState({checked: e.currentTarget.checked});
         if(this.props.onChangeCallback !== undefined){
-            this.props.onChangeCallback(this.state.checked);
+            this.props.onChangeCallback(this.props.text, this.state.checked);
         }
     }
 

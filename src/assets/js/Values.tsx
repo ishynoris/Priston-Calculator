@@ -6,7 +6,7 @@ enum codes {
     HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT,
     Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton, BonusAdd,
     Lucidy, Sereno, Fadeo, Sparky, Raident, Transparo, Murky, Devine, Celesto, Mirage,
-    Inferna, Enigma, Bellum
+    Inferna, Enigma, Bellum, Cabeção, CoroaBC
 }
 
 const statsCode = {
@@ -74,7 +74,9 @@ const statsList = [
 
 const forcesName = {
     Bellum: { cod: codes.Bellum, title: "Bellum" },
+    Cabeção: { cod: codes.Cabeção, title: "Cabeção" },
     Celesto: { cod: codes.Celesto, title: "Celesto" },
+    CoroaBC: { cod: codes.CoroaBC, title: "Coroa Castelo Bless" },
     Devine: { cod: codes.Devine, title: "Devine" },
     Enigma: { cod: codes.Enigma, title: "Enigma" },
     Fadeo: { cod: codes.Fadeo, title: "Fadeo" },
@@ -135,7 +137,13 @@ const forces: IForces[] = [
     { force: forcesName.Bellum, bonus: [{ cod: codes.AP, value: 160 }, { cod: codes.AP, value: 15, percent: true }] },
 ]
 
+const bonusAP: IForces[] = [
+    { force: forcesName.Cabeção, bonus: [{ cod: codes.AP, value: 15, percent: true }] },
+    { force: forcesName.CoroaBC, bonus: [{ cod: codes.CoroaBC, value: 10, percent: true }] },
+]
+
 const values = {
+    "bonusAP": bonusAP,
     "codes": codes,
     "forces": forces,
     "itens": itens,
