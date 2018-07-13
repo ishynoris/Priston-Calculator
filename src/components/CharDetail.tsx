@@ -203,7 +203,6 @@ class CharDetail extends React.Component<ICharDetail>{
                 skill.value = bonus.value;
             }
         }
-        console.log(this.bonus.skills);
         this.setResult();
         return true;
     }
@@ -343,66 +342,66 @@ class CharDetail extends React.Component<ICharDetail>{
 
         const div = attrDivs(f.AP.attrDiv);
         const statAttr = getStatsByCode(f.AP.attrFator);
-        const passive = 32;
 
-        const multi = (statAttr === -1) ? (1 / f.AP.fFator * statAttr) : 0;
-        let minArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
-        let maxArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
+        const multi = (statAttr !== -1) ? (1 / f.AP.fFator * statAttr) : 0;
+        const minArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmin);
+        const maxArma = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APmax);
         const maxArmaAdd = this.getAttrByCode(Script.itensName.arma.title, Script.codes.APadd);
         const sumAttrs = div.reduce((d, i) => d + i , 0);
         
-        const applyItens = (attr: IAttr) => {
-            if (attr.cod === Script.codes.AR) {
-                values.AR += attr.value;
-            } else if (attr.cod === Script.codes.ARadd ) {
-                values.AR += attr.value > 0 ? stats.lvl / attr.value : 0;
-            } else if (attr.cod === Script.codes.DEF || attr.cod === Script.codes.DEFadd) {
-                values.DEF += attr.value;
-            } else if (attr.cod === Script.codes.ABS || attr.cod === Script.codes.ABSadd) {
-                values.ABS += attr.value;
-            } else if (attr.cod === Script.codes.HP || attr.cod === Script.codes.HPadd) { 
-                values.HP += attr.value;
-            } else if (attr.cod === Script.codes.MP || attr.cod === Script.codes.MPadd) { 
-                values.MP += attr.value;
-            } else if (attr.cod === Script.codes.RES || attr.cod === Script.codes.RESadd) { 
-                values.RES += attr.value;
+        const codes = Script.codes;
+        const addPercent = (bonus: IBonus, attr: number) => {
+            return bonus.percent ? attr * bonus.value / 100 : bonus.value;
+        }
+        
+        const applyValues = (bonus: IBonus, itemName?: string) => {
+            const attr = itemName === undefined ? 0 : this.getAttrByCode(itemName, bonus.cod);
+            const add = addPercent(bonus, attr);
+            switch (bonus.cod) {
+                case codes.AR: values.AR += add; break;
+                case codes.ARadd: values.AR += bonus.value > 0 ? stats.lvl / bonus.value : 0; break;
+                case codes.APmin: values.APmin += add; break;
+                case codes.APmax: values.APmax += add; break;
+                case codes.DEF: values.DEF += add; break;
+                case codes.DEFadd: values.DEF += add; break;
+                case codes.ABS: values.ABS += add; break;
+                case codes.ABSadd: values.ABS += add; break;
+                case codes.HP: values.HP += bonus.value; break;
+                case codes.HPadd: values.HP += bonus.value; break;
+                case codes.MP: values.MP += bonus.value; break;
+                case codes.MPadd: values.MP += bonus.value; break;
+                case codes.RES: values.RES += bonus.value; break;
+                case codes.RESadd: values.RES += bonus.value; break;
             }
         }
-        const applyMixes = (itemName: string, bonus: IBonus) => {
-            const attr = this.getAttrByCode(itemName, bonus.cod);
-            if (bonus.cod === Script.codes.AR) {
-                values.AR += !bonus.percent ? bonus.value 
-                        : bonus.percent ? attr * bonus.value / 100 
-                        : 0;
-            } else if (bonus.cod === Script.codes.APmin) {
-                minArma += bonus.value;
-            } else if (bonus.cod === Script.codes.APmax) {
-                maxArma += bonus.value;
-            } else if (bonus.cod === Script.codes.DEF) {
-                values.DEF += !bonus.percent ? bonus.value
-                        : bonus.percent ? attr * bonus.value / 100
-                        : 0;
-            } else if (bonus.cod === Script.codes.ABS) {
-                values.ABS += !bonus.percent ? bonus.value
-                        : bonus.percent ? attr * bonus.value / 100
-                        : 0;
-            } else if (bonus.cod === Script.codes.HP) {
-                values.HP += bonus.value;
-            } else if (bonus.cod === Script.codes.MP) {
-                values.MP += bonus.value;
-            } else if (bonus.cod === Script.codes.RES) {
-                values.RES += bonus.value;
-            }    
+        
+        const applySkills = (bonus: IBonus) => {
+            if (bonus.cod === codes.AR) {
+                const arArma = this.getAttrByCode(Script.itensName.arma.title, codes.AR);
+                values.AR += addPercent(bonus, arArma);
+            } else if (bonus.cod === codes.AP) {
+                const min = this.getAttrByCode(Script.itensName.arma.title, codes.APmin);
+                const max = this.getAttrByCode(Script.itensName.arma.title, codes.APmax);
+                values.APmin += addPercent(bonus, min);
+                values.APmax += addPercent(bonus, max);
+            } else if (bonus.cod === codes.HP || bonus.cod === codes.HPadd) {
+                values.HP += addPercent(bonus, values.HP);
+            } else if (bonus.cod === codes.MP || bonus.cod === codes.MPadd) {
+                values.MP += addPercent(bonus, values.MP);
+            } else if (bonus.cod === codes.RES || bonus.cod === codes.RESadd) {
+                values.RES += addPercent(bonus, values.RES);
+            }
         }
-
-        this.getAllItens().forEach(i => i.attrs.forEach(a => applyItens(a)));
-        this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyMixes(m.item, b)));
+        
+        this.getAllItens().forEach(i => i.attrs.forEach(a => applyValues({ cod: a.cod, value: a.value })));
+        this.bonus.quests.forEach(q => applyValues(q));
+        this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyValues(b, m.item)));
         
         values.AR += (stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add;
-        values.APmin += 4 + (minArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
-                    + Math.trunc((minArma + maxArma) / 16) + Math.trunc(multi * minArma) + Math.trunc(minArma * passive / 100);
-        values.APmax += 6 + (maxArma) + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
-                    + Math.trunc(maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0) + Math.trunc(multi * maxArma) + Math.trunc(maxArma * passive / 100);
+        values.APmin += 4 + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+                    + Math.trunc((minArma + maxArma) / 16) + Math.trunc(multi * minArma);
+        values.APmax += 6 + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+                    + Math.trunc(maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0) + Math.trunc(multi * maxArma);
         values.DEF += (f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add;
         values.ABS += (stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
                     + (stats.agi / f.ABS.fAgi) + (values.DEF / 100) + f.ABS.add;
@@ -410,6 +409,8 @@ class CharDetail extends React.Component<ICharDetail>{
         values.MP += (f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add;
         values.RES += (f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
                     + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add;
+
+        this.bonus.skills.forEach(s => applySkills(s));
         return Script.defResult(values);
     }
 
