@@ -8,6 +8,7 @@ import ICharacterStatus from '../interfaces/ICharacterStatus';
 import IForces from '../interfaces/IForces';
 import IItem from '../interfaces/IItem';
 import IMix from '../interfaces/IMix';
+import IQuest from '../interfaces/IQuest';
 import ISkills from '../interfaces/ISkills';
 import IStatusResult from '../interfaces/IStatusResult';
 import BonusAP from './BonusAP';
@@ -37,14 +38,14 @@ class CharDetail extends React.Component<ICharDetail>{
     private char: IChar | undefined;
     private bonus: { skills: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
     private itens: { kit: IItem[], set: IItem[], prim: IItem[], bonus: IItem[] }
-    private detail: { status: Status | null, skills: Skills | null, quests: Quests | null, result: Result | null }
+    private detail: { status: Status | null, skills: Skills | null, result: Result | null }
     private sets: { kit: SetItem | null, pri: SetItem | null, set: SetItem | null, bonus: SetItem | null }
 
     constructor(props: ICharDetail) {
         super(props);
         this.bonus = { skills: [], quests: [], mixes: [] };
         this.itens = { kit: [], set: [], prim: [], bonus: [] }
-        this.detail = { status: null, skills: null, quests: null, result: null }
+        this.detail = { status: null, skills: null, result: null }
         this.sets = { kit: null, pri: null, set: null, bonus: null }
         this.state = { hasChar: false };
     }
@@ -62,6 +63,7 @@ class CharDetail extends React.Component<ICharDetail>{
     public render() {
         const chars: IChar[] = Script.getChars();
         const bonus: { forces: IForces[], another: IForces[] } = Script.getBonusAP();
+        const quests: IQuest[] =  Script.getQuests();
         const details = () => {
             if (this.char === undefined){
                 return null;
@@ -75,7 +77,7 @@ class CharDetail extends React.Component<ICharDetail>{
                     ref={ref => this.detail.skills = ref}
                     onSkillChanged={this.onSkillChanged} />
                 <Quests
-                    ref={ref => this.detail.quests = ref}
+                    quests={quests}
                     onQuestsChanged={this.onQuestChanged} />
                 <BonusAP 
                     forces={bonus.forces}
@@ -160,9 +162,6 @@ class CharDetail extends React.Component<ICharDetail>{
             const skills = this.char === undefined ? [] : this.char.skills;
             this.bonus.skills = getSkillValues(skills);
             this.detail.skills.setSkills(skills);
-        }
-        if (this.detail.quests !== null) {
-            this.detail.quests.setQuest(this.char === undefined ? [] : Script.getQuests());
         }
         if (this.sets.kit !== null) {
             const names = [Script.itensName.amuleto.title, Script.itensName.anel.title];
