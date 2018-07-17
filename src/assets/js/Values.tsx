@@ -6,7 +6,7 @@ enum codes {
     HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT,
     Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton, BonusAdd,
     Lucidy, Sereno, Fadeo, Sparky, Raident, Transparo, Murky, Devine, Celesto, Mirage,
-    Inferna, Enigma, Bellum, Cabeção, CoroaBC
+    Inferna, Enigma, Bellum, Vita, Ira, Tera, Cabeção, CoroaBC
 }
 
 const statsCode = {
@@ -81,13 +81,16 @@ const forcesName = {
     Enigma: { cod: codes.Enigma, title: "Enigma" },
     Fadeo: { cod: codes.Fadeo, title: "Fadeo" },
     Inferna: { cod: codes.Inferna, title: "Inferna" },
+    Ira: { cod: codes.Ira, title: "Ira" },
     Lucidy: { cod: codes.Lucidy, title: "Lucidy" },
     Mirage: { cod: codes.Mirage, title: "Mirage" },
     Murky: { cod: codes.Murky, title: "Murky" },
     Raident: { cod: codes.Raident, title: "Raident" },
     Sereno: { cod: codes.Sereno, title: "Sereno" }, 
     Sparky: { cod: codes.Sparky, title: "Sparky" },
+    Tera: { cod: codes.Tera, title: "Tera" },
     Transparo: { cod: codes.Transparo, title: "Transparo" },
+    Vita: { cod: codes.Vita, title: "Vita" },
 }
 
 const itensName = {
@@ -135,6 +138,9 @@ const forces: IForces[] = [
     { force: forcesName.Inferna, bonus: [{ cod: codes.AP, value: 120 }, { cod: codes.AP, value: 15, percent: true }] },
     { force: forcesName.Enigma, bonus: [{ cod: codes.AP, value: 140 }, { cod: codes.AP, value: 15, percent: true }] },
     { force: forcesName.Bellum, bonus: [{ cod: codes.AP, value: 160 }, { cod: codes.AP, value: 15, percent: true }] },
+    { force: forcesName.Vita, bonus: [{ cod: codes.AP, value: 120 }, { cod: codes.AP, value: 15, percent: true }] },
+    { force: forcesName.Ira, bonus: [{ cod: codes.AP, value: 150 }, { cod: codes.AP, value: 20, percent: true }] },
+    { force: forcesName.Tera, bonus: [{ cod: codes.AP, value: 200 }, { cod: codes.AP, value: 15, percent: true }] },
 ]
 
 const bonusAP: IForces[] = [
