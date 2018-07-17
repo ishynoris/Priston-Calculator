@@ -5,7 +5,7 @@ import '../assets/css/CheckBox.css';
 interface ICheckBox {
     text: string, 
     checked?: boolean, 
-    onChangeCallback?: (title: string, check: boolean) => void
+    onChangeCallback?: (title: string, check: boolean) => boolean
 }
 
 class CheckBox extends React.Component<ICheckBox>{
@@ -24,9 +24,13 @@ class CheckBox extends React.Component<ICheckBox>{
 
     public onChanged = (e: React.FormEvent<HTMLInputElement>) => {
 
-        this.setState({checked: e.currentTarget.checked});
         if(this.props.onChangeCallback !== undefined){
-            this.props.onChangeCallback(this.props.text, this.state.checked);
+            const changes = this.props.onChangeCallback(this.props.text, this.state.checked);
+            if (changes) {
+                this.setState({ checked: e.currentTarget.checked });
+            } else {
+                e.currentTarget.checked = !e.currentTarget.checked;
+            }
         }
     }
 

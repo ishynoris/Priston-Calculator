@@ -54,7 +54,7 @@ class Mixing extends React.Component<IItem>{
         }
     }
 
-    private onChecked = (title: string, check: boolean) => {
+    private onChecked = (title: string, check: boolean): boolean => {
         
         if (this.props.onMixSelected !== undefined) {
             this.props.onMixSelected(this.props.name, undefined);
@@ -63,6 +63,7 @@ class Mixing extends React.Component<IItem>{
             this.selectMix.changeValue(0);
         }
         this.setState({ checked: check });
+        return true;
     }
 
     private onSelected = (name: string, index: number, value: string): boolean => {

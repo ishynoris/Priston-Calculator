@@ -65,14 +65,14 @@ class BonusAP extends React.Component<IBonusAP>{
         return this.props.onForceSelected(this.props.forces[index - 1]);
     }
 
-    private onChecked = (title: string, checked: boolean) => {
+    private onChecked = (title: string, checked: boolean): boolean => {
         if (this.props.onForceSelected === undefined) {
-            return;
+            return true;
         }
         const force = this.props.another.find(a => {
             return a.force.title === title;
         })
-        this.props.onForceSelected(force === undefined ? undefined : force);
+        return this.props.onForceSelected(force);
     }
 }
 
