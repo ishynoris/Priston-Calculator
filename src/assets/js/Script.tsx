@@ -30,25 +30,25 @@ class Script {
 
         if (values === undefined) {
             return {
-                ABS: { title: Script.status.ABS.title, value: val() },
-                AP: { title: Script.status.AP.title, value: val() },
-                AR: { title: Script.status.AR.title, value: val() },
-                DEF: { title: Script.status.DEF.title, value: val() },
-                HP: { title: Script.status.HP.title, value: val() },
-                MP: { title: Script.status.MP.title, value: val() },
-                RES: { title: Script.status.RES.title, value: val() },
+                ABS: { title: Script.status.ABS.title, value: ceilVal() },
+                AP: { title: Script.status.AP.title, value: truncVal() },
+                AR: { title: Script.status.AR.title, value: truncVal() },
+                DEF: { title: Script.status.DEF.title, value: truncVal() },
+                HP: { title: Script.status.HP.title, value: truncVal() },
+                MP: { title: Script.status.MP.title, value: truncVal() },
+                RES: { title: Script.status.RES.title, value: truncVal() },
             }
         }
-        const min = val(values.APmin);
-        const max = val(values.APmax);
+        const min = truncVal(values.APmin);
+        const max = truncVal(values.APmax);
         return {
-            ABS: { title: Script.status.ABS.title, value: val(values.ABS) },
+            ABS: { title: Script.status.ABS.title, value: ceilVal(values.ABS) },
             AP: { title: Script.status.AP.title, value: min + "-" + max },
-            AR: { title: Script.status.AR.title, value: val(values.AR) },
-            DEF: { title: Script.status.DEF.title, value: val(values.DEF) },
-            HP: { title: Script.status.HP.title, value: val(values.HP) },
-            MP: { title: Script.status.MP.title, value: val(values.MP) },
-            RES: { title: Script.status.RES.title, value: val(values.RES) },
+            AR: { title: Script.status.AR.title, value: truncVal(values.AR) },
+            DEF: { title: Script.status.DEF.title, value: truncVal(values.DEF) },
+            HP: { title: Script.status.HP.title, value: truncVal(values.HP) },
+            MP: { title: Script.status.MP.title, value: truncVal(values.MP) },
+            RES: { title: Script.status.RES.title, value: truncVal(values.RES) },
         }
     }
 
@@ -101,8 +101,12 @@ class Script {
     }
 }
 
-function val(v?: number): string | number {
+function truncVal(v?: number): string | number {
     return v === undefined || v < 0 ? "-" : Math.trunc(v);
+}
+
+function ceilVal(v?: number): string | number {
+    return v === undefined || v < 0 ? "-" : Math.ceil(v);
 }
 
 export default Script;
