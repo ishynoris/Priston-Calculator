@@ -53,8 +53,8 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
-            AP: { fFator: 130, attrFator: codes.AGI, attrDiv: [codes.TAL] },
+            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
+            AP: { fFator: 130, attrFator: codes.AGI, attrDiv: [codes.TAL], min: 4, max: 6 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
@@ -89,26 +89,26 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
-            AP: { fFator: -1, attrFator: -1, attrDiv: [] },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
-            HP: { fLvl: 0.6, fAgi: 2.2, fVit: 0, add: 0 },
-            MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
+            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 }, // OK
+            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
+            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 }, // OK
+            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 }, // OK
+            HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 }, // OK
+            MP: { fLvl: 0.9, fInt: 2.7, add: 0 }, // OK
+            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 } // OK
         },
         name: names.Cavaleiro,
         skills: [
-            { codBonus: -1, name: "Treinamento Físico", values: [] }, // TODO
-            { codBonus: -1, name: "Mestre das Espadas", percent: true, values: [] },
+            { codBonus: codes.RES, name: "Treinamento Físico", percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] },
+            { codBonus: codes.AP, name: "Mestre das Espadas", percent: true, values: [0, 38] },
         ],
         stats: { lvl: 1, for: 26, int: 13, tal: 17, agi: 19, vit: 24 },
     },
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 10, fFor: 40, fTal: 36.36, fAgi: 200, add: 0 },
-            AP: { fFator: -1, attrFator: -1, attrDiv: [] },
+            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
+            AP: { fFator: -1, attrFator: -1, attrDiv: [], min: 0, max: 0 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 0.6, fAgi: 2.2, fVit: 0, add: 0 },

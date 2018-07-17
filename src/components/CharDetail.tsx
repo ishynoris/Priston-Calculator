@@ -252,12 +252,12 @@ class CharDetail extends React.Component<ICharDetail>{
     }
 
     private onForceSelected = (bonus: IForces | undefined): boolean => {
-        console.log(bonus);
-        return true;
+        alert("Ainda não é possível utilizar nenhum bônus de Poder de Ataque.");
+        return false;
     }
     
     private onCharSelect = (name: string, index: number, char: IChar | undefined): boolean => {
-        const charsDone = [Script.chars.Arqueira]
+        const charsDone = [Script.chars.Arqueira, Script.chars.Cavaleiro]
       
         const charName = char === undefined ? undefined : char.name;
         if (charName !== undefined && charsDone.indexOf(charName) < 0){
@@ -407,16 +407,19 @@ class CharDetail extends React.Component<ICharDetail>{
         this.getAllItens().forEach(i => i.attrs.forEach(a => applyValues({ cod: a.cod, value: a.value })));
         this.bonus.quests.forEach(q => applyValues(q));
         this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyValues(b, m.item)));
+        let hp = (f.HP.fFor === undefined ? 0 : f.HP.fFor * stats.for);
+        hp += (f.HP.fAgi === undefined ? 0 : f.HP.fAgi * stats.agi);
+        hp += (f.HP.fInt === undefined ? 0 : f.HP.fInt * stats.int);
         
         values.AR += (stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add;
-        values.APmin += 4 + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+        values.APmin += f.AP.min + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
                     + Math.trunc((minArma + maxArma) / 16) + Math.trunc(multi * minArma);
-        values.APmax += 6 + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+        values.APmax += f.AP.max + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
                     + Math.trunc(maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0) + Math.trunc(multi * maxArma);
         values.DEF += (f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add;
-        values.ABS += (stats.lvl / f.ABS.fLvl) + (stats.for / f.ABS.fFor) + (stats.tal / f.ABS.fTal)
-                    + (stats.agi / f.ABS.fAgi) + (values.DEF / 100) + f.ABS.add;
-        values.HP += (f.HP.fLvl * stats.lvl) + (f.HP.fAgi * stats.agi) + (f.HP.fVit * stats.vit) + f.HP.add;
+        values.ABS += (f.ABS.fLvl * stats.lvl) + (f.ABS.fFor * stats.for) + (f.ABS.fTal * stats.tal)
+                    + (values.DEF / 100) + f.ABS.add;
+        values.HP += (f.HP.fLvl * stats.lvl) + (hp) + (f.HP.fVit * stats.vit) + f.HP.add;
         values.MP += (f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add;
         values.RES += (f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
                     + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add;
