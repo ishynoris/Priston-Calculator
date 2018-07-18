@@ -89,13 +89,13 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 }, // OK
+            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
             AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 }, // OK
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 }, // OK
-            HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 }, // OK
-            MP: { fLvl: 0.9, fInt: 2.7, add: 0 }, // OK
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 } // OK
+            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
+            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
+            MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
+            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Cavaleiro,
         skills: [
@@ -151,10 +151,17 @@ const charDetail: IChar[] = [
     },
     {
         asSkills: toSkills,
+        formula: {
+            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
+            AP: { fFator: 170, attrFator: codes.INT, attrDiv: [codes.AGI, codes.TAL], min: 1, max: 3 },
+            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
+            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
+            MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
+            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
+        },
         name: names.Sacerdotisa,
-        skills: [
-            { codBonus: -1, name: "Meditação", values: [] }, // TODO
-        ],
+        skills: [],
         stats: { lvl: 1, for: 15, int: 28, tal: 21, agi: 15, vit: 20 },
     },
     {
