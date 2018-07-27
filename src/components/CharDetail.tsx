@@ -257,14 +257,8 @@ class CharDetail extends React.Component<ICharDetail>{
     }
     
     private onCharSelect = (name: string, index: number, char: IChar | undefined): boolean => {
-        const charsDone = [Script.chars.Arqueira, Script.chars.Cavaleiro]
       
         const charName = char === undefined ? undefined : char.name;
-        if (charName !== undefined && charsDone.indexOf(charName) < 0){
-            alert ("Ainda não é possível calcular a build para " + charName + ". :("
-                + "\nMas estamos trabalhando nisso. :)");
-            return false;
-        }
         if (this.props.onCharChanged !== undefined) {
             this.props.onCharChanged(char);
         }
