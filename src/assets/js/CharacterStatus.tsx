@@ -73,7 +73,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         formula: {
             ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 130, attrFator: codes.AGI, attrDiv: [codes.TAL], min: 4, max: 6 },
+            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
@@ -83,7 +83,7 @@ const charDetail: IChar[] = [
         name: names.Assassina,
         skills: [
             { codBonus: codes.AP, name: "Maestria em Adagas", percent: true, values: [0, 5, 7, 9, 11, 14, 17, 20, 23, 27, 31] },
-            { codBonus: codes.AR, name: "Maestria do Ataque", percent: true, values: [0, 8, 14] }, // Taxa Total
+            { codBonus: codes.ARtotal, name: "Maestria do Ataque", percent: true, values: [0, 8, 14, 20, 26, 32, 38, 44, 50, 56, 62] },
             { codBonus: -1, name: "Maestria Fatal", values: [] },
         ],
         stats: { lvl: 1, for: 25, int: 10, tal: 22, agi: 20, vit: 22 },
@@ -101,7 +101,7 @@ const charDetail: IChar[] = [
         },
         name: names.Atalanta,
         skills: [
-            { codBonus: -1, name: "Maestra do Arremesso", percent: true, values: [0, 18, 22, 26, 30, 34, 38, 41, 44, 47, 50] }
+            { codBonus: codes.AP, name: "Maestra do Arremesso", percent: true, values: [0, 18, 22, 26, 30, 34, 38, 41, 44, 47, 50] }
         ],
         stats: { lvl: 1, for: 23, int: 15, tal: 19, agi: 19, vit: 23 },
     },
@@ -127,7 +127,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         formula: {
             ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: -1, attrFator: -1, attrDiv: [codes.TAL, codes.AGI], min: 4, max: 5 },
+            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
@@ -136,7 +136,8 @@ const charDetail: IChar[] = [
         },
         name: names.Guerreira,
         skills: [ 
-            { codBonus: codes.AP, name: "Maestria em Força", percent: true, values: [0, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46] }
+            { codBonus: codes.AP, name: "Maestria em Força", percent: true, values: [0, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46] },
+            { codBonus: codes.RES, name: "Maestria em Resistência", percent: true, values: [0, 6, 12] }
         ],
         stats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 20, vit: 24}
     },

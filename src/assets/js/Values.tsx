@@ -2,7 +2,7 @@ import IForces from '../../interfaces/IForces';
 import IItem from '../../interfaces/IItem';
 
 enum codes {
-    ABS, ABSadd, AGI, AP, APmax, APmin, APadd, AR, ARadd, DEF, DEFadd, EP, FOR,
+    ABS, ABSadd, AGI, AP, APmax, APmin, APadd, AR, ARadd, ARtotal, DEF, DEFadd, EP, FOR,
     HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT,
     Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton, BonusAdd,
     Lucidy, Sereno, Fadeo, Sparky, Raident, Transparo, Murky, Devine, Celesto, Mirage,

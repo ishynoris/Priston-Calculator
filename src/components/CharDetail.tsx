@@ -384,6 +384,9 @@ class CharDetail extends React.Component<ICharDetail>{
             if (bonus.cod === codes.AR) {
                 const arArma = this.getAttrByCode(Script.itensName.arma.title, codes.AR);
                 values.AR += addPercent(bonus, arArma);
+            } else if (bonus.cod === codes.ARtotal) {
+                const ARtotal = values.AR;
+                values.AR += addPercent(bonus, ARtotal);
             } else if (bonus.cod === codes.AP) {
                 const min = this.getAttrByCode(Script.itensName.arma.title, codes.APmin);
                 const max = this.getAttrByCode(Script.itensName.arma.title, codes.APmax);
