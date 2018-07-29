@@ -22,7 +22,7 @@ const Footer = (props: {}) => {
         <div style={footer}>
             <label style={label}>
                 Desenvolvido por: Anailson Santos Mota 
-                <i style={icons} className="fas fa-cog fa-spin fa-lg" />(v. alfa)
+                <i style={icons} className="fas fa-cog fa-spin fa-lg" />(v0.2 - alfa)
             </label>
             <div> 
                 {((ancs: IAnchors[]) => {
