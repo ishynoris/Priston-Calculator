@@ -145,7 +145,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         formula: {
             ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: -1, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 3, max: 5 },
+            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
@@ -163,7 +163,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         formula: {
             ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: -1, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 3, max: 5 },
+            AP: { fFator: 150, attrFator: codes.INT, attrDiv: [codes.TAL], min: 2, max: 4 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
@@ -212,7 +212,7 @@ const charDetail: IChar[] = [
         asSkills: toSkills,
         formula: {
             ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 170, attrFator: codes.INT, attrDiv: [codes.AGI, codes.TAL], min: 1, max: 3 },
+            AP: { fFator: 170, attrFator: codes.INT, attrDiv: [codes.TAL], min: 2, max: 4 },
             AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
             DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
             HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
