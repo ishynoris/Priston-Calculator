@@ -54,13 +54,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 130, attrFator: codes.AGI, attrDiv: [codes.TAL], min: 4, max: 6 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 130, attrFator: codes.AGI, fDiv: 40, attrDiv: [codes.TAL], min: 4, max: 6 },
             HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
             MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Arqueira,
         skills: [
@@ -72,13 +68,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 130, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
             MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Assassina,
         skills: [
@@ -91,13 +83,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 130, attrFator: codes.AGI, attrDiv: [codes.TAL], min: 4, max: 6 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 130, attrFator: codes.AGI, fDiv: 40, attrDiv: [codes.TAL], min: 4, max: 6 },
             HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
             MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Atalanta,
         skills: [
@@ -108,13 +96,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 130, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
             MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Cavaleiro,
         skills: [
@@ -126,13 +110,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 130, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
             MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Guerreira,
         skills: [ 
@@ -144,13 +124,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 130, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 130, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
             MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Lutador,
         skills: [
@@ -162,13 +138,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 150, attrFator: codes.INT, attrDiv: [codes.TAL], min: 2, max: 4 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 150, attrFator: codes.INT, fDiv: 30, attrDiv: [codes.TAL], min: 2, max: 5 },
             HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
             MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Mago,
         skills: [
@@ -179,13 +151,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: -1, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 3, max: 5 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: -1, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 3, max: 5 },
             HP: { fLvl: 2.1, fFor: 0.6, fVit: 2.2, add: -5 },
             MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Mecanico,
         skills: [
@@ -196,13 +164,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: -1, attrFator: codes.FOR, attrDiv: [codes.TAL, codes.AGI], min: 3, max: 5 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: -1, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 3, max: 5 },
             HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -5 },
             MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Pikeman,
         skills: [],
@@ -211,13 +175,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: 170, attrFator: codes.INT, attrDiv: [codes.TAL], min: 2, max: 4 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: 170, attrFator: codes.INT, fDiv: 30, attrDiv: [codes.TAL], min: 2, max: 4 },
             HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
             MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Sacerdotisa,
         skills: [],
@@ -226,13 +186,9 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-            AP: { fFator: -1, attrFator: codes.INT, attrDiv: [codes.TAL], min: 1, max: 3 },
-            AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-            DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+            AP: { fFator: -1, attrFator: codes.INT, fDiv: 40, attrDiv: [codes.TAL], min: 1, max: 3 },
             HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
             MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
-            RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
         },
         name: names.Xama,
         skills: [

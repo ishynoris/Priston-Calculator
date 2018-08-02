@@ -5,7 +5,7 @@ import IStatus from './IStatus';
 
 interface IChar {
     asSkills: (stats: ICharacterStatus) => IStatus[],
-    formula?: IFormula,
+    formula: IFormula,
     name: string,
     skills: ISkills[],
     stats: ICharacterStatus,

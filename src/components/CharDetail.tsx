@@ -404,22 +404,23 @@ class CharDetail extends React.Component<ICharDetail>{
         this.getAllItens().forEach(i => i.attrs.forEach(a => applyValues({ cod: a.cod, value: a.value })));
         this.bonus.quests.forEach(q => applyValues(q));
         this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyValues(b, m.item)));
-        let hp = (f.HP.fFor === undefined ? 0 : f.HP.fFor * stats.for);
-        hp += (f.HP.fAgi === undefined ? 0 : f.HP.fAgi * stats.agi);
-        hp += (f.HP.fInt === undefined ? 0 : f.HP.fInt * stats.int);
+        const hp = f.HP.fFor !== undefined ? f.HP.fFor * stats.for 
+                : f.HP.fAgi !== undefined ? f.HP.fAgi * stats.agi
+                : f.HP.fInt !== undefined ? f.HP.fInt * stats.int
+                : 0;
         
-        values.AR += (stats.lvl * f.AR.fLvl) + (stats.tal * f.AR.fTal) + (stats.agi * f.AR.fAgi) + f.AR.add;
-        values.APmin += f.AP.min + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+        values.AR += (stats.lvl * 1.9) + (stats.tal * 1.5) + (stats.agi * 3.1);
+        values.APmin += f.AP.min + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / f.AP.fDiv) 
                     + Math.trunc((minArma + maxArma) / 16) + Math.trunc(multi * minArma);
         values.APmax += f.AP.max + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
                     + Math.trunc(maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0) + Math.trunc(multi * maxArma);
-        values.DEF += (f.DEF.fLvl * stats.lvl) + (f.DEF.fTal * stats.tal) + (f.DEF.fAgi * stats.agi) + f.DEF.add;
-        values.ABS += (f.ABS.fLvl * stats.lvl) + (f.ABS.fFor * stats.for) + (f.ABS.fTal * stats.tal)
-                    + (values.DEF / 100) + f.ABS.add;
-        values.HP += (f.HP.fLvl * stats.lvl) + (hp) + (f.HP.fVit * stats.vit) + f.HP.add;
-        values.MP += (f.MP.fLvl * stats.lvl) + (f.MP.fInt * stats.int) + f.MP.add;
-        values.RES += (f.RES.fLvl * stats.lvl) + (f.RES.fFor * stats.for) + (f.RES.fTal * stats.tal)
-                    + (stats.int) + (f.RES.fVit * stats.vit) + f.RES.add;
+        values.DEF += (stats.lvl * 1.4) + (stats.tal * 0.25) + (stats.agi * 0.5);
+        values.ABS += (stats.lvl * 0.1) + (stats.for * 0.025) + (stats.tal * 0.025)
+                    + (values.DEF / 100);
+        values.HP += (stats.lvl * f.HP.fLvl) + (hp) + (stats.vit * f.HP.fVit) + f.HP.add;
+        values.MP += (stats.lvl * f.MP.fLvl) + (stats.int * f.MP.fInt) + f.MP.add;
+        values.RES += (stats.lvl * 2.3) + (stats.for * 0.25) + (stats.tal * 0.5)
+                    + (stats.int) + (stats.vit * 1.4) + 80;
 
         this.bonus.skills.forEach(s => applySkills(s));
         return Script.defResult(values);
