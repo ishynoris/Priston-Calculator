@@ -419,7 +419,7 @@ class CharDetail extends React.Component<ICharDetail>{
                     + (values.DEF / 100);
         values.HP += (stats.lvl * f.HP.fLvl) + (hp) + (stats.vit * f.HP.fVit) + f.HP.add;
         values.MP += (stats.lvl * f.MP.fLvl) + (stats.int * f.MP.fInt) + f.MP.add;
-        values.RES += (stats.lvl * 2.3) + (stats.for * 0.25) + (stats.tal * 0.5)
+        values.RES += (stats.lvl * 2.3) + (stats.for * 0.5) + (stats.tal * 0.5)
                     + (stats.int) + (stats.vit * 1.4) + 80;
 
         this.bonus.skills.forEach(s => applySkills(s));
