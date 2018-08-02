@@ -99,6 +99,14 @@ class Script {
     public static getChars(): IChar[] {
         return CharacterStatus.charDetail;
     }
+
+    public static getLangs(): Array<{ title: string, value: string }>{
+        return [
+          { title: "Português", value: "ptbr" },
+          { title: "English", value: "en" },
+          { title: "Español", value: "es" }
+        ]
+    }
 }
 
 function truncVal(v?: number): string | number {
