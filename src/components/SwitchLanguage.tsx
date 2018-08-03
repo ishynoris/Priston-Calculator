@@ -11,19 +11,18 @@ class SwitchLanguage extends React.Component<ISwitchLanguage> {
 
     return <div className="row">
       <div className="col-md-12">
-          <div style={{ float: "right" }}>
-            <DropdownList 
-              text="Selecione o idioma"
-              itens={this.props.values}
-              onSelected={this.onSelected}
-              />
-          </div>
+        <div style={{ float: "right" }}>
+          <DropdownList 
+            text="Selecione o idioma"
+            itens={this.props.values}
+            onSelected={this.onSelected} />
         </div>
+      </div>
     </div>
   }
 
-  private onSelected = (value: string) => {
-    console.log(value);
+  private onSelected = (index: number, value: string) => {
+    console.log(index + " " + value);
   }
 }
 
