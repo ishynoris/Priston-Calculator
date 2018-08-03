@@ -9,6 +9,12 @@ import CharacterStatus from './CharacterStatus';
 import QuestList from './QuestList';
 import Values from './Values';
 
+interface IVersion {
+    v: number;
+    tag: string;
+    descriptions: string[];
+}
+
 class Script {
 
     public static sets = { kit: "Kit", primario: "Primario", set: "Set" }
@@ -98,6 +104,37 @@ class Script {
 
     public static getChars(): IChar[] {
         return CharacterStatus.charDetail;
+    }
+
+    public static getVersions(): IVersion[] {
+        return [
+            { 
+                descriptions: ["Liberado todas as fórmulas para Arqueira, Sacerdotisa e Cavaleiro."],
+                v: 0.1, 
+                tag: "alfa", 
+            }, {
+                descriptions: ["Liberado as fórmulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
+                v: 0.2,
+                tag: "alfa"
+            }, {
+                descriptions: ["Adicionado as fórmulas de AP para Atalanta, Assassina e Guerreira."],
+                v: 0.3,
+                tag: "alfa"
+            }, {
+                descriptions: [
+                    "Adicionado as fórmulas de AP para Mago e Lutador.", 
+                    "A fórmula para Sacerdotisa foi corrigida."
+                ],
+                v: 0.4,
+                tag: "alfa"
+            }
+        ]
+    }
+
+    public static currentVersion(): string {
+        const versions = Script.getVersions();
+        const version = versions[versions.length -1];
+        return "v" + version.v + " - " + version.tag;
     }
 }
 

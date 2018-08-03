@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Script from '../assets/js/Script';
 
 interface IAnchors { icon: string, link: string, target: string }
 
@@ -22,7 +23,7 @@ const Footer = (props: {}) => {
         <div style={footer}>
             <label style={label}>
                 Desenvolvido por: Anailson Santos Mota 
-                <i style={icons} className="fas fa-cog fa-spin fa-lg" />(v0.2 - alfa)
+                <i style={icons} className="fas fa-cog fa-spin fa-lg" /> { Script.currentVersion() }
             </label>
             <div> 
                 {((ancs: IAnchors[]) => {
