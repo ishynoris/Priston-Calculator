@@ -103,7 +103,7 @@ const charDetail: IChar[] = [
         name: names.Cavaleiro,
         skills: [
             { codBonus: codes.RES, name: "Treinamento Físico", percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 28, 30] },
-            { codBonus: codes.AP, name: "Mestre das Espadas", percent: true, values: [0, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38] },
+            { codBonus: codes.AP, name: "Mestre das Espadas", percent: true, values: [0, 11, 14, 17, 20, 23, 26, 29, 80, 90, 100] },
         ],
         stats: { lvl: 1, for: 26, int: 13, tal: 17, agi: 19, vit: 24 },
     },
@@ -117,7 +117,7 @@ const charDetail: IChar[] = [
         name: names.Guerreira,
         skills: [ 
             { codBonus: codes.AP, name: "Maestria em Força", percent: true, values: [0, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46] },
-            { codBonus: codes.RES, name: "Maestria em Resistência", percent: true, values: [0, 6, 12] }
+            { codBonus: codes.RES, name: "Maestria em Resistência", percent: true, values: [0, 6, 12, 18, 24, 30, 36, 42] }
         ],
         stats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 20, vit: 24}
     },
@@ -164,7 +164,7 @@ const charDetail: IChar[] = [
     {
         asSkills: toSkills,
         formula: {
-            AP: { fFator: -1, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 3, max: 5 },
+            AP: { fFator: 130, attrFator: codes.FOR, fDiv: 40, attrDiv: [codes.TAL, codes.AGI], min: 2, max: 4 },
             HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -5 },
             MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
         },
