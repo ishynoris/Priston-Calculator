@@ -1,17 +1,15 @@
 import * as React from 'react';
-import Values from '../assets/js/Values';
+
+import Script from '../assets/js/Script';
+import ILanguage from '../interfaces/ILanguage';
 
 import '../assets/css/Image.css';
 
-interface IImage { item: string }
+interface IImage { language: ILanguage, item: string }
 
 class Image extends React.Component<IImage>{
 
-
-    public static hasImage (name: string): boolean {
-        return this.setImage(name) !== undefined
-    }
-    private static images = {
+    public static images = {
         amuleto: require("../assets/images/amuleto.png"),
         anel: require("../assets/images/anel.png"),
         arma: require("../assets/images/arma.png"),
@@ -24,18 +22,18 @@ class Image extends React.Component<IImage>{
         shelton: require("../assets/images/shelton.png"),
     }
 
-    private static setImage = (item: string) => {
-        const itensName = Values.itensName
-        return item === itensName.amuleto.title ? Image.images.amuleto
-            : item === itensName.anel.title ? Image.images.anel
-            : item === itensName.arma.title ? Image.images.arma
-            : item === itensName.armadura.title ? Image.images.armadura
-            : item === itensName.bota.title ? Image.images.bota
-            : item === itensName.bracel.title ? Image.images.bracel
-            : item === itensName.escudo.title ? Image.images.escudo
-            : item === itensName.luva.title ? Image.images.luva
-            : item === itensName.orbital.title ? Image.images.orbital
-            : item === itensName.shelton.title ? Image.images.shelton
+    public static setImage = (language: ILanguage, item: string) => {
+        const itensChar = Script.itensChar(language);
+        return item === itensChar.Amulet.title ? Image.images.amuleto
+            : item === itensChar.Rings.title ? Image.images.anel
+            : item === itensChar.Weapon.title ? Image.images.arma
+            : item === itensChar.Armor.title ? Image.images.armadura
+            : item === itensChar.Boots.title ? Image.images.bota
+            : item === itensChar.Armlet.title ? Image.images.bracel
+            : item === itensChar.Shield.title ? Image.images.escudo
+            : item === itensChar.Gauntlets.title ? Image.images.luva
+            : item === itensChar.Orbital.title ? Image.images.orbital
+            : item === itensChar.Shelton.title ? Image.images.shelton
             : undefined;
     }
 
@@ -54,12 +52,12 @@ class Image extends React.Component<IImage>{
     }
 
     public render() {
-        const image = Image.setImage(this.props.item);
+        const image = Image.setImage(this.props.language, this.props.item);
         if(image === undefined){
             return null;
         }
 
-        if (this.props.item === Values.itensName.anel.title) {
+        if (this.props.item === Script.itensChar(this.props.language).Rings.title) {
             return this.doubleImage(image);
         }
         return this.simpleImage(image);

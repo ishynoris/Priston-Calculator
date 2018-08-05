@@ -1,17 +1,18 @@
 import * as React from 'react';
 
+import IKeyValue from '../interfaces/IKeyValue';
 import TitleSmall from './TitleSmall';
 
 import '../assets/css/DropdownList.css'
 
 interface IDropdownItem {
-    title: string,
-    value: string,
+    item: IKeyValue
     onItemClicked?: (item: IDropdownItem) => void;
 }
 interface IDropdownList {
+    default: number, 
     text: string;
-    itens: IDropdownItem[];
+    itens: IKeyValue[];
     onSelected?: (index: number, value: string) => void;
 }
 const DropdownItem = (props: IDropdownItem) => {
@@ -21,39 +22,37 @@ const DropdownItem = (props: IDropdownItem) => {
         }
     }
     return <div onClick={onItemClicked}>
-        <TitleSmall title={props.title} />
+        <TitleSmall title={props.item.key} />
     </div>
 }
 
 class DropdownList extends React.Component<IDropdownList> {
 
-    public state: { index: number, current: IDropdownItem };
+    public state: { index: number, current: IKeyValue };
 
     constructor (props: IDropdownList){
         super(props);
-        const current = 0;
-        this.state = { index: current, current: props.itens[current] }
+        this.state = { index: this.props.default, current: props.itens[this.props.default] }
     }
 
     public render() {
 
-        const selected = (item: IDropdownItem) => {
-            if (item.value === this.state.current.value){
+        const selected = (el: IKeyValue) => {
+            if (el.key === this.state.current.value){
                 return <i className="fas fa-check fa-xs" /> 
             }
             return null;
         }
 
-        const dropdownItem = (index: number, item: IDropdownItem) => {
+        const dropdownItem = (index: number, el: IKeyValue) => {
             return <div key={index} className="dropdown-item">
                 <div className="row">
                     <div className="col-md-2">
-                        { selected(item) }
+                        { selected(el) }
                     </div>
                     <div className="col-md-9">
                         <DropdownItem
-                            title={item.title}
-                            value={item.value}
+                            item={el}
                             onItemClicked={this.onItemClicked} />
                     </div>
                 </div>
@@ -80,14 +79,14 @@ class DropdownList extends React.Component<IDropdownList> {
 
     private onItemClicked = (dropdown: IDropdownItem) => {
         let indexClicked = this.state.index;
-        this.props.itens.forEach((item, index) => {
-            if (dropdown.value === item.value) {
+        this.props.itens.forEach((el, index) => {
+            if (dropdown.item.value === el.value) {
                 indexClicked = index;
             }
         })
         this.setState({ current: dropdown, index: indexClicked });
         if (this.props.onSelected !== undefined) {
-            this.props.onSelected(indexClicked, dropdown.value);
+            this.props.onSelected(indexClicked, dropdown.item.value);
         }
     }
 }
