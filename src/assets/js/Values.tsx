@@ -1,5 +1,5 @@
 import IBonus from "../../interfaces/IBonus";
-import ICodTitle from "../../interfaces/ICodTitle.1";
+import ICodTitle from "../../interfaces/ICodTitle";
 import IForces from "../../interfaces/IForces";
 import IItem from "../../interfaces/IItem";
 import IItensChar from "../../interfaces/IItensChar";
