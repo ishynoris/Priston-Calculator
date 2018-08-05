@@ -1,5 +1,5 @@
 import IBonus from "../../interfaces/IBonus";
-import ICodTitle from "../../interfaces/ICodTitle";
+import ICodTitle from "../../interfaces/ICodTitle.1";
 import IForces from "../../interfaces/IForces";
 import IItem from "../../interfaces/IItem";
 import IItensChar from "../../interfaces/IItensChar";
@@ -223,7 +223,6 @@ export default class Values {
         ]
     }
     
-
     public static bonusItens (language: ILanguage): Array<{ name: string, bonus: IBonus[]} > {
         return BonusItens.bonus(language);
     }

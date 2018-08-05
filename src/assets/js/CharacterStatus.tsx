@@ -1,7 +1,5 @@
 import IChar from "../../interfaces/IChar";
-import ICharacterStatus from "../../interfaces/ICharacterStatus";
 import ILanguage from "../../interfaces/ILanguage";
-import IStatus from "../../interfaces/IStatus";
 import Codes from './Codes';
 
 export default class CharacterStatus {
@@ -10,15 +8,10 @@ export default class CharacterStatus {
         const names = language.translations.chars;
         return [
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: 130, attrFator: Codes.AGI, attrDiv: [Codes.TAL], min: 4, max: 6 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: 130, attrFator: Codes.AGI, fDiv:40, attrDiv: [Codes.TAL], min: 4, max: 6 },
                     HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 0, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.AS,
                 skills: [
@@ -28,15 +21,10 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 17, int: 11, tal: 21, agi: 27, vit: 23 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: 130, attrFator: Codes.FOR, attrDiv: [Codes.TAL, Codes.AGI], min: 2, max: 4 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: 130, attrFator: Codes.FOR, fDiv:40, attrDiv: [Codes.TAL, Codes.AGI], min: 2, max: 4 },
                     HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.ASS,
                 skills: [
@@ -47,15 +35,10 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 25, int: 10, tal: 22, agi: 20, vit: 22 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: 130, attrFator: Codes.AGI, attrDiv: [Codes.TAL], min: 4, max: 6 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: 130, attrFator: Codes.AGI, fDiv:40, attrDiv: [Codes.TAL], min: 4, max: 6 },
                     HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.ATS,
                 skills: [
@@ -64,15 +47,10 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 23, int: 15, tal: 19, agi: 19, vit: 23 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: 130, attrFator: Codes.FOR, attrDiv: [Codes.TAL, Codes.AGI], min: 2, max: 4 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: 130, attrFator: Codes.FOR, fDiv:40, attrDiv: [Codes.TAL, Codes.AGI], min: 2, max: 4 },
                     HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.KS,
                 skills: [
@@ -82,15 +60,10 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 26, int: 13, tal: 17, agi: 19, vit: 24 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: 130, attrFator: Codes.FOR, attrDiv: [Codes.TAL, Codes.AGI], min: 2, max: 4 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: 130, attrFator: Codes.FOR, fDiv:40, attrDiv: [Codes.TAL, Codes.AGI], min: 2, max: 4 },
                     HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.WS,
                 skills: [ 
@@ -100,15 +73,10 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 20, vit: 24}
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: -1, attrFator: Codes.FOR, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: -1, attrFator: Codes.FOR, fDiv:40, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
                     HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.FS,
                 skills: [
@@ -118,15 +86,10 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 28, int: 6, tal: 21, agi: 17, vit: 27 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: -1, attrFator: Codes.FOR, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: -1, attrFator: Codes.FOR, fDiv:30, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
                     HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
                     MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.MGS,
                 skills: [
@@ -135,15 +98,10 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 16, int: 29, tal: 19, agi: 14, vit: 21 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: -1, attrFator: Codes.FOR, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: -1, attrFator: Codes.FOR, fDiv:40, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
                     HP: { fLvl: 2.1, fFor: 0.6, fVit: 2.2, add: -5 },
                     MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.MS,
                 skills: [
@@ -152,45 +110,30 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 24, int: 8, tal: 25, agi: 18, vit: 24 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: -1, attrFator: Codes.FOR, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: -1, attrFator: Codes.FOR, fDiv:40, attrDiv: [Codes.TAL, Codes.AGI], min: 3, max: 5 },
                     HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -5 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.PS,
                 skills: [],
                 stats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 19, vit: 25 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: 170, attrFator: Codes.INT, attrDiv: [Codes.AGI, Codes.TAL], min: 1, max: 3 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: 170, attrFator: Codes.INT, fDiv:30, attrDiv: [Codes.AGI, Codes.TAL], min: 1, max: 3 },
                     HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
                     MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.PRS,
                 skills: [],
                 stats: { lvl: 1, for: 15, int: 28, tal: 21, agi: 15, vit: 20 },
             },
             {
-                asSkills: CharacterStatus.toSkills,
                 formula: {
-                    ABS: { fLvl: 0.1, fFor: 0.025, fTal: 0.025, add: 0 },
-                    AP: { fFator: -1, attrFator: Codes.INT, attrDiv: [Codes.TAL], min: 1, max: 3 },
-                    AR: { fLvl: 1.9, fTal: 1.5, fAgi: 3.1, add: 0 },
-                    DEF: { fLvl: 1.4, fTal: 0.25, fAgi: 0.5, add: 0 },
+                    AP: { fFator: -1, attrFator: Codes.INT, fDiv: 30, attrDiv: [Codes.TAL], min: 1, max: 3 },
                     HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
                     MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
-                    RES: { fLvl: 2.3, fFor: 0.5, fInt: 1, fTal: 0.5, fVit: 1.4, add: 80 }
                 },
                 name: names.XS,
                 skills: [
@@ -200,24 +143,5 @@ export default class CharacterStatus {
                 stats: { lvl: 1, for: 15, int: 27, tal: 20, agi: 15, vit: 22 },
             },
         ]
-    }
-
-    private static toSkills = (stats: ICharacterStatus): IStatus[] => {
-        /*return Script.translations.status.map(s => {
-                const defValue = s.cod === Codes.LVL ? stats.lvl
-                    : s.cod === Codes.FOR ? stats.for
-                    : s.cod === Codes.INT ? stats.int
-                    : s.cod === Codes.AGI ? stats.agi
-                    : s.cod === Codes.TAL ? stats.tal
-                    : s.cod === Codes.VIT ? stats.vit
-                    : -1;
-                return {
-                    default: defValue,
-                    disable: (s.cod === Codes.STS),
-                    name: s.title,
-                }
-            })
-        }*/ 
-        return [];
     }
 }
