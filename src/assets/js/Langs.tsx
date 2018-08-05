@@ -39,7 +39,6 @@ const langs: ILanguage[] = [
                 Gauntlets: "Luva",
                 Orbital: "Orbital",
                 Rings: "Aneis",
-                Shelton: "Shelton",
                 Shield: "Escudo",
                 Weapon: "Arma"
             },
@@ -56,7 +55,6 @@ const langs: ILanguage[] = [
                 AttkPowerMin: "Poder de Ataque (min)",
                 AttkRating: "Taxa de Ataque",
                 AttkRatingAdd: "Taxa de Ataque" + add,
-                Bonus: "Bonus / Adicionais",
                 Defense: "Defesa",
                 DefenseAdd: "Defesa" + add,
                 ElitePts: "Pontos de Elite",
@@ -75,6 +73,10 @@ const langs: ILanguage[] = [
                 Strength: "Força",
                 Talent: "Talento",
             },
+            titles: {
+                BonusAdds: "Bonus e adicionais", Char: "Personagens", Equips: "Equipamentos", 
+                Results: "Resultados", SelectChar: "Selecione um personagem", TwoHand: "Duas mãos", 
+            }
         },
         value: "ptbr",  
     },
@@ -114,7 +116,6 @@ const langs: ILanguage[] = [
                 Gauntlets: "Gauntlets",
                 Orbital: "Orbital",
                 Rings: "Rings",
-                Shelton: "Shelton",
                 Shield: "Shield",
                 Weapon: "Weapon"
             },
@@ -131,7 +132,6 @@ const langs: ILanguage[] = [
                 AttkPowerMin: "Attack Power (min)",
                 AttkRating: "Attack Rating",
                 AttkRatingAdd: "Attack Rating" + add,
-                Bonus: "Bonus / Adds",
                 Defense: "Defense",
                 DefenseAdd: "Defense" + add,
                 ElitePts: "Elite Points",
@@ -150,6 +150,10 @@ const langs: ILanguage[] = [
                 Strength: "Strength",
                 Talent: "Talent",
             },
+            titles: {
+                BonusAdds: "Bonus adds", Char: "Characters", Equips: "Equipments",  
+                Results: "Results", SelectChar: "Select a char", TwoHand: "Two hands", 
+            }
         },
         value: "en",  
     },

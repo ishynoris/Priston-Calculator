@@ -84,9 +84,6 @@ export default class BonusItens {
                 ],
                 name: itensName.Orbital
             },
-            {
-                bonus: [], name: itensName.Shelton
-            },
         ]
     }
 }

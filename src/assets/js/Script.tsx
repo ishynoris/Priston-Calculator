@@ -1,7 +1,6 @@
 import IChar from '../../interfaces/IChar';
 import IForces from '../../interfaces/IForces';
 import IItem from '../../interfaces/IItem';
-import IItensChar from '../../interfaces/IItensChar';
 import IKeyValue from '../../interfaces/IKeyValue';
 import ILanguage from '../../interfaces/ILanguage';
 import IMixes from '../../interfaces/IMixes';
@@ -95,16 +94,12 @@ export default class Script {
 
     public static itens(language: ILanguage): IItem[] {
         return Values.itens(language);
-    }
+    } 
 
     public static getItem(language: ILanguage, name: string): IItem | undefined {
         return Script.itens(language).find(i => {
             return i.name === name;
         })
-    }
-
-    public static itensChar(language: ILanguage): IItensChar {
-        return Values.itensChar(language);
     }
 
     public static quests(): IQuest[] {

@@ -2,7 +2,6 @@ import IBonus from "../../interfaces/IBonus";
 import ICodTitle from "../../interfaces/ICodTitle";
 import IForces from "../../interfaces/IForces";
 import IItem from "../../interfaces/IItem";
-import IItensChar from "../../interfaces/IItensChar";
 import ILanguage from "../../interfaces/ILanguage";
 import IMixes from "../../interfaces/IMixes";
 import IQuest from "../../interfaces/IQuest";
@@ -46,7 +45,6 @@ export default class Values {
             APmin: { cod: Codes.APmin, title: stats.AttkPowerMin, value: 0 },
             AR: { cod: Codes.AR, title: stats.AttkRating, value: 0 },
             ARadd: { cod: Codes.ARadd, title: stats.AttkRatingAdd, value: 0 },
-            BonusAdd: { cod: Codes.BonusAdd, title: stats.Bonus, value: 0 },
             DEF: { cod: Codes.DEF, title: stats.Defense, value: 0 },
             DEFadd: { cod: Codes.DEFadd, title: stats.DefenseAdd, value: 0 },
             EP: { cod: Codes.EP, title: stats.ElitePts, value: 0 },
@@ -54,7 +52,6 @@ export default class Values {
             HP: { cod: Codes.HP, title: stats.HP, value: 0 },
             HPadd: { cod: Codes.HPadd, title: stats.HPAdd, value: 0 },
             INT: { cod: Codes.INT, title: stats.Spirit, value: 0 },
-            KIT: { cod: Codes.KIT, title: "'kit-shelton-1'", value: 0 },
             LVL: { cod: Codes.LVL, title: stats.Level, value: 0 },
             MP: { cod: Codes.MP, title: stats.MP, value: 0 },
             MPadd: { cod: Codes.MPadd, title: stats.MPAdd, value: 0 },
@@ -67,41 +64,22 @@ export default class Values {
             VIT: { cod: Codes.VIT, title: stats.Health, value: 0 },
         }
     }
-    
-    public static itensChar (language: ILanguage): IItensChar {
-        const allItens = language.translations.itens;
-        const stats = language.translations.stats;
-        return {
-            Amulet: { cod: Codes.Amuleto, title: allItens.Amulet },
-            Armlet: { cod: Codes.Bracel, title: allItens.Armlet },
-            Armor: { cod: Codes.Armadura, title: allItens.Armor },
-            Bonus: { cod: Codes.BonusAdd, title: stats.Bonus },
-            Boots: { cod: Codes.Bota, title: allItens.Boots },
-            Gauntlets: { cod: Codes.Luva, title: allItens.Gauntlets },
-            Orbital: { cod: Codes.Orbital, title: allItens.Orbital },
-            Rings: { cod: Codes.Aneis, title: allItens.Rings },
-            Shelton: { cod: Codes.Shelton, title: allItens.Shelton },
-            Shield: { cod: Codes.Escudo, title: allItens.Shield },
-            Weapon: { cod: Codes.Arma, title: allItens.Weapon },
-        }
-    }
 
     public static itens(language: ILanguage): IItem[] {
         const itens = language.translations.itens;
-        const stats = language.translations.stats;
+        const titles = language.translations.titles
         const stsCodes = this.statsCodes(language);
         return [
             { name: itens.Amulet, attrs: [stsCodes.HPadd, stsCodes.MPadd, stsCodes.RESadd] },
             { name: itens.Rings, attrs: [stsCodes.HPadd, stsCodes.MPadd, stsCodes.RESadd] },
             { name: itens.Weapon, attrs: [stsCodes.APmin, stsCodes.APmax, stsCodes.AR, stsCodes.APadd, stsCodes.ARadd] },
             { name: itens.Armor, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.DEFadd, stsCodes.ABSadd] },
-            { name: stats.Bonus, attrs: [stsCodes.AR, stsCodes.DEFadd, stsCodes.ABSadd, stsCodes.HPadd, stsCodes.MPadd, stsCodes.RESadd] },
+            { name: titles.BonusAdds, attrs: [stsCodes.AR, stsCodes.DEFadd, stsCodes.ABSadd, stsCodes.HPadd, stsCodes.MPadd, stsCodes.RESadd] },
             { name: itens.Boots, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.ABSadd] },
             { name: itens.Armlet, attrs: [stsCodes.DEF, stsCodes.AR, stsCodes.ARadd] },
             { name: itens.Shield, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.DEFadd, stsCodes.ABSadd] },
             { name: itens.Gauntlets, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.DEFadd, stsCodes.ABSadd] },
             { name: itens.Orbital, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.MPadd, stsCodes.ABSadd] },
-            { name: itens.Shelton, attrs: [stsCodes.KIT], },
         ]
     }
 
@@ -201,7 +179,6 @@ export default class Values {
             { cod: Codes.APmin, title: stats.AttkPowerMin },
             { cod: Codes.AR, title: stats.AttkRating },
             { cod: Codes.ARadd, title: stats.AttkRatingAdd },
-            { cod: Codes.BonusAdd, title: stats.Bonus },
             { cod: Codes.DEF, title: stats.Defense },
             { cod: Codes.DEFadd, title: stats.DefenseAdd },
             { cod: Codes.EP, title: stats.ElitePts },
@@ -209,7 +186,6 @@ export default class Values {
             { cod: Codes.HP, title: stats.HP },
             { cod: Codes.HPadd, title: stats.HPAdd },
             { cod: Codes.INT, title: stats.Spirit },
-            { cod: Codes.KIT, title: "KIT" },
             { cod: Codes.LVL, title: stats.Level },
             { cod: Codes.MP, title: stats.MP },
             { cod: Codes.MPadd, title: stats.MPAdd },

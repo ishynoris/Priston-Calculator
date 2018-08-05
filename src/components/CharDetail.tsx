@@ -172,24 +172,25 @@ class CharDetail extends React.Component<ICharDetail>{
             this.bonus.skills = getSkillValues(skills);
             this.detail.skills.setSkills(skills);
         }
-        const itensChar = Script.itensChar(this.props.language);
+        const itensChar = this.props.language.translations.itens;
         if (this.sets.kit !== null) {
-            const names = [itensChar.Amulet.title, itensChar.Rings.title];
+            const names = [itensChar.Amulet, itensChar.Rings];
             this.itens.kit = getItens(names);
 			this.sets.kit.initState(this.itens.kit);
 		}
 		if (this.sets.set !== null) {
-            const names = [itensChar.Armlet.title, itensChar.Gauntlets.title, itensChar.Boots.title ]
+            const names = [itensChar.Armlet, itensChar.Gauntlets, itensChar.Boots ]
             this.itens.set = getItens(names)
 			this.sets.set.initState(this.itens.set);
 		}
 		if (this.sets.pri !== null) {
-            const names = [itensChar.Weapon.title, itensChar.Armor.title, radios.titles[radios.indexChecked]]
+            const names = [itensChar.Weapon, itensChar.Armor, radios.titles[radios.indexChecked]]
             this.itens.prim = getItens(names);
 			this.sets.pri.initState(this.itens.prim);
         }
+        const bonusAdds = this.props.language.translations.titles.BonusAdds;
 		if (this.sets.bonus !== null) {
-            const names = [itensChar.Bonus.title]
+            const names = [bonusAdds];
             this.itens.bonus = getItens(names);
 			this.sets.bonus.initState(this.itens.bonus);
         }
@@ -358,11 +359,11 @@ class CharDetail extends React.Component<ICharDetail>{
 
         const div = attrDivs(f.AP.attrDiv);
         const statAttr = getStatsByCode(f.AP.attrFator);
-        const weapon = Script.itensChar(this.props.language).Weapon;
+        const weapon = this.props.language.translations.itens.Weapon;
         const multi = (statAttr !== -1) ? (1 / f.AP.fFator * statAttr) : 0;
-        const minArma = this.getAttrByCode(weapon.title, codes.APmin);
-        const maxArma = this.getAttrByCode(weapon.title, codes.APmax);
-        const maxArmaAdd = this.getAttrByCode(weapon.title, codes.APadd);
+        const minArma = this.getAttrByCode(weapon, codes.APmin);
+        const maxArma = this.getAttrByCode(weapon, codes.APmax);
+        const maxArmaAdd = this.getAttrByCode(weapon, codes.APadd);
         const sumAttrs = div.reduce((d, i) => d + i , 0);
         
         const addPercent = (bonus: IBonus, attr: number) => {
@@ -392,14 +393,14 @@ class CharDetail extends React.Component<ICharDetail>{
         
         const applySkills = (bonus: IBonus) => {
             if (bonus.cod === codes.AR) {
-                const arArma = this.getAttrByCode(weapon.title, codes.AR);
+                const arArma = this.getAttrByCode(weapon, codes.AR);
                 values.AR += addPercent(bonus, arArma);
             } else if (bonus.cod === codes.ARtotal) {
                 const ARtotal = values.AR;
                 values.AR += addPercent(bonus, ARtotal);
             } else if (bonus.cod === codes.AP) {
-                const min = this.getAttrByCode(weapon.title, codes.APmin);
-                const max = this.getAttrByCode(weapon.title, codes.APmax);
+                const min = this.getAttrByCode(weapon, codes.APmin);
+                const max = this.getAttrByCode(weapon, codes.APmax);
                 values.APmin += addPercent(bonus, min);
                 values.APmax += addPercent(bonus, max);
             } else if (bonus.cod === codes.HP || bonus.cod === codes.HPadd) {

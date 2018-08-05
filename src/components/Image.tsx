@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import Script from '../assets/js/Script';
 import ILanguage from '../interfaces/ILanguage';
 
 import '../assets/css/Image.css';
@@ -23,17 +22,16 @@ class Image extends React.Component<IImage>{
     }
 
     public static setImage = (language: ILanguage, item: string) => {
-        const itensChar = Script.itensChar(language);
-        return item === itensChar.Amulet.title ? Image.images.amuleto
-            : item === itensChar.Rings.title ? Image.images.anel
-            : item === itensChar.Weapon.title ? Image.images.arma
-            : item === itensChar.Armor.title ? Image.images.armadura
-            : item === itensChar.Boots.title ? Image.images.bota
-            : item === itensChar.Armlet.title ? Image.images.bracel
-            : item === itensChar.Shield.title ? Image.images.escudo
-            : item === itensChar.Gauntlets.title ? Image.images.luva
-            : item === itensChar.Orbital.title ? Image.images.orbital
-            : item === itensChar.Shelton.title ? Image.images.shelton
+        const itens = language.translations.itens;
+        return item === itens.Amulet ? Image.images.amuleto
+            : item === itens.Rings ? Image.images.anel
+            : item === itens.Weapon ? Image.images.arma
+            : item === itens.Armor ? Image.images.armadura
+            : item === itens.Boots ? Image.images.bota
+            : item === itens.Armlet ? Image.images.bracel
+            : item === itens.Shield ? Image.images.escudo
+            : item === itens.Gauntlets ? Image.images.luva
+            : item === itens.Orbital ? Image.images.orbital
             : undefined;
     }
 
@@ -47,8 +45,7 @@ class Image extends React.Component<IImage>{
         return <div className="center" >
             <img src={image} className="double" />
             <img src={image} className="double" />
-        </div>
-        
+        </div>   
     }
 
     public render() {
@@ -57,7 +54,7 @@ class Image extends React.Component<IImage>{
             return null;
         }
 
-        if (this.props.item === Script.itensChar(this.props.language).Rings.title) {
+        if (this.props.item === this.props.language.translations.itens.Rings) {
             return this.doubleImage(image);
         }
         return this.simpleImage(image);

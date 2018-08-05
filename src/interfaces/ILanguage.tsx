@@ -16,7 +16,7 @@ export default interface ILanguage {
         },
         itens: {
             Amulet: string, Armlet: string, Armor: string, Boots: string, Gauntlets: string, 
-            Orbital: string, Rings: string, Shelton: string, Shield: string, Weapon: string, 
+            Orbital: string, Rings: string, Shield: string, Weapon: string, 
         },
         select: {
             title: string,
@@ -24,11 +24,16 @@ export default interface ILanguage {
         stats: {
             Absorption: string, AbsorptionAdd: string, Agility: string, AttkPower: string, 
             AttkPowerAdd: string, AttkPowerMax: string, AttkPowerMin: string, AttkRating: string, 
-            AttkRatingAdd: string, Bonus: string, Defense: string, DefenseAdd: string, ElitePts: string, 
+            AttkRatingAdd: string, Defense: string, DefenseAdd: string, ElitePts: string, 
             HP: string, HPAdd: string, Health: string, Level: string, MP: string, MPAdd: string, 
             RES: string, RESAdd: string, SpecialPts: string, Spirit: string, Stats: string, 
             StatsP: string, Strength: string, Talent: string, 
         },
+        titles: { 
+            BonusAdds: string, Char: string, Equips: string, Results: string, 
+            SelectChar: string, TwoHand: string,
+            
+        }
     },
     value: string
 }
