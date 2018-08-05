@@ -1,12 +1,15 @@
 import IChar from '../../interfaces/IChar';
 import IForces from '../../interfaces/IForces';
 import IItem from '../../interfaces/IItem';
+import IItensChar from '../../interfaces/IItensChar';
+import IKeyValue from '../../interfaces/IKeyValue';
+import ILanguage from '../../interfaces/ILanguage';
 import IMixes from '../../interfaces/IMixes';
 import IQuest from '../../interfaces/IQuest';
 import IStatusResult from '../../interfaces/IStatusResult';
-import BonusMixes from './BonusMixes';
-import CharacterStatus from './CharacterStatus';
-import QuestList from './QuestList';
+import CharacterStats from './CharacterStatus';
+import Codes from './Codes';
+import Langs from './Langs';
 import Values from './Values';
 
 interface IVersion {
@@ -17,113 +20,144 @@ interface IVersion {
 
 class Script {
 
-    public static sets = { kit: "Kit", primario: "Primario", set: "Set" }
-    public static codes = Values.codes;
-    public static status = Values.statsCode;
-    public static chars = CharacterStatus.names;
-    public static itensName = Values.itensName;
-    public static stats = [
-        Script.status.LVL.title,
-        Script.status.FOR.title,
-        Script.status.INT.title,
-        Script.status.TAL.title,
-        Script.status.AGI.title,
-        Script.status.VIT.title,
-        Script.status.STS.title
-    ]
+export default class Script {
 
-    public static defResult = (values?: { ABS: number, APmin: number, APmax: number, AR: number, DEF: number, HP: number, MP: number, RES: number }): IStatusResult => {
+    public static Codes = Codes;
+    public static DefaultLanguage = Langs.default;
 
+    public static defaultResult (language: ILanguage, values?: { ABS: number, APmin: number, APmax: number, AR: number, DEF: number, HP: number, MP: number, RES: number }): IStatusResult {
+
+        const statsCode = language.translations.stats;
         if (values === undefined) {
             return {
-                ABS: { title: Script.status.ABS.title, value: ceilVal() },
-                AP: { title: Script.status.AP.title, value: truncVal() },
-                AR: { title: Script.status.AR.title, value: truncVal() },
-                DEF: { title: Script.status.DEF.title, value: truncVal() },
-                HP: { title: Script.status.HP.title, value: truncVal() },
-                MP: { title: Script.status.MP.title, value: truncVal() },
-                RES: { title: Script.status.RES.title, value: truncVal() },
+                ABS: { title: statsCode.Absorption, value: ceilVal() },
+                AP: { title: statsCode.AttkPower, value: truncVal() },
+                AR: { title: statsCode.AttkRating, value: truncVal() },
+                DEF: { title: statsCode.Defense, value: truncVal() },
+                HP: { title: statsCode.HP, value: truncVal() },
+                MP: { title: statsCode.MP, value: truncVal() },
+                RES: { title: statsCode.RES, value: truncVal() },
             }
         }
         const min = truncVal(values.APmin);
         const max = truncVal(values.APmax);
         return {
-            ABS: { title: Script.status.ABS.title, value: ceilVal(values.ABS) },
-            AP: { title: Script.status.AP.title, value: min + "-" + max },
-            AR: { title: Script.status.AR.title, value: truncVal(values.AR) },
-            DEF: { title: Script.status.DEF.title, value: truncVal(values.DEF) },
-            HP: { title: Script.status.HP.title, value: truncVal(values.HP) },
-            MP: { title: Script.status.MP.title, value: truncVal(values.MP) },
-            RES: { title: Script.status.RES.title, value: truncVal(values.RES) },
+            ABS: { title: statsCode.Absorption, value: ceilVal(values.ABS) },
+            AP: { title: statsCode.AttkPower, value: min + "-" + max },
+            AR: { title: statsCode.AttkRating, value: truncVal(values.AR) },
+            DEF: { title: statsCode.Defense, value: truncVal(values.DEF) },
+            HP: { title: statsCode.HP, value: truncVal(values.HP) },
+            MP: { title: statsCode.MP, value: truncVal(values.MP) },
+            RES: { title: statsCode.RES, value: truncVal(values.RES) },
         }
     }
 
-    public static getMixesByItem(item: string): IMixes | undefined {
-
-        return BonusMixes.find(bonus => {
-            return bonus.item === item;
-        });
+    public static chars(language: ILanguage): IChar[] {
+        return CharacterStats.chars(language);
     }
-
-    public static getItem(name: string): IItem | undefined {
-        return Values.itens.find(i => {
-            return i.name === name;
-        });
-    }
-
-    public static getCodByAttr(attr: string): number | undefined {
-
-        const item = Values.statsList.find(i => {
-            return i.title === attr;
-        });
-        return item === undefined ? undefined : item.cod;
-    }
-    
-    public static getCharDetail(charName?: string): IChar | undefined {
+    public static charDetail = (language: ILanguage, charName?: string): IChar | undefined => {
         if (charName === undefined) {
             return undefined;
         }
-        return CharacterStatus.charDetail.find(c => {
+        return Script.chars(language).find(c => {
             return c.name === charName;
         });
     }
 
-    public static getQuestsAt(index: number): IQuest[] {
-        return QuestList.filter((q, i) => {
+    public static defaultLanguage(): { index: number, language: ILanguage } | undefined {
+        let position = -1;
+        let lang;
+        Langs.langs.forEach((l, i) => {
+            if (l.value === Langs.default) {
+                lang = l;
+                position = i;
+            }
+        })
+        return lang === undefined ? undefined : { index: position, language: lang }
+    }
+
+    public static language(val: string): ILanguage | undefined {
+        return Langs.langs.find(l => {
+            return l.value === val;
+        })
+    }
+
+    public static languages(): ILanguage[] {
+        return Langs.langs;
+    }
+
+    public static langsDesc(): IKeyValue[] {
+        return Langs.langsDesc();
+    }
+
+    public static statsDesc(language: ILanguage): string[] {
+        const stats = language.translations.stats
+        return [stats.Level, stats.Strength, stats.Spirit, stats.Talent, stats.Agility, stats.Health, stats.Stats]
+    }
+
+    public static itens(language: ILanguage): IItem[] {
+        return Values.itens(language);
+    }
+
+    public static getItem(language: ILanguage, name: string): IItem | undefined {
+        return Script.itens(language).find(i => {
+            return i.name === name;
+        })
+    }
+
+    public static itensChar(language: ILanguage): IItensChar {
+        return Values.itensChar(language);
+    }
+
+    public static quests(): IQuest[] {
+        return Values.quests();
+    }
+
+    public static questsAt(index: number): IQuest[] {
+        return Script.quests().filter((q, i) => {
             return i <= index;
         });
     }
 
-    public static getQuests(): IQuest[] {
-        return QuestList;
+    public static boostersAP(language: ILanguage): IForces[] {
+        return Values.boostersAP(language);
     }
 
-    public static getBonusAP(): { forces: IForces[], another: IForces[] }  {
-        return { forces: Values.forces, another: Values.bonusAP };
+    public static forces(language: ILanguage): IForces[] {
+        return Values.forces(language);
     }
 
-    public static getChars(): IChar[] {
-        return CharacterStatus.charDetail;
+    public static mixesByItem (language: ILanguage,  item: string): IMixes | undefined {
+        return Values.bonusMixes(language).find(bonus => {
+            return bonus.item === item;
+        });
     }
 
+    public static codByAttr (language: ILanguage, attr: string): number | undefined {
+        const statsList = Values.statsList(language);
+        const item = statsList.find(i => {
+            return i.title === attr;
+        });
+        return item === undefined ? undefined : item.cod;
+    }
     public static getVersions(): IVersion[] {
         return [
-            { 
-                descriptions: ["Liberado todas as f贸rmulas para Arqueira, Sacerdotisa e Cavaleiro."],
-                tag: "alfa", 
-                v: 0.1, 
+            {
+                descriptions: ["Liberado todas as f髍mulas para Arqueira, Sacerdotisa e Cavaleiro."],
+                tag: "alfa",
+                v: 0.1,
             }, {
-                descriptions: ["Liberado as f贸rmulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
+                descriptions: ["Liberado as f髍mulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
                 tag: "alfa",
                 v: 0.2,
             }, {
-                descriptions: ["Adicionado as f贸rmulas de AP para Atalanta, Assassina e Guerreira."],
+                descriptions: ["Adicionado as f髍mulas de AP para Atalanta, Assassina e Guerreira."],
                 tag: "alfa",
                 v: 0.3,
             }, {
                 descriptions: [
-                    "Adicionado as f贸rmulas de AP para Mago e Lutador.", 
-                    "A f贸rmula para Sacerdotisa foi corrigida."
+                    "Adicionado as f髍mulas de AP para Mago e Lutador.", 
+                    "A f髍mula para Sacerdotisa foi corrigida."
                 ],
                 tag: "alfa",
                 v: 0.4,
@@ -138,12 +172,10 @@ class Script {
     }
 }
 
-function truncVal(v?: number): string | number {
+const truncVal = (v?: number): string | number => {
     return v === undefined || v < 0 ? "-" : Math.trunc(v);
 }
 
-function ceilVal(v?: number): string | number {
+const ceilVal = (v?: number): string | number => {
     return v === undefined || v < 0 ? "-" : Math.ceil(v);
 }
-
-export default Script;

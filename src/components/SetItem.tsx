@@ -2,10 +2,12 @@ import * as React from 'react';
 
 import IAttr from '../interfaces/IAttr';
 import IItem from '../interfaces/IItem';
+import ILanguage from '../interfaces/ILanguage';
 import IMix from '../interfaces/IMix';
 import Item from './Item';
 
 interface ISetItem { 
+    language: ILanguage,
     onItemChanged: (title: string, attr: IAttr, oldValue: number ) => void,
     onMixSelected: (name: string, mix: IMix) => void,
 }
@@ -65,6 +67,7 @@ class SetItem extends React.Component<ISetItem>{
                         lastsItens.push(item.name);
                     }
                     return <Item
+                        language={this.props.language}
                         key={index}
                         name={item.name}
                         titles={titles(item.attrs)}

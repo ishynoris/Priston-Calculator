@@ -1,22 +1,51 @@
 import * as React from 'react';
 
+import Script from '../assets/js/Script';
 import IChar from '../interfaces/IChar';
+import ILanguage from '../interfaces/ILanguage';
 import CharDetail from './CharDetail';
 import Footer from './Footer';
+import SwitchLanguage from './SwitchLanguage';
 
 import '../assets/css/App.css';
 
 class App extends React.Component {
 
+	public state: { index: number, language: ILanguage | undefined };
+
+	constructor (props: {}) {
+		super(props);
+		const lang = Script.defaultLanguage();
+		this.state = lang === undefined ? { index: -1, language: undefined }
+			: { index: lang.index, language: lang.language }
+	}
+
 	public render() {
+		if (this.state.language === undefined) {
+			alert("It's was not possible load language.");
+			return null;
+		}
+		const lang = this.state.language;
 		return <div>
-			<CharDetail onCharChanged={this.charChanged}/>
+			<SwitchLanguage 
+				default={this.state.index}
+				title={lang.translations.select.title + " [" + lang.value + "]"}
+				values={Script.langsDesc()}
+				onLanguageChanged={this.languageChanged} />
+			<CharDetail
+				language={this.state.language}
+				onCharChanged={this.charChanged} />
 			<Footer />
 		</div>
 	}
 
 	public componentDidMount () {
 		this.charChanged(undefined);
+	}
+
+	private languageChanged = (index: number, language: ILanguage) => {
+		// Script.setDefaultLanguage(lang);
+		this.setState({ "index": index, "language": language });
 	}
 
 	private charChanged = (char: IChar | undefined) => {

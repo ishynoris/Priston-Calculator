@@ -1,90 +1,92 @@
 import IBonus from '../../interfaces/IBonus';
-import Values from './Values';
+import ILanguage from '../../interfaces/ILanguage';
+import Codes from './Codes';
 
-const codes = Values.codes;
-const itensName = Values.itensName;
+export default class BonusItens {
 
-const bonusByItem: Array<{ name: string, bonus: IBonus[] }> = [
-    {
-        bonus: [
-            { cod: codes.HPadd, value: 0 }, 
-            { cod: codes.MPadd, value: 0 }, 
-            { cod: codes.RESadd, value: 0 }
-        ],
-        name: itensName.amuleto.title
-    },
-    {
-        bonus: [
-            { cod: codes.HPadd, value: 0 }, 
-            { cod: codes.MPadd, value: 0 }, 
-            { cod: codes.RESadd, value: 0 }
-        ],
-        name: itensName.anel.title
-    },
-    {
-        bonus: [
-            { cod: codes.APmin, value: 0 }, 
-            { cod: codes.APmax, value: 0 }, 
-            { cod: codes.AR, value: 0 }, 
-            { cod: codes.APadd, value: 0 }, 
-            { cod: codes.ARadd, value: 0 }, 
-        ],
-        name: itensName.arma.title
-    },
-    {
-        bonus: [
-            { cod: codes.DEF, value: 0 }, 
-            { cod: codes.ABS, value: 0 }, 
-            { cod: codes.DEFadd, value: 0 }, 
-            { cod: codes.ABSadd, value: 0 },
-        ],
-        name: itensName.armadura.title
-    },
-    {
-        bonus: [
-            { cod: codes.DEF, value: 0 }, 
-            { cod: codes.ABS, value: 0 }, 
-            { cod: codes.ABSadd, value: 0 },
-        ],
-        name: itensName.bota.title
-    },
-    {
-        bonus: [
-            { cod: codes.AR, value: 0 }, 
-            { cod: codes.DEF, value: 0 }, 
-            { cod: codes.ARadd, value: 0 },
-        ],
-        name: itensName.bracel.title
-    },
-    {
-        bonus: [
-            { cod: codes.DEF, value: 0 }, 
-            { cod: codes.ABS, value: 0 }, 
-            { cod: codes.DEFadd, value: 0 }, 
-            { cod: codes.ABSadd, value: 0 },
-        ],
-        name: itensName.escudo.title
-    },
-    {
-        bonus: [
-            { cod: codes.DEF, value: 0 }, 
-            { cod: codes.ABS, value: 0 }, 
-            { cod: codes.DEFadd, value: 0 }, 
-            { cod: codes.ABSadd, value: 0 },
-        ],
-        name: itensName.luva.title
-    },
-    {
-        bonus: [
-            { cod: codes.DEF, value: 0 }, 
-            { cod: codes.ABS, value: 0 }, 
-            { cod: codes.ABSadd, value: 0 },
-        ],
-        name: itensName.orbital.title
-    },
-    {
-        bonus: [], name: itensName.shelton.title
-    },
-]
-
-export default {"bonus": bonusByItem}
+    public static bonus(language: ILanguage): Array<{ name: string, bonus: IBonus[] }> {
+        const itensName = language.translations.itens;
+        return [
+            {
+                bonus: [
+                    { cod: Codes.HPadd, value: 0 },
+                    { cod: Codes.MPadd, value: 0 },
+                    { cod: Codes.RESadd, value: 0 }
+                ],
+                name: itensName.Amulet
+            },
+            {
+                bonus: [
+                    { cod: Codes.HPadd, value: 0 },
+                    { cod: Codes.MPadd, value: 0 },
+                    { cod: Codes.RESadd, value: 0 }
+                ],
+                name: itensName.Rings
+            },
+            {
+                bonus: [
+                    { cod: Codes.APmin, value: 0 },
+                    { cod: Codes.APmax, value: 0 },
+                    { cod: Codes.AR, value: 0 },
+                    { cod: Codes.APadd, value: 0 },
+                    { cod: Codes.ARadd, value: 0 },
+                ],
+                name: itensName.Weapon
+            },
+            {
+                bonus: [
+                    { cod: Codes.DEF, value: 0 },
+                    { cod: Codes.ABS, value: 0 },
+                    { cod: Codes.DEFadd, value: 0 },
+                    { cod: Codes.ABSadd, value: 0 },
+                ],
+                name: itensName.Armor
+            },
+            {
+                bonus: [
+                    { cod: Codes.DEF, value: 0 },
+                    { cod: Codes.ABS, value: 0 },
+                    { cod: Codes.ABSadd, value: 0 },
+                ],
+                name: itensName.Boots
+            },
+            {
+                bonus: [
+                    { cod: Codes.AR, value: 0 },
+                    { cod: Codes.DEF, value: 0 },
+                    { cod: Codes.ARadd, value: 0 },
+                ],
+                name: itensName.Armlet
+            },
+            {
+                bonus: [
+                    { cod: Codes.DEF, value: 0 },
+                    { cod: Codes.ABS, value: 0 },
+                    { cod: Codes.DEFadd, value: 0 },
+                    { cod: Codes.ABSadd, value: 0 },
+                ],
+                name: itensName.Shield
+            },
+            {
+                bonus: [
+                    { cod: Codes.DEF, value: 0 },
+                    { cod: Codes.ABS, value: 0 },
+                    { cod: Codes.DEFadd, value: 0 },
+                    { cod: Codes.ABSadd, value: 0 },
+                ],
+                name: itensName.Gauntlets
+            },
+            {
+                bonus: [
+                    { cod: Codes.DEF, value: 0 },
+                    { cod: Codes.ABS, value: 0 },
+                    { cod: Codes.ABSadd, value: 0 },
+                ],
+                name: itensName.Orbital
+            },
+            {
+                bonus: [], name: itensName.Shelton
+            },
+        ]
+    }
+}

@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import Script from '../assets/js/Script';
 import IAttr from '../interfaces/IAttr';
+import ILanguage from '../interfaces/ILanguage';
 import IMix from '../interfaces/IMix';
 import Image from './Image'
 import InputText from './InputText';
@@ -10,6 +11,7 @@ import Mixing from './Mixing';
 interface IItem { 
     name: string, 
     titles: string[], 
+    language: ILanguage,
     onlyImage?: boolean
     onChangeValue?: (title: string, attr: IAttr, oldValue: number) => void,
     onMixSelected?: (cod: string, mix: IMix | undefined) => void,
@@ -30,12 +32,14 @@ class Item extends React.Component<IItem>{
                     onChangeValue={this.onChangeValue} />
             })
         };
-        const mixes = Script.getMixesByItem(this.props.name);
+        const mixes = Script.mixesByItem(this.props.language, this.props.name);
         let attrClass = this.props.titles.length > 0 ? "padding" : "";
-        attrClass += Image.hasImage(this.props.name) ? " inner-border" : "";
+        attrClass += this.hasImage(this.props.name) ? " inner-border" : "";
 
         return <div className={"item-size background outter-border padding"}>
-            <Image item={this.props.name} />
+            <Image 
+                language={this.props.language}
+                item={this.props.name} />
             {(() => {
                 if (this.props.onlyImage) {
                     return null;
@@ -58,7 +62,7 @@ class Item extends React.Component<IItem>{
             return;
         }
         attrName = attrName.replace(":", "");
-        const code = Script.getCodByAttr(attrName);
+        const code = Script.codByAttr(this.props.language, attrName);
         if (code !== undefined) {
             const attr: IAttr = { cod: code, title: attrName, value: val }
             this.props.onChangeValue(this.props.name, attr, oldValue);
@@ -69,6 +73,10 @@ class Item extends React.Component<IItem>{
         if (this.props.onMixSelected !== undefined) {
             this.props.onMixSelected(name, mix);
         }
+    }
+
+    private hasImage = (name: string): boolean => {
+        return Image.setImage(this.props.language, name) !== undefined
     }
 }
 

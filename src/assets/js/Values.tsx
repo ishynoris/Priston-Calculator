@@ -1,163 +1,234 @@
-import IForces from '../../interfaces/IForces';
-import IItem from '../../interfaces/IItem';
+import IBonus from "../../interfaces/IBonus";
+import ICodTitle from "../../interfaces/ICodTitle";
+import IForces from "../../interfaces/IForces";
+import IItem from "../../interfaces/IItem";
+import IItensChar from "../../interfaces/IItensChar";
+import ILanguage from "../../interfaces/ILanguage";
+import IMixes from "../../interfaces/IMixes";
+import IQuest from "../../interfaces/IQuest";
+import BonusItens from "./BonusItens";
+import BonusMixes from "./BonusMixes";
+import Codes from "./Codes";
 
-enum codes {
-    ABS, ABSadd, AGI, AP, APmax, APmin, APadd, AR, ARadd, ARtotal, DEF, DEFadd, EP, FOR,
-    HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, KIT,
-    Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, Shelton, BonusAdd,
-    Lucidy, Sereno, Fadeo, Sparky, Raident, Transparo, Murky, Devine, Celesto, Mirage,
-    Inferna, Enigma, Bellum, Vita, Ira, Tera, Cabeção, CoroaBC
+export default class Values {
+ 
+    public static quests (): IQuest[] {
+        return [
+            { level: -1, title: "-", bonus: [] },
+            { level: 20, title: "Quest level 20 (1º desafio de classe)", bonus: [] },
+            { level: 30, title: "Quest level 30 - Por Ela", bonus: [{ cod: Codes.STS, value: 5 }] },
+            { level: 40, title: "Quest level 40 (2º desafio de classe)", bonus: [{ cod: Codes.HP, value: 15 }] },
+            { level: 55, title: "Quest level 55 - A Caverna", bonus: [{ cod: Codes.SP, value: 1 }] },
+            { level: 60, title: "Quest level 60 (3º desafio de classe)", bonus: [] },
+            { level: 70, title: "Quest level 70 - A Amizade de Michelle", bonus: [{ cod: Codes.SP, value: 1 }, { cod: Codes.STS, value: 5 }] },
+            { level: 80, title: "Quest level 80 (4º desafio de classe)", bonus: [] },
+            { level: 80, title: "Quest level 80 - O Fúria Aprisionado", bonus: [{ cod: Codes.SP, value: 2 }, { cod: Codes.STS, value: 5 }] },
+            { level: 80, title: "Quest level 80 - O Teste da Realeza", bonus: [{ cod: Codes.STSp, value: 2 }] },
+            { level: 85, title: "Quest level 85 - As Lágrimas de Calliar", bonus: [] },
+            { level: 90, title: "Quest level 90 - A Vila Eura", bonus: [{ cod: Codes.HP, value: 40 }] },
+            { level: 90, title: "Quest level 90 - Desafio Amargo", bonus: [{ cod: Codes.STSp, value: 3 }] },
+            { level: 100, title: "Quest level 100 - Fantasma do Fúria", bonus: [] },
+            { level: 110, title: "Quest level 110", bonus: [{ cod: Codes.EP, value: 2 }] },
+            { level: 118, title: "Quest level 118", bonus: [{ cod: Codes.EP, value: 3 }] },
+            { level: 123, title: "Quest level 123", bonus: [{ cod: Codes.STS, value: 10 }, { cod: Codes.EP, value: 3 }] },
+        ];
+    }
+
+    public static statsCodes (language: ILanguage) {
+        const stats = language.translations.stats;
+        return {
+            ABS: { cod: Codes.ABS, title: stats.Absorption, value: 0 },
+            ABSadd: { cod: Codes.ABSadd, title: stats.AbsorptionAdd, value: 0 },
+            AGI: { cod: Codes.AGI, title: stats.Agility, value: 0 },
+            AP: { cod: Codes.AP, title: stats.AttkPower, value: 0 },
+            APadd: { cod: Codes.APadd, title: stats.AttkPowerAdd, value: 0 },
+            APmax: { cod: Codes.APmax, title: stats.AttkPowerMax, value: 0 },
+            APmin: { cod: Codes.APmin, title: stats.AttkPowerMin, value: 0 },
+            AR: { cod: Codes.AR, title: stats.AttkRating, value: 0 },
+            ARadd: { cod: Codes.ARadd, title: stats.AttkRatingAdd, value: 0 },
+            BonusAdd: { cod: Codes.BonusAdd, title: stats.Bonus, value: 0 },
+            DEF: { cod: Codes.DEF, title: stats.Defense, value: 0 },
+            DEFadd: { cod: Codes.DEFadd, title: stats.DefenseAdd, value: 0 },
+            EP: { cod: Codes.EP, title: stats.ElitePts, value: 0 },
+            FOR: { cod: Codes.FOR, title: stats.Strength, value: 0 },
+            HP: { cod: Codes.HP, title: stats.HP, value: 0 },
+            HPadd: { cod: Codes.HPadd, title: stats.HPAdd, value: 0 },
+            INT: { cod: Codes.INT, title: stats.Spirit, value: 0 },
+            KIT: { cod: Codes.KIT, title: "'kit-shelton-1'", value: 0 },
+            LVL: { cod: Codes.LVL, title: stats.Level, value: 0 },
+            MP: { cod: Codes.MP, title: stats.MP, value: 0 },
+            MPadd: { cod: Codes.MPadd, title: stats.MPAdd, value: 0 },
+            RES: { cod: Codes.RES, title: stats.RES, value: 0 },
+            RESadd: { cod: Codes.RESadd, title: stats.RESAdd, value: 0 },
+            SP: { cod: Codes.SP, title: stats.SpecialPts, value: 0 },
+            STS: { cod: Codes.STS, title: stats.Stats, value: 0 },
+            STSP: { cod: Codes.STSp, title: stats.StatsP, value: 0 },
+            TAL: { cod: Codes.TAL, title: stats.Talent, value: 0 },
+            VIT: { cod: Codes.VIT, title: stats.Health, value: 0 },
+        }
+    }
+    
+    public static itensChar (language: ILanguage): IItensChar {
+        const allItens = language.translations.itens;
+        const stats = language.translations.stats;
+        return {
+            Amulet: { cod: Codes.Amuleto, title: allItens.Amulet },
+            Armlet: { cod: Codes.Bracel, title: allItens.Armlet },
+            Armor: { cod: Codes.Armadura, title: allItens.Armor },
+            Bonus: { cod: Codes.BonusAdd, title: stats.Bonus },
+            Boots: { cod: Codes.Bota, title: allItens.Boots },
+            Gauntlets: { cod: Codes.Luva, title: allItens.Gauntlets },
+            Orbital: { cod: Codes.Orbital, title: allItens.Orbital },
+            Rings: { cod: Codes.Aneis, title: allItens.Rings },
+            Shelton: { cod: Codes.Shelton, title: allItens.Shelton },
+            Shield: { cod: Codes.Escudo, title: allItens.Shield },
+            Weapon: { cod: Codes.Arma, title: allItens.Weapon },
+        }
+    }
+
+    public static itens(language: ILanguage): IItem[] {
+        const itens = language.translations.itens;
+        const stats = language.translations.stats;
+        const stsCodes = this.statsCodes(language);
+        return [
+            { name: itens.Amulet, attrs: [stsCodes.HPadd, stsCodes.MPadd, stsCodes.RESadd] },
+            { name: itens.Rings, attrs: [stsCodes.HPadd, stsCodes.MPadd, stsCodes.RESadd] },
+            { name: itens.Weapon, attrs: [stsCodes.APmin, stsCodes.APmax, stsCodes.AR, stsCodes.APadd, stsCodes.ARadd] },
+            { name: itens.Armor, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.DEFadd, stsCodes.ABSadd] },
+            { name: stats.Bonus, attrs: [stsCodes.AR, stsCodes.DEFadd, stsCodes.ABSadd, stsCodes.HPadd, stsCodes.MPadd, stsCodes.RESadd] },
+            { name: itens.Boots, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.ABSadd] },
+            { name: itens.Armlet, attrs: [stsCodes.DEF, stsCodes.AR, stsCodes.ARadd] },
+            { name: itens.Shield, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.DEFadd, stsCodes.ABSadd] },
+            { name: itens.Gauntlets, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.DEFadd, stsCodes.ABSadd] },
+            { name: itens.Orbital, attrs: [stsCodes.DEF, stsCodes.ABS, stsCodes.MPadd, stsCodes.ABSadd] },
+            { name: itens.Shelton, attrs: [stsCodes.KIT], },
+        ]
+    }
+
+    public static boostersAP (language: ILanguage): IForces[] {
+        const boosters = language.translations.boosters;
+        return [
+            {
+                bonus: [{ cod: Codes.AP, value: 15, percent: true }],
+                force: { cod: Codes.Cabeção, title: boosters.BigHeadPotion },
+            },
+            {
+                bonus: [{ cod: Codes.CoroaBC, value: 10, percent: true }],
+                force: { cod: Codes.CoroaBC, title: boosters.CastleCrown },
+            },
+        ]
+    }
+
+    public static forces (language: ILanguage): IForces[] {
+        const forces = language.translations.forces;
+        return [
+            {
+                bonus: [{ cod: Codes.AP, value: 2 }],
+                force: { cod: Codes.Lucidy, title: forces.Lucidy },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 4 }],
+                force: { cod: Codes.Sereno, title: forces.Sereno },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 7 }],
+                force: { cod: Codes.Fadeo, title: forces.Fadeo },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 10 }],
+                force: { cod: Codes.Sparky, title: forces.Sparky },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 15 }],
+                force: { cod: Codes.Raident, title: forces.Raident },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 25 }],
+                force: { cod: Codes.Transparo, title: forces.Transparo },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 40 }, { cod: Codes.AP, value: 10, percent: true }],
+                force: { cod: Codes.Murky, title: forces.Murky },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 60 }, { cod: Codes.AP, value: 10, percent: true }],
+                force: { cod: Codes.Devine, title: forces.Devine },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 80 }, { cod: Codes.AP, value: 10, percent: true }],
+                force: { cod: Codes.Celesto, title: forces.Celesto },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 100 }, { cod: Codes.AP, value: 10, percent: true }],
+                force: { cod: Codes.Mirage, title: forces.Mirage },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 120 }, { cod: Codes.AP, value: 15, percent: true }],
+                force: { cod: Codes.Inferna, title: forces.Inferna },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 140 }, { cod: Codes.AP, value: 15, percent: true }],
+                force: { cod: Codes.Enigma, title: forces.Enigma },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 160 }, { cod: Codes.AP, value: 15, percent: true }],
+                force: { cod: Codes.Bellum, title: forces.Bellum },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 120 }, { cod: Codes.AP, value: 15, percent: true }],
+                force: { cod: Codes.Vita, title: forces.Vita },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 150 }, { cod: Codes.AP, value: 20, percent: true }],
+                force: { cod: Codes.Ira, title: forces.Ira },
+            },
+            {
+                bonus: [{ cod: Codes.AP, value: 200 }, { cod: Codes.AP, value: 15, percent: true }],
+                force: { cod: Codes.Tera, title: forces.Tera },
+            },
+        ]
+    }
+
+    public static statsList(language: ILanguage): ICodTitle[] {
+        const stats = language.translations.stats;
+        return [
+            { cod: Codes.ABS, title: stats.Absorption },
+            { cod: Codes.ABSadd, title: stats.AbsorptionAdd },
+            { cod: Codes.AGI, title: stats.Agility },
+            { cod: Codes.AP, title: stats.AttkPower },
+            { cod: Codes.APadd, title: stats.AttkPowerAdd },
+            { cod: Codes.APmax, title: stats.AttkPowerMax },
+            { cod: Codes.APmin, title: stats.AttkPowerMin },
+            { cod: Codes.AR, title: stats.AttkRating },
+            { cod: Codes.ARadd, title: stats.AttkRatingAdd },
+            { cod: Codes.BonusAdd, title: stats.Bonus },
+            { cod: Codes.DEF, title: stats.Defense },
+            { cod: Codes.DEFadd, title: stats.DefenseAdd },
+            { cod: Codes.EP, title: stats.ElitePts },
+            { cod: Codes.FOR, title: stats.Strength },
+            { cod: Codes.HP, title: stats.HP },
+            { cod: Codes.HPadd, title: stats.HPAdd },
+            { cod: Codes.INT, title: stats.Spirit },
+            { cod: Codes.KIT, title: "KIT" },
+            { cod: Codes.LVL, title: stats.Level },
+            { cod: Codes.MP, title: stats.MP },
+            { cod: Codes.MPadd, title: stats.MPAdd },
+            { cod: Codes.RES, title: stats.RES },
+            { cod: Codes.RESadd, title: stats.RESAdd },
+            { cod: Codes.SP, title: stats.SpecialPts },
+            { cod: Codes.STS, title: stats.Stats },
+            { cod: Codes.STSp, title: stats.StatsP },
+            { cod: Codes.TAL, title: stats.Talent },
+            { cod: Codes.VIT, title: stats.Health },
+        ]
+    }
+    
+
+    public static bonusItens (language: ILanguage): Array<{ name: string, bonus: IBonus[]} > {
+        return BonusItens.bonus(language);
+    }
+
+    public static bonusMixes (language: ILanguage): IMixes[] {
+        return BonusMixes.bonus(language);
+    }
 }
-
-const statsCode = {
-    ABS: { cod: codes.ABS, title: "Absorção", value: 0 },
-    ABSadd: { cod: codes.ABSadd, title: "Absorção (+add)", value: 0 },
-    AGI: { cod: codes.AGI, title: "Agilidade", value: 0 },
-    AP: { cod: codes.AP, title: "Poder de Ataque", value: 0 },
-    APadd: { cod: codes.APadd, title: "Poder de Ataque (+add)", value: 0 },
-    APmax: { cod: codes.APmax, title: "Poder de Ataque (max)", value: 0 },
-    APmin: { cod: codes.APmin, title: "Poder de Ataque (min)", value: 0 },
-    AR: { cod: codes.AR, title: "Taxa de Ataque", value: 0 },
-    ARadd: { cod: codes.ARadd, title: "Taxa de Ataque (+add)", value: 0 },
-    BonusAdd: { cod: codes.BonusAdd, title: "Bônus/Adicionais", value: 0 },
-    DEF: { cod: codes.DEF, title: "Defesa", value: 0 },
-    DEFadd: { cod: codes.DEFadd, title: "Defesa (+add)", value: 0 },
-    EP: { cod: codes.EP, title: "Pontos de Elite", value: 0 },
-    FOR: { cod: codes.FOR, title: "Força", value: 0 },
-    HP: { cod: codes.HP, title: "HP", value: 0 },
-    HPadd: { cod: codes.HPadd, title: "HP adicional", value: 0 },
-    INT: { cod: codes.INT, title: "Inteligência", value: 0 },
-    KIT: { cod: codes.KIT, title: "'kit-shelton-1'", value: 0 },
-    LVL: { cod: codes.LVL, title: "Level", value: 0 },
-    MP: { cod: codes.MP, title: "MP", value: 0 },
-    MPadd: { cod: codes.MPadd, title: "MP adicional", value: 0 },
-    RES: { cod: codes.RES, title: "RES", value: 0 },
-    RESadd: { cod: codes.RESadd, title: "RES adicional", value: 0 },
-    SP: { cod: codes.SP, title: "Pontos Especiais", value: 0 },
-    STS: { cod: codes.STS, title: "Status", value: 0 },
-    STSP: { cod: codes.STSp, title: "Status (bonus)", value: 0 },
-    TAL: { cod: codes.TAL, title: "Talento", value: 0 },
-    VIT: { cod: codes.VIT, title: "Vitalidade", value: 0 },
-}
-
-const statsList = [
-
-    { cod: codes.ABS, title: statsCode.ABS.title },
-    { cod: codes.ABSadd, title: statsCode.ABSadd.title },
-    { cod: codes.AGI, title: statsCode.AGI.title },
-    { cod: codes.AP, title: statsCode.AP.title },
-    { cod: codes.APadd, title: statsCode.APadd.title },
-    { cod: codes.APmax, title: statsCode.APmax.title },
-    { cod: codes.APmin, title: statsCode.APmin.title },
-    { cod: codes.AR, title: statsCode.AR.title },
-    { cod: codes.ARadd, title: statsCode.ARadd.title },
-    { cod: codes.BonusAdd, title: statsCode.BonusAdd.title },
-    { cod: codes.DEF, title: statsCode.DEF.title },
-    { cod: codes.DEFadd, title: statsCode.DEFadd.title },
-    { cod: codes.EP, title: statsCode.EP.title },
-    { cod: codes.FOR, title: statsCode.FOR.title },
-    { cod: codes.HP, title: statsCode.HP.title },
-    { cod: codes.HPadd, title: statsCode.HPadd.title },
-    { cod: codes.INT, title: statsCode.INT.title },
-    { cod: codes.KIT, title: statsCode.KIT.title },
-    { cod: codes.LVL, title: statsCode.LVL.title },
-    { cod: codes.MP, title: statsCode.MP.title },
-    { cod: codes.MPadd, title: statsCode.MPadd.title },
-    { cod: codes.RES, title: statsCode.RES.title },
-    { cod: codes.RESadd, title: statsCode.RESadd.title },
-    { cod: codes.SP, title: statsCode.SP.title },
-    { cod: codes.STS, title: statsCode.STS.title },
-    { cod: codes.STSp, title: statsCode.STSP.title },
-    { cod: codes.TAL, title: statsCode.TAL.title },
-    { cod: codes.VIT, title: statsCode.VIT.title },
-]
-
-const forcesName = {
-    Bellum: { cod: codes.Bellum, title: "Bellum" },
-    Cabeção: { cod: codes.Cabeção, title: "Cabeção" },
-    Celesto: { cod: codes.Celesto, title: "Celesto" },
-    CoroaBC: { cod: codes.CoroaBC, title: "Coroa Castelo Bless" },
-    Devine: { cod: codes.Devine, title: "Devine" },
-    Enigma: { cod: codes.Enigma, title: "Enigma" },
-    Fadeo: { cod: codes.Fadeo, title: "Fadeo" },
-    Inferna: { cod: codes.Inferna, title: "Inferna" },
-    Ira: { cod: codes.Ira, title: "Ira" },
-    Lucidy: { cod: codes.Lucidy, title: "Lucidy" },
-    Mirage: { cod: codes.Mirage, title: "Mirage" },
-    Murky: { cod: codes.Murky, title: "Murky" },
-    Raident: { cod: codes.Raident, title: "Raident" },
-    Sereno: { cod: codes.Sereno, title: "Sereno" }, 
-    Sparky: { cod: codes.Sparky, title: "Sparky" },
-    Tera: { cod: codes.Tera, title: "Tera" },
-    Transparo: { cod: codes.Transparo, title: "Transparo" },
-    Vita: { cod: codes.Vita, title: "Vita" },
-}
-
-const itensName = {
-    amuleto: { cod: codes.Amuleto, title: "Amuleto" },
-    anel: { cod: codes.Aneis, title: "Aneis" },
-    arma: { cod: codes.Arma, title: "Arma" },
-    armadura: { cod: codes.Armadura, title: "Armadura" },
-    bonus: { cod: codes.BonusAdd, title: statsCode.BonusAdd.title },
-    bota: { cod: codes.Bota, title: "Bota" },
-    bracel: { cod: codes.Bracel, title: "Bracel" },
-    escudo: { cod: codes.Escudo, title: "Escudo" },
-    luva: { cod: codes.Luva, title: "Luva" },
-    orbital: { cod: codes.Orbital, title: "Orbital" },
-    shelton: { cod: codes.Shelton, title: "Shelton" },
-}
-const status = [statsCode.LVL, statsCode.FOR, statsCode.INT, statsCode.TAL, statsCode.AGI, statsCode.VIT, statsCode.STS]
-
-const result = [statsCode.AR, statsCode.AP, statsCode.DEF, statsCode.ABS, statsCode.HP, statsCode.MP, statsCode.RES]
-
-const itens: IItem[] = [
-    { name: itensName.amuleto.title, attrs: [statsCode.HPadd, statsCode.MPadd, statsCode.RESadd] },
-    { name: itensName.anel.title, attrs: [statsCode.HPadd, statsCode.MPadd, statsCode.RESadd] },
-    { name: itensName.arma.title, attrs: [statsCode.APmin, statsCode.APmax, statsCode.AR, statsCode.APadd, statsCode.ARadd] },
-    { name: itensName.armadura.title, attrs: [statsCode.DEF, statsCode.ABS, statsCode.DEFadd, statsCode.ABSadd] },
-    { name: itensName.bonus.title, attrs: [statsCode.AR, statsCode.DEFadd, statsCode.ABSadd, statsCode.HPadd, statsCode.MPadd, statsCode.RESadd] },
-    { name: itensName.bota.title, attrs: [statsCode.DEF, statsCode.ABS, statsCode.ABSadd] },
-    { name: itensName.bracel.title, attrs: [statsCode.DEF, statsCode.AR, statsCode.ARadd] },
-    { name: itensName.escudo.title, attrs: [statsCode.DEF, statsCode.ABS, statsCode.DEFadd, statsCode.ABSadd] },
-    { name: itensName.luva.title, attrs: [statsCode.DEF, statsCode.ABS, statsCode.DEFadd, statsCode.ABSadd] },
-    { name: itensName.orbital.title, attrs: [statsCode.DEF, statsCode.ABS, statsCode.MPadd, statsCode.ABSadd] },
-    { name: itensName.shelton.title, attrs: [statsCode.KIT], },
-]
-
-const forces: IForces[] = [
-    { force: forcesName.Lucidy, bonus: [{ cod: codes.AP, value: 2 }] }, 
-    { force: forcesName.Sereno, bonus: [{ cod: codes.AP, value: 4 }] }, 
-    { force: forcesName.Fadeo, bonus: [{ cod: codes.AP, value: 7 }] }, 
-    { force: forcesName.Sparky,  bonus: [{ cod: codes.AP, value: 10 }] }, 
-    { force: forcesName.Raident, bonus: [{ cod: codes.AP, value: 15 }] },
-    { force: forcesName.Transparo, bonus: [{ cod: codes.AP, value: 25 }] },
-    { force: forcesName.Murky, bonus: [{ cod: codes.AP, value: 40 }, { cod: codes.AP, value: 10, percent: true }] },
-    { force: forcesName.Devine, bonus: [{ cod: codes.AP, value: 60 }, { cod: codes.AP, value: 10, percent: true }] },
-    { force: forcesName.Celesto, bonus: [{ cod: codes.AP, value: 80 }, { cod: codes.AP, value: 10, percent: true }] },
-    { force: forcesName.Mirage, bonus: [{ cod: codes.AP, value: 100 }, { cod: codes.AP, value: 10, percent: true }] },
-    { force: forcesName.Inferna, bonus: [{ cod: codes.AP, value: 120 }, { cod: codes.AP, value: 15, percent: true }] },
-    { force: forcesName.Enigma, bonus: [{ cod: codes.AP, value: 140 }, { cod: codes.AP, value: 15, percent: true }] },
-    { force: forcesName.Bellum, bonus: [{ cod: codes.AP, value: 160 }, { cod: codes.AP, value: 15, percent: true }] },
-    { force: forcesName.Vita, bonus: [{ cod: codes.AP, value: 120 }, { cod: codes.AP, value: 15, percent: true }] },
-    { force: forcesName.Ira, bonus: [{ cod: codes.AP, value: 150 }, { cod: codes.AP, value: 20, percent: true }] },
-    { force: forcesName.Tera, bonus: [{ cod: codes.AP, value: 200 }, { cod: codes.AP, value: 15, percent: true }] },
-]
-
-const bonusAP: IForces[] = [
-    { force: forcesName.Cabeção, bonus: [{ cod: codes.AP, value: 15, percent: true }] },
-    { force: forcesName.CoroaBC, bonus: [{ cod: codes.CoroaBC, value: 10, percent: true }] },
-]
-
-const values = {
-    "bonusAP": bonusAP,
-    "codes": codes,
-    "forces": forces,
-    "itens": itens,
-    "itensName": itensName,
-    "result": result,
-    "statsCode": statsCode,
-    "statsList": statsList,
-    "status": status,
-}
-
-export default values;
