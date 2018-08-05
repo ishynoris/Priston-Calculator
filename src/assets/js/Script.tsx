@@ -141,24 +141,30 @@ export default class Script {
     public static getVersions(): IVersion[] {
         return [
             {
-                descriptions: ["Liberado todas as f�rmulas para Arqueira, Sacerdotisa e Cavaleiro."],
+                descriptions: ["Liberado todas as fórmulas para Arqueira, Sacerdotisa e Cavaleiro."],
                 tag: "alfa",
                 v: 0.1,
             }, {
-                descriptions: ["Liberado as f�rmulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
+                descriptions: ["Liberado as fórmulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
                 tag: "alfa",
                 v: 0.2,
             }, {
-                descriptions: ["Adicionado as f�rmulas de AP para Atalanta, Assassina e Guerreira."],
+                descriptions: ["Adicionado as fórmulas de AP para Atalanta, Assassina e Guerreira."],
                 tag: "alfa",
                 v: 0.3,
             }, {
                 descriptions: [
-                    "Adicionado as f�rmulas de AP para Mago e Lutador.", 
-                    "A f�rmula para Sacerdotisa foi corrigida."
+                    "Adicionado as fórmulas de AP para Mago e Lutador.", 
+                    "A fórmula para Sacerdotisa foi corrigida."
                 ],
                 tag: "alfa",
                 v: 0.4,
+            }, {
+                descriptions: [
+                    "Adicionado seleção de idiomas",
+                ],
+                tag: "alfa",
+                v: 0.5,
             }
         ]
     }
