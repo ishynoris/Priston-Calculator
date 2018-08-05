@@ -7,7 +7,7 @@ import '../assets/css/DropdownList.css'
 
 interface IDropdownItem {
     item: IKeyValue
-    onItemClicked?: (item: IDropdownItem) => void;
+    onItemClicked?: (item: IKeyValue) => void;
 }
 interface IDropdownList {
     default: number, 
@@ -18,7 +18,7 @@ interface IDropdownList {
 const DropdownItem = (props: IDropdownItem) => {
     const onItemClicked = () => {
         if (props.onItemClicked !== undefined) {
-            props.onItemClicked(props);
+            props.onItemClicked(props.item);
         }
     }
     return <div onClick={onItemClicked}>
@@ -38,7 +38,7 @@ class DropdownList extends React.Component<IDropdownList> {
     public render() {
 
         const selected = (el: IKeyValue) => {
-            if (el.key === this.state.current.value){
+            if (el.value === this.state.current.value){
                 return <i className="fas fa-check fa-xs" /> 
             }
             return null;
@@ -59,12 +59,11 @@ class DropdownList extends React.Component<IDropdownList> {
             </div>
         }
 
-        const title = this.props.text + " [" + this.state.current.value + "]";
         return <div className="dropdown" >
             <div className="dropdown-btn outter-border background">
                 <div className="row">
                     <div className="col-9">
-                        <TitleSmall title={title}  />
+                        <TitleSmall title={this.props.text}  />
                     </div>
                     <div className="col-2">
                         <i className="fas fa-caret-down fa-xs" />
@@ -77,16 +76,16 @@ class DropdownList extends React.Component<IDropdownList> {
         </div>
     }
 
-    private onItemClicked = (dropdown: IDropdownItem) => {
+    private onItemClicked = (item: IKeyValue) => {
         let indexClicked = this.state.index;
         this.props.itens.forEach((el, index) => {
-            if (dropdown.item.value === el.value) {
+            if (item.value === el.value) {
                 indexClicked = index;
             }
         })
-        this.setState({ current: dropdown, index: indexClicked });
+        this.setState({ current: item, index: indexClicked });
         if (this.props.onSelected !== undefined) {
-            this.props.onSelected(indexClicked, dropdown.item.value);
+            this.props.onSelected(indexClicked, item.value);
         }
     }
 }

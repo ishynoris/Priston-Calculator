@@ -9,7 +9,7 @@ interface ISwitchLanguage {
   default: number, 
   title: string,
   values: IKeyValue[]
-  onLanguageChanged?: (language: ILanguage) => void
+  onLanguageChanged?: (index: number, language: ILanguage) => void
 }
 
 class SwitchLanguage extends React.Component<ISwitchLanguage> {
@@ -23,7 +23,7 @@ class SwitchLanguage extends React.Component<ISwitchLanguage> {
         <div style={{ float: "right" }}>
           <DropdownList 
             default={this.props.default}
-            text="Selecione o idioma"
+            text={this.props.title}
             itens={this.props.values}
             onSelected={this.onLanguageSelected} />
         </div>
@@ -35,7 +35,7 @@ class SwitchLanguage extends React.Component<ISwitchLanguage> {
     if (this.props.onLanguageChanged !== undefined) {
       const language = Script.language(value);
       if (language !== undefined) {
-        this.props.onLanguageChanged(language);
+        this.props.onLanguageChanged(index, language);
       }
     }
   }

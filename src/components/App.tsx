@@ -25,10 +25,11 @@ class App extends React.Component {
 			alert("It's was not possible load language.");
 			return null;
 		}
+		const lang = this.state.language;
 		return <div>
 			<SwitchLanguage 
 				default={this.state.index}
-				title={this.state.language.translations.select.title}
+				title={lang.translations.select.title + " [" + lang.value + "]"}
 				values={Script.langsDesc()}
 				onLanguageChanged={this.languageChanged} />
 			<CharDetail
@@ -42,9 +43,9 @@ class App extends React.Component {
 		this.charChanged(undefined);
 	}
 
-	private languageChanged = (lang: ILanguage) => {
+	private languageChanged = (index: number, language: ILanguage) => {
 		// Script.setDefaultLanguage(lang);
-		this.setState({ language: lang })
+		this.setState({ "index": index, "language": language });
 	}
 
 	private charChanged = (char: IChar | undefined) => {
