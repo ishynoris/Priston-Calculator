@@ -6,7 +6,7 @@ import '../assets/css/Button.css';
 
 interface IButton {
     text: string,
-    onClicked: () => void,
+    onClicked?: () => void,
 }
 
 const Button = (props: IButton) => {
