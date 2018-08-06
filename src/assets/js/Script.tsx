@@ -6,16 +6,11 @@ import ILanguage from '../../interfaces/ILanguage';
 import IMixes from '../../interfaces/IMixes';
 import IQuest from '../../interfaces/IQuest';
 import IStatusResult from '../../interfaces/IStatusResult';
+import IVersion from '../../interfaces/IVersion';
 import CharacterStats from './CharacterStatus';
 import Codes from './Codes';
 import Langs from './Langs';
 import Values from './Values';
-
-interface IVersion {
-    tag: string;
-    v: number;
-    descriptions: string[];
-}
 
 export default class Script {
 
@@ -155,11 +150,13 @@ export default class Script {
                 tag: "alfa",
                 v: 0.4,
             }, {
-                descriptions: [
-                    "Adicionado seleção de idiomas",
-                ],
+                descriptions: [ "Adicionado seleção de idiomas" ],
                 tag: "alfa",
                 v: 0.5,
+            }, {
+                descriptions: [ "Notas de cada nova atualização" ],
+                tag: "alfa",
+                v: 0.6,
             }
         ]
     }
