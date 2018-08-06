@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import IKeyValue from '../interfaces/IKeyValue';
 import Button from './Button'
@@ -7,7 +8,7 @@ import DropdownList from './DropdownList';
 interface IHeader { 
     release: {
         text: string,
-        onClicked: () => void
+        onClicked?: () => void
     },
     switchLang: {
         default: number, 
@@ -28,9 +29,9 @@ const Header = (props: IHeader) => {
                 onSelected={props.switchLang.onSelected} />
         </div>
         <div className="col-md-2" >
-            <Button 
-                text={props.release.text} 
-                onClicked={props.release.onClicked}/>
+            <Link to="/releases">
+                <Button text={props.release.text} />
+            </Link>
         </div>
     </div>
 }
