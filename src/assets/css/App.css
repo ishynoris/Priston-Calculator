@@ -4,10 +4,6 @@ body{
     background-size: cover;
     background-position: center;
 }
-.block{
-    /*padding: 0 0 0 20px;
-    border: 1px solid black; */
-}
 .padding{
     padding: 1px;
 }
@@ -21,9 +17,10 @@ body{
 }
 .small-title{
     font-weight: bold;
-    width: 130%;
+    width: 100%;
     font-family: 'Trebuchet Ms';
     font-size: 8pt;
+    margin-bottom: -5px;
 }
 .background{
     background-image: url('../images/background-item.png');

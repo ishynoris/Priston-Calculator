@@ -4,8 +4,6 @@ import IQuest from '../interfaces/IQuest';
 import SelectTitle from './SelectTitle';
 import Title from './Title';
 
-import '../assets/css/Quests.css';
-
 interface IQuestList { 
     quests: IQuest[],
     onQuestsChanged?: (name: string, index: number, value: string) => boolean 
