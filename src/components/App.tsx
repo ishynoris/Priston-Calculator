@@ -34,7 +34,7 @@ class App extends React.Component {
 		}
 		return <div>
 			<Header 
-				release={{ text: "Release Notes", onClicked: this.onReleaseClicked }} 
+				release={{ text: "Release Notes" }} 
 				switchLang={switchLang} />
 			<CharDetail
 				language={this.state.language}
@@ -55,10 +55,6 @@ class App extends React.Component {
 	private charChanged = (char: IChar | undefined) => {
 		const charName = char === undefined ? "" : char.name + " | ";
 		document.title = charName + "Priston Calculator";
-	}
-
-	private onReleaseClicked = () => {
-		alert("clicked");
 	}
 }
 
