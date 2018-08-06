@@ -62,11 +62,11 @@ class DropdownList extends React.Component<IDropdownList> {
         return <div className="dropdown" >
             <div className="dropdown-btn outter-border background">
                 <div className="row">
-                    <div className="col-9">
+                    <div className="col-10">
                         <TitleSmall title={this.props.text}  />
                     </div>
                     <div className="col-2">
-                        <i className="fas fa-caret-down fa-xs" />
+                        <i className="fas fa-caret-down fa-xs" style={{ marginLeft: -5, right : 0 }}/>
                     </div>
                 </div>
             </div>

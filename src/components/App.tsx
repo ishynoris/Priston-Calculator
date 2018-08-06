@@ -5,7 +5,7 @@ import IChar from '../interfaces/IChar';
 import ILanguage from '../interfaces/ILanguage';
 import CharDetail from './CharDetail';
 import Footer from './Footer';
-import SwitchLanguage from './SwitchLanguage';
+import Header from './Header';
 
 import '../assets/css/App.css';
 
@@ -26,12 +26,16 @@ class App extends React.Component {
 			return null;
 		}
 		const lang = this.state.language;
+		const switchLang = {
+			default: this.state.index, 
+			itens: Script.langsDesc(),
+			onSelected: this.languageChanged,
+			text: lang.translations.select.title + " [" + lang.value + "]",
+		}
 		return <div>
-			<SwitchLanguage 
-				default={this.state.index}
-				title={lang.translations.select.title + " [" + lang.value + "]"}
-				values={Script.langsDesc()}
-				onLanguageChanged={this.languageChanged} />
+			<Header 
+				release={{ text: "Release Notes", onClicked: this.onReleaseClicked }} 
+				switchLang={switchLang} />
 			<CharDetail
 				language={this.state.language}
 				onCharChanged={this.charChanged} />
@@ -43,14 +47,18 @@ class App extends React.Component {
 		this.charChanged(undefined);
 	}
 
-	private languageChanged = (index: number, language: ILanguage) => {
-		// Script.setDefaultLanguage(lang);
+	private languageChanged = (index: number, value: string) => {
+		const language = Script.language(value);
 		this.setState({ "index": index, "language": language });
 	}
 
 	private charChanged = (char: IChar | undefined) => {
 		const charName = char === undefined ? "" : char.name + " | ";
 		document.title = charName + "Priston Calculator";
+	}
+
+	private onReleaseClicked = () => {
+		alert("clicked");
 	}
 }
 
