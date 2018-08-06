@@ -1,0 +1,9 @@
+button {
+    border-radius: 6px;
+    padding: "0 10px";
+    text-transform: uppercase;
+}
+
+button .hover-btn:hover, label:hover {
+    cursor: pointer;
+}
