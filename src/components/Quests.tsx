@@ -4,7 +4,9 @@ import IQuest from '../interfaces/IQuest';
 import SelectTitle from './SelectTitle';
 import Title from './Title';
 
-interface IQuestList { 
+interface IQuestList {
+    title: string,
+    lastQuest: string, 
     quests: IQuest[],
     onQuestsChanged?: (name: string, index: number, value: string) => boolean 
 }
@@ -29,10 +31,10 @@ class Quests extends React.Component<IQuestList>{
             });
         })();
         return <div>
-            <Title title="Quests" />
+            <Title title={this.props.title} />
             <SelectTitle 
                 ref={ref => this.selectQuest = ref}
-                title={"Ultima quest realizada:"} 
+                title={this.props.lastQuest + ":"} 
                 name="Quests" values={options} 
                 onSelectedCallback={this.props.onQuestsChanged} />
         </div>

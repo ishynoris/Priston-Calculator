@@ -6,7 +6,8 @@ import Select from './Select';
 import Title from './Title';
 import TitleSmall from "./TitleSmall";
 
-interface IBonusAP { 
+interface IBonusAP {
+    title: string, 
     forces: IForces[],
     another: IForces[],
     onForceSelected?: (bonus: IForces | undefined) => boolean;
@@ -29,7 +30,7 @@ class BonusAP extends React.Component<IBonusAP>{
         }
 
         return <div>
-            <Title title="Bonus de dano" />
+            <Title title={this.props.title} />
             <div className="item-size outter-border background padding">
                 <div className="row">
                     <div className="col-sm-5">

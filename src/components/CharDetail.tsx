@@ -26,17 +26,20 @@ interface ICharDetail {
     language: ILanguage,
     onCharChanged?: (char: IChar | undefined) => void
 }
-const radioTitles = ['Duas mãos', 'Escudo', 'Orbital'];
-const radios = {
-    indexChecked: 0,
-    lastIndex: radioTitles.length - 1,
-    name: 'Status',
-    titles: radioTitles,
+
+const radios = (values: string[]) => {
+    return {
+        indexChecked: 0,
+        lastIndex: values.length - 1,
+        name: 'Status',
+        titles: values,
+    }
 }
 
 class CharDetail extends React.Component<ICharDetail>{
 
     public state: { hasChar: boolean }
+    private radios: { indexChecked: number, lastIndex: number, name: string, titles: string[] };
     private char: IChar | undefined;
     private bonus: { skills: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
     private itens: { kit: IItem[], set: IItem[], prim: IItem[], bonus: IItem[] }
@@ -50,6 +53,12 @@ class CharDetail extends React.Component<ICharDetail>{
         this.detail = { status: null, skills: null, result: null }
         this.sets = { kit: null, pri: null, set: null, bonus: null }
         this.state = { hasChar: false };
+        const translations = props.language.translations
+        this.radios = radios([
+            translations.titles.TwoHand, 
+            translations.itens.Shield, 
+            translations.itens.Orbital
+        ]);
     }
 
     public setChar(newChar: IChar | undefined) {
@@ -60,6 +69,15 @@ class CharDetail extends React.Component<ICharDetail>{
             return;
         }
         this.updateChar();
+    }
+
+    public changeLanguage (language: ILanguage) {
+        const translations = language.translations;
+        this.radios = radios([
+            translations.titles.TwoHand, 
+            translations.itens.Shield, 
+            translations.itens.Orbital
+        ]);
     }
 
     public render() {
@@ -79,30 +97,35 @@ class CharDetail extends React.Component<ICharDetail>{
                     ref={ref => this.detail.status = ref}
                     onStatusChanged={this.onStatusChanged} />
                 <Skills
+                    title={titles.Skills}
                     ref={ref => this.detail.skills = ref}
                     onSkillChanged={this.onSkillChanged} />
                 <Quests
+                    title={titles.Quests}
+                    lastQuest={titles.LastQuest}
                     quests={quests}
                     onQuestsChanged={this.onQuestChanged} />
-                <BonusAP 
+                <BonusAP
+                    title={titles.BonusAP} 
                     forces={forces}
                     another={another}
                     onForceSelected={this.onForceSelected} />
             </div>
         }
+        const titles = language.translations.titles;
         return (
             <div className="row" style={{ margin: 0 }}>
                 <div className="block col-lg-2">
-                    <Title title="Personagens" />
+                    <Title title={titles.Char} />
                     <CharSelect
-                        title={"Selecione um personagem:"}
-                        name={"Personagens"}
+                        title={titles.SelectChar}
+                        name={titles.Char}
                         chars={chars} 
                         onCharSelect={this.onCharSelect}/>
                     { details() }
                 </div>
                 <div className="block col-lg-6">
-                    <Title title="Equipamentos" />
+                    <Title title={titles.Equips} />
                     <SetItem 
                         ref={ref => this.sets.kit = ref}
                         language={this.props.language}
@@ -115,8 +138,8 @@ class CharDetail extends React.Component<ICharDetail>{
                         onMixSelected={this.mixSelected} />
                     <ShitftEquip
                         name={radios.name}
-                        titles={radios.titles}
-                        default={radios.indexChecked}
+                        titles={this.radios.titles}
+                        default={this.radios.indexChecked}
                         onSelectedCallback={this.onSelectEquip} />
                     <SetItem 
                         ref={ref => this.sets.pri = ref}
@@ -125,13 +148,13 @@ class CharDetail extends React.Component<ICharDetail>{
                         onMixSelected={this.mixSelected} />
                 </div>
                 <div className="col-lg-2">
-                    <Title title="Bonus e Adicionais" />
+                    <Title title={titles.BonusAdds} />
                     <SetItem 
                         ref={ref => this.sets.bonus = ref}
                         language={this.props.language}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} />
-                    <Title title="Resultados" />
+                    <Title title={titles.Results} />
                     <Result ref={ref => this.detail.result = ref} />
                 </div>
             </div>
@@ -184,7 +207,7 @@ class CharDetail extends React.Component<ICharDetail>{
 			this.sets.set.initState(this.itens.set);
 		}
 		if (this.sets.pri !== null) {
-            const names = [itensChar.Weapon, itensChar.Armor, radios.titles[radios.indexChecked]]
+            const names = [itensChar.Weapon, itensChar.Armor, this.radios.titles[this.radios.indexChecked]]
             this.itens.prim = getItens(names);
 			this.sets.pri.initState(this.itens.prim);
         }
@@ -312,11 +335,13 @@ class CharDetail extends React.Component<ICharDetail>{
             this.mixSelected(oldValue, undefined);
         }
         const item: IItem | undefined = Script.getItem(this.props.language, value);
+        console.log(value);
+        console.log(item);
 		if (this.sets.pri !== null) {
             if (item === undefined) {
-                this.sets.pri.removeItem(radios.lastIndex);
+                this.sets.pri.removeItem(this.radios.lastIndex);
             } else {
-                this.sets.pri.addItem(item, radios.lastIndex);
+                this.sets.pri.addItem(item, this.radios.lastIndex);
             }
 		}
     }

@@ -42,9 +42,6 @@ const langs: ILanguage[] = [
                 Shield: "Escudo",
                 Weapon: "Arma"
             },
-            select: {
-                title: "Selecione um idioma"
-            },
             stats: {
                 Absorption: "Absorção",
                 AbsorptionAdd: "Absorção" + add,
@@ -74,8 +71,10 @@ const langs: ILanguage[] = [
                 Talent: "Talento",
             },
             titles: {
-                BonusAdds: "Bonus e adicionais", Char: "Personagens", Equips: "Equipamentos", 
-                Results: "Resultados", SelectChar: "Selecione um personagem", TwoHand: "Duas mãos", 
+                BonusAP: "Bonus de Dano", BonusAdds: "Bonus e adicionais", CalcBtn: "Voltar para calculadora", 
+                Char: "Personagens", Equips: "Equipamentos", LastQuest: "Ultima quest realizada", Quests: "Quests", 
+                ReleasesBtn: "Notas de atualizações", Results: "Resultados", SelectChar: "Selecione um personagem", 
+                SelectLang: "Selecione um idioma", Skills: "Habilidades", TwoHand: "Duas mãos", 
             }
         },
         value: "ptbr",  
@@ -119,9 +118,6 @@ const langs: ILanguage[] = [
                 Shield: "Shield",
                 Weapon: "Weapon"
             },
-            select: {
-                title: "Select a language"
-            },
             stats: {
                 Absorption: "Absorption",
                 AbsorptionAdd: "Absorption" + add,
@@ -151,8 +147,9 @@ const langs: ILanguage[] = [
                 Talent: "Talent",
             },
             titles: {
-                BonusAdds: "Bonus adds", Char: "Characters", Equips: "Equipments",  
-                Results: "Results", SelectChar: "Select a char", TwoHand: "Two hands", 
+                BonusAP: "Damage Boosters", BonusAdds: "Bonus adds", CalcBtn: "Back to Calculator", Char: "Characters", Equips: "Equipments",  
+                LastQuest: "Last Quest", Quests: "Quests", ReleasesBtn: "Release Notes", Results: "Results", 
+                SelectChar: "Select a char", SelectLang: "Select Language", Skills: "Skills", TwoHand: "Two hands", 
             }
         },
         value: "en",  

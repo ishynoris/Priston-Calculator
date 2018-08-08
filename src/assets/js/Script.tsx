@@ -157,14 +157,26 @@ export default class Script {
                 descriptions: [ "Notas de cada nova atualização" ],
                 tag: "alfa",
                 v: 0.6,
+            }, {
+                descriptions: [ 
+                    "Correção de erro ao acessar Notas de atualização",
+                    "Novas traduções."
+                ],
+                subV: 1,
+                tag: "alfa",
+                v: 0.6,
             }
         ]
     }
 
-    public static currentVersion(): string {
+    public static descriptionVersion(version: IVersion): string {
+        return "v" + version.v + (version.subV !== undefined ? "." + version.subV : "") 
+            + " - " + version.tag;
+    }
+
+    public static currentVersion(): IVersion {
         const versions = Script.getVersions();
-        const version = versions[versions.length -1];
-        return "v" + version.v + " - " + version.tag;
+        return versions[versions.length -1];
     }
 }
 

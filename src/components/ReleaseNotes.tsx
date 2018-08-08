@@ -10,7 +10,7 @@ import TitleSmall from './TitleSmall';
 const ReleaseNotes = () => {
 
     const releases: IVersion[] = Script.getVersions();
-    const releaseStyle: React.CSSProperties = { color: "white", padding: 30, }
+    const releaseStyle: React.CSSProperties = { color: "white", padding: "20px 20px 30px 20px", }
     const ulStyle: React.CSSProperties = { paddingTop: 30 }
     const liStyle: React.CSSProperties = { paddingBottom: 10 }
 
@@ -18,14 +18,14 @@ const ReleaseNotes = () => {
 
     const renderVersions = (i: number, version: IVersion) => {
         return <li key={i} style={liStyle}>
-            <Title title={ "v" + version.v + " - " + version.tag } />
+            <Title title={ Script.descriptionVersion(version) } />
             { version.descriptions.map((d, j) => renderDescription(j, d) )}
         </li>
     }
     return <div style={releaseStyle}>
         <div className="row">
             <div className="col-md-12">
-                <Link to="/"><Button text="Calculadora" /></Link>
+            <Link to="/"><Button text="Calculadora" /></Link>
             </div>
         </div>
         <ul style={ulStyle}>{ releases.map((v, i) => renderVersions(i, v) ) }</ul>

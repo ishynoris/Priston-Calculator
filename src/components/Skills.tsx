@@ -7,6 +7,7 @@ import Title from './Title';
 import TitleSmall from "./TitleSmall";
 
 interface ISkillList {
+    title: string, 
     onSkillChanged?: (bonus: IBonus) => boolean
 }
 
@@ -30,7 +31,7 @@ class SkillList extends React.Component<ISkillList>{
             return null;
         }
         return <div>
-            <Title title="Habilidades" />
+            <Title title={this.props.title} />
             <div className="item-size outter-border background padding">
                 {skills.map((s, i) => {
                     return this.renderSkills(i, s);

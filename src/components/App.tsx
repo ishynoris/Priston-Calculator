@@ -12,6 +12,7 @@ import '../assets/css/App.css';
 class App extends React.Component {
 
 	public state: { index: number, language: ILanguage | undefined };
+	private charDetail: CharDetail | null;
 
 	constructor (props: {}) {
 		super(props);
@@ -30,13 +31,14 @@ class App extends React.Component {
 			default: this.state.index, 
 			itens: Script.langsDesc(),
 			onSelected: this.languageChanged,
-			text: lang.translations.select.title + " [" + lang.value + "]",
+			text: lang.translations.titles.SelectLang + " [" + lang.value + "]",
 		}
 		return <div>
 			<Header 
-				release={{ text: "Release Notes" }} 
+				release={{ text: lang.translations.titles.ReleasesBtn }} 
 				switchLang={switchLang} />
 			<CharDetail
+				ref={ref => this.charDetail = ref}
 				language={this.state.language}
 				onCharChanged={this.charChanged} />
 			<Footer />
@@ -50,6 +52,9 @@ class App extends React.Component {
 	private languageChanged = (index: number, value: string) => {
 		const language = Script.language(value);
 		this.setState({ "index": index, "language": language });
+		if (this.charDetail !== null && language !== undefined){
+			this.charDetail.changeLanguage(language);
+		}
 	}
 
 	private charChanged = (char: IChar | undefined) => {

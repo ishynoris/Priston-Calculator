@@ -18,9 +18,6 @@ export default interface ILanguage {
             Amulet: string, Armlet: string, Armor: string, Boots: string, Gauntlets: string, 
             Orbital: string, Rings: string, Shield: string, Weapon: string, 
         },
-        select: {
-            title: string,
-        }
         stats: {
             Absorption: string, AbsorptionAdd: string, Agility: string, AttkPower: string, 
             AttkPowerAdd: string, AttkPowerMax: string, AttkPowerMin: string, AttkRating: string, 
@@ -30,9 +27,9 @@ export default interface ILanguage {
             StatsP: string, Strength: string, Talent: string, 
         },
         titles: { 
-            BonusAdds: string, Char: string, Equips: string, Results: string, 
-            SelectChar: string, TwoHand: string,
-            
+            BonusAdds: string,  BonusAP: string, CalcBtn: string, Char: string, Equips: string, 
+            LastQuest: string, Quests: string, ReleasesBtn: string, Results: string, SelectChar: string, 
+            SelectLang: string, Skills: string, TwoHand: string, 
         }
     },
     value: string
