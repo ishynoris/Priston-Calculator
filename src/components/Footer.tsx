@@ -23,7 +23,8 @@ const Footer = (props: {}) => {
         <div style={footer}>
             <label style={label}>
                 Desenvolvido por: Anailson Santos Mota 
-                <i style={icons} className="fas fa-cog fa-spin fa-lg" /> { Script.currentVersion() }
+                <i style={icons} className="fas fa-cog fa-spin fa-lg" /> 
+                { Script.descriptionVersion(Script.currentVersion()) }
             </label>
             <div> 
                 {((ancs: IAnchors[]) => {

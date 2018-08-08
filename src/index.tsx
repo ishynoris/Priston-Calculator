@@ -8,10 +8,10 @@ import ReleaseNotes from './components/ReleaseNotes';
 import registerServiceWorker from './registerServiceWorker';
 
 const Routes = () => ( 
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <Switch>
-      <Route exact={true} path={process.env.PUBLIC_URL + '/'} component={App} />
-      <Route path={process.env.PUBLIC_URL + "/releases"} component={ReleaseNotes} />
+      <Route exact={true} path={'/'} component={App} />
+      <Route path={"/releases"} component={ReleaseNotes} />
     </Switch>
   </BrowserRouter>
 );

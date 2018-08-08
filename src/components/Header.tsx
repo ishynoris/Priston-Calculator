@@ -21,17 +21,18 @@ interface IHeader {
 const Header = (props: IHeader) => {
 
     return <div className="row " style={{ padding: "20px 20px 30px 20px" }}>
+        <div className="col-md-2" >
+            <Link to={"/releases"}>
+                <Button text={props.release.text} />
+            </Link>
+        </div>
+        <div className="col-md-8"/>
         <div className="col-md-2">
             <DropdownList 
                 default={props.switchLang.default}
                 text={props.switchLang.text}
                 itens={props.switchLang.itens}
                 onSelected={props.switchLang.onSelected} />
-        </div>
-        <div className="col-md-2" >
-            <Link to="/releases">
-                <Button text={props.release.text} />
-            </Link>
         </div>
     </div>
 }
