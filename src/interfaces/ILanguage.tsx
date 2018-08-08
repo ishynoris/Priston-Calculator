@@ -18,6 +18,11 @@ export default interface ILanguage {
             Amulet: string, Armlet: string, Armor: string, Boots: string, Gauntlets: string, 
             Orbital: string, Rings: string, Shield: string, Weapon: string, 
         },
+        quests:{
+            q20: string, q30: string, q40: string, q55: string, q60: string, q70: string,
+            q80a: string, q80b: string, q80c: string, q85: string, q90a: string, q90b: string, 
+            q100: string, q110: string, q118: string, q123: string
+        },
         stats: {
             Absorption: string, AbsorptionAdd: string, Agility: string, AttkPower: string, 
             AttkPowerAdd: string, AttkPowerMax: string, AttkPowerMin: string, AttkRating: string, 

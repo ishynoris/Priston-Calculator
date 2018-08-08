@@ -97,12 +97,12 @@ export default class Script {
         })
     }
 
-    public static quests(): IQuest[] {
-        return Values.quests();
+    public static quests(language: ILanguage): IQuest[] {
+        return Values.quests(language);
     }
 
-    public static questsAt(index: number): IQuest[] {
-        return Script.quests().filter((q, i) => {
+    public static questsAt(language: ILanguage, index: number): IQuest[] {
+        return Script.quests(language).filter((q, i) => {
             return i <= index;
         });
     }

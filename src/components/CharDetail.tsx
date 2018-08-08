@@ -85,7 +85,7 @@ class CharDetail extends React.Component<ICharDetail>{
         const chars: IChar[] = Script.chars(language);
         const forces: IForces[] = Script.forces(language);
         const another: IForces[] = Script.boostersAP(language);
-        const quests: IQuest[] =  Script.quests();
+        const quests: IQuest[] =  Script.quests(language);
         const details = () => {
             if (this.char === undefined){
                 return null;
@@ -259,7 +259,7 @@ class CharDetail extends React.Component<ICharDetail>{
             return false;
         }
 
-        const questsDone = Script.questsAt(index);
+        const questsDone = Script.questsAt(this.props.language, index);
         if (level < questsDone[index].level) {
             alert("Você ainda não possui level suficiente para realizar essa quest.");
             return false;

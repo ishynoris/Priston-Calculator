@@ -11,25 +11,26 @@ import Codes from "./Codes";
 
 export default class Values {
  
-    public static quests (): IQuest[] {
+    public static quests (language: ILanguage): IQuest[] {
+        const quests = language.translations.quests;
         return [
             { level: -1, title: "-", bonus: [] },
-            { level: 20, title: "Quest level 20 (1º desafio de classe)", bonus: [] },
-            { level: 30, title: "Quest level 30 - Por Ela", bonus: [{ cod: Codes.STS, value: 5 }] },
-            { level: 40, title: "Quest level 40 (2º desafio de classe)", bonus: [{ cod: Codes.HP, value: 15 }] },
-            { level: 55, title: "Quest level 55 - A Caverna", bonus: [{ cod: Codes.SP, value: 1 }] },
-            { level: 60, title: "Quest level 60 (3º desafio de classe)", bonus: [] },
-            { level: 70, title: "Quest level 70 - A Amizade de Michelle", bonus: [{ cod: Codes.SP, value: 1 }, { cod: Codes.STS, value: 5 }] },
-            { level: 80, title: "Quest level 80 (4º desafio de classe)", bonus: [] },
-            { level: 80, title: "Quest level 80 - O Fúria Aprisionado", bonus: [{ cod: Codes.SP, value: 2 }, { cod: Codes.STS, value: 5 }] },
-            { level: 80, title: "Quest level 80 - O Teste da Realeza", bonus: [{ cod: Codes.STSp, value: 2 }] },
-            { level: 85, title: "Quest level 85 - As Lágrimas de Calliar", bonus: [] },
-            { level: 90, title: "Quest level 90 - A Vila Eura", bonus: [{ cod: Codes.HP, value: 40 }] },
-            { level: 90, title: "Quest level 90 - Desafio Amargo", bonus: [{ cod: Codes.STSp, value: 3 }] },
-            { level: 100, title: "Quest level 100 - Fantasma do Fúria", bonus: [] },
-            { level: 110, title: "Quest level 110", bonus: [{ cod: Codes.EP, value: 2 }] },
-            { level: 118, title: "Quest level 118", bonus: [{ cod: Codes.EP, value: 3 }] },
-            { level: 123, title: "Quest level 123", bonus: [{ cod: Codes.STS, value: 10 }, { cod: Codes.EP, value: 3 }] },
+            { level: 20, title: quests.q20, bonus: [] },
+            { level: 30, title: quests.q30, bonus: [{ cod: Codes.STS, value: 5 }] },
+            { level: 40, title: quests.q40, bonus: [{ cod: Codes.HP, value: 15 }] },
+            { level: 55, title: quests.q55, bonus: [{ cod: Codes.SP, value: 1 }] },
+            { level: 60, title: quests.q60, bonus: [] },
+            { level: 70, title: quests.q70, bonus: [{ cod: Codes.SP, value: 1 }, { cod: Codes.STS, value: 5 }] },
+            { level: 80, title: quests.q80a, bonus: [] },
+            { level: 80, title: quests.q80b, bonus: [{ cod: Codes.SP, value: 2 }, { cod: Codes.STS, value: 5 }] },
+            { level: 80, title: quests.q80c, bonus: [{ cod: Codes.STSp, value: 2 }] },
+            { level: 85, title: quests.q85, bonus: [] },
+            { level: 90, title: quests.q90a, bonus: [{ cod: Codes.HP, value: 40 }] },
+            { level: 90, title: quests.q90b, bonus: [{ cod: Codes.STSp, value: 3 }] },
+            { level: 100, title: quests.q100, bonus: [] },
+            { level: 110, title: quests.q110, bonus: [{ cod: Codes.EP, value: 2 }] },
+            { level: 118, title: quests.q118, bonus: [{ cod: Codes.EP, value: 3 }] },
+            { level: 123, title: quests.q123, bonus: [{ cod: Codes.STS, value: 10 }, { cod: Codes.EP, value: 3 }] },
         ];
     }
 
