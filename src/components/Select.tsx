@@ -20,6 +20,10 @@ class Select extends React.Component<ISelect>{
         this.select = null;
     }
 
+    public getIndex(): number {
+        return this.state.lastIndex
+    }
+
     public changeValue(index: number) {
         if(this.select !== null){
             this.select.selectedIndex = index;

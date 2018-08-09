@@ -21,6 +21,11 @@ class SelectTitle extends React.Component <ISelectTitle>{
         }
     }
 
+    public getValue(): string | undefined {
+        return this.select === null ? undefined 
+            : this.props.values[this.select.getIndex()].value;
+    }
+
     public render(){
         return(
             <div className="item-size outter-border background padding">
