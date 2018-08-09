@@ -9,6 +9,10 @@
     color: white;
     background-color: #694531;
 }
+.value::-webkit-inner-spin-button, .value::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0 2px 0 0;
+}
 .disable{
     text-align: center;
     color: #442a1e;
