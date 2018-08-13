@@ -30,12 +30,16 @@ class InputText extends React.Component<IInputText>{
 
     public render() {
 
-        const renderValue = () => {
+        let colTitle = "col-md-8";
+        let colInput = "col-md-4";
+        const renderValue = (() => {
             let classes = "value";
             if (this.props.disable) {
                 const toNumber = Number(this.state.value);
                 const value = isNaN(toNumber) ? this.state.value : toNumber;
                 classes = "disable" + (value < 0 ? " invalid" : "");
+                colTitle = "col-md-7";
+                colInput = "col-md-5";
                 return <label className={classes}>{value}</label>
             }
             return <input 
@@ -44,15 +48,15 @@ class InputText extends React.Component<IInputText>{
                 value={this.state.value} 
                 onChange={this.onChanged}
                 onBlur={this.onBlur} />
-        }
+        })();
 
         return (
             <div className="row align-items-center">
-                <div className="col-md-8">
+                <div className={colTitle}>
                     <TitleSmall title={this.props.title} />
                 </div>
-                <div className="col-md-4">
-                    {renderValue()}
+                <div className={colInput}>
+                    { renderValue } 
                 </div>
             </div>
         );

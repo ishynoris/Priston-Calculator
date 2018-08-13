@@ -2,7 +2,6 @@ button {
     padding: "0 10px";
     text-transform: uppercase;
 }
-
-button .hover-btn:hover, label:hover {
+button .btn-hover:hover, .lbl-hover:hover {
     cursor: pointer;
 }

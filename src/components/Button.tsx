@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-import TitleSmall from './TitleSmall';
-
 import '../assets/css/Button.css';
 
 interface IButton {
@@ -13,8 +11,8 @@ const Button = (props: IButton) => {
     return <button 
         className="outter-border background"
         onClick={props.onClicked} >
-        <div className="hover-btn">
-            <TitleSmall title={props.text} />
+        <div className="btn-hover">
+            <label className={"small-title lbl-hover"} >{props.text}</label>
         </div>
     </button>
 }
