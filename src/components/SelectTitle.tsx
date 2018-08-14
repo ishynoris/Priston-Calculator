@@ -21,9 +21,8 @@ class SelectTitle extends React.Component <ISelectTitle>{
         }
     }
 
-    public getValue(): string | undefined {
-        return this.select === null ? undefined 
-            : this.props.values[this.select.getIndex()].value;
+    public getValue(): { index: number, value: string } | undefined {
+        return this.select === null ? undefined : this.select.getValue();
     }
 
     public render(){

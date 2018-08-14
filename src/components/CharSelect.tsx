@@ -1,22 +1,33 @@
 import * as React from 'react';
 
-import IChar from '../interfaces/IChar';
 import SelectTitle from './SelectTitle';
 
 interface ICharSelect {
     title: string,
     name: string,
-    chars: IChar[]
+    chars: string[]
     disabled?: boolean
-    onCharSelect?: (name: string, index: number, char: IChar | undefined) => boolean
+    onCharSelect?: (name: string | undefined, index: number) => boolean
 }
 
 class CharSelect extends React.Component<ICharSelect>{
 
+    public state: { char: string | undefined }
+    private select: SelectTitle | null;
+
+    constructor (props: ICharSelect) {
+        super(props);
+        this.state = { char: undefined }
+    }
+
+    public getValue (): { index: number, value: string } | undefined {
+        return this.select === null ? undefined : this.select.getValue();
+    }
+
     public render() {
         const chars = this.charsAsValues();
-
         return <SelectTitle
+            ref={ref => this.select = ref}
             title={this.props.title}
             name={this.props.name}
             values={chars}
@@ -27,7 +38,7 @@ class CharSelect extends React.Component<ICharSelect>{
         const chars: Array<{ value: string, option: string }> = [];
         chars.push({ value: "-", option: "-" });
         this.props.chars.forEach(c => {
-            chars.push({ value: c.name, option: c.name });
+            chars.push({ value: c, option: c });
         })
         return chars;
     }
@@ -36,11 +47,10 @@ class CharSelect extends React.Component<ICharSelect>{
         if (this.props.onCharSelect === undefined) {
             return false;
         }
+        this.setState({ char: value });
         index--; // first index is "-"
-        if (index < 0) { 
-            return this.props.onCharSelect(name, index, undefined);
-        } 
-        return this.props.onCharSelect(name, index, this.props.chars[index]);
+        const charName = index < 0 ? undefined : value;
+        return this.props.onCharSelect(charName, index);
     }
 
 }

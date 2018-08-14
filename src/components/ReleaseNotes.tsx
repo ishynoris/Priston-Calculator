@@ -25,10 +25,10 @@ const ReleaseNotes = () => {
     return <div style={releaseStyle}>
         <div className="row">
             <div className="col-md-12">
-            <Link to="/"><Button text="Calculadora" /></Link>
+                <Link to="/"><Button text="Calculadora" /></Link>
             </div>
         </div>
-        <ul style={ulStyle}>{ releases.map((v, i) => renderVersions(i, v) ) }</ul>
+        <ul style={ulStyle}>{ releases.reverse().map((v, i) => renderVersions(i, v) ) }</ul>
     </div>
 }
 

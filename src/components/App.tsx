@@ -26,22 +26,23 @@ class App extends React.Component {
 			alert("It's was not possible load language.");
 			return null;
 		}
-		const lang = this.state.language;
+		const lang = this.state.language.value;
+		const langTitles = this.state.language.translations.titles;
 		const switchLang = {
 			default: this.state.index, 
 			itens: Script.langsDesc(),
 			onSelected: this.languageChanged,
-			text: lang.translations.titles.SelectLang + " [" + lang.value + "]",
+			text: langTitles.SelectLang + " [" + lang + "]",
 		}
 		return <div>
 			<Header 
-				release={{ text: lang.translations.titles.ReleasesBtn }} 
+				release={{ text: langTitles.ReleasesBtn }} 
 				switchLang={switchLang} />
 			<CharDetail
 				ref={ref => this.charDetail = ref}
 				language={this.state.language}
 				onCharChanged={this.charChanged} />
-			<Footer />
+			<Footer language={this.state.language} />
 		</div>
 	}
 

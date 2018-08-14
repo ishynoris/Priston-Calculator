@@ -25,7 +25,7 @@ class SkillList extends React.Component<ISkillList>{
     }
 
     public render() {
-
+        
         const skills = this.state.skills;
         if (skills.length === 0) {
             return null;
@@ -48,10 +48,10 @@ class SkillList extends React.Component<ISkillList>{
             });
         })();
         return <div key={key} className="row">
-            <div className="col-sm-7">
+            <div className="col-sm-8">
                 <TitleSmall title={skill.name} />
             </div>
-            <div className="col-sm-5 skl-size">
+            <div className="col-sm-4">
                 <Select name={skill.name} values={values} onSelectedCallback={this.onSeleted} />
             </div>
         </div>

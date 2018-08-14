@@ -1,9 +1,12 @@
 import * as React from 'react';
-import Script from '../assets/js/Script';
 
+import Script from '../assets/js/Script';
+import ILanguage from '../interfaces/ILanguage';
+
+interface IFooter { language: ILanguage }
 interface IAnchors { icon: string, link: string, target: string }
 
-const Footer = (props: {}) => {
+const Footer = (props: IFooter) => {
     const defaultColor = '#e7e7e7';
     const footer: React.CSSProperties = {
         padding: '30px 0 5px 0',
@@ -22,7 +25,7 @@ const Footer = (props: {}) => {
     return (
         <div style={footer}>
             <label style={label}>
-                Desenvolvido por: Anailson Santos Mota 
+                { props.language.developed }: Anailson Santos Mota 
                 <i style={icons} className="fas fa-cog fa-spin fa-lg" /> 
                 { Script.descriptionVersion(Script.currentVersion()) }
             </label>
@@ -40,8 +43,7 @@ const Footer = (props: {}) => {
                 ])} 
             </div>
             <label style={label}>
-                Encontrou algum erro? Quer sugerir alguma alteração? Entre em contato. 
-                <a style={icons}><i className={"fas fa-heart"} /></a>
+                { props.language.contact } <i className={"fas fa-heart"} />
             </label>
         </div>
     )

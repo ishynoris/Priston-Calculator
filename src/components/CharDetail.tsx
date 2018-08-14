@@ -38,9 +38,10 @@ const radios = (values: string[]) => {
 
 class CharDetail extends React.Component<ICharDetail>{
 
-    public state: { hasChar: boolean }
+    public state: { hasChar: boolean, language: ILanguage }
     private radios: { indexChecked: number, lastIndex: number, name: string, titles: string[] };
     private char: IChar | undefined;
+    private charSelect : CharSelect | null;
     private bonus: { skills: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }> };
     private itens: { kit: IItem[], set: IItem[], prim: IItem[], bonus: IItem[] }
     private detail: { status: Status | null, skills: Skills | null, result: Result | null }
@@ -52,7 +53,7 @@ class CharDetail extends React.Component<ICharDetail>{
         this.itens = { kit: [], set: [], prim: [], bonus: [] }
         this.detail = { status: null, skills: null, result: null }
         this.sets = { kit: null, pri: null, set: null, bonus: null }
-        this.state = { hasChar: false };
+        this.state = { hasChar: false, language: props.language };
         const translations = props.language.translations
         this.radios = radios([
             translations.titles.TwoHand, 
@@ -71,29 +72,37 @@ class CharDetail extends React.Component<ICharDetail>{
         this.updateChar();
     }
 
-    public changeLanguage (language: ILanguage) {
-        const translations = language.translations;
+    public changeLanguage (newLang: ILanguage) {
+        const translations = newLang.translations;
         this.radios = radios([
             translations.titles.TwoHand, 
             translations.itens.Shield, 
             translations.itens.Orbital
         ]);
+        if (this.charSelect !== null){
+            const select = this.charSelect.getValue();
+            const name = select === undefined ? undefined : select.value;
+            this.char = Script.charDetail(newLang, name);
+        }
+        this.setState({ hasChar: this.state.hasChar, language: newLang })
     }
 
     public render() {
-        const language = this.props.language
-        const chars: IChar[] = Script.chars(language);
+        const language = this.state.language
+        const chars: string[] = Script.nameChars(language);
         const forces: IForces[] = Script.forces(language);
         const another: IForces[] = Script.boostersAP(language);
         const quests: IQuest[] =  Script.quests(language);
+
         const details = () => {
             if (this.char === undefined){
                 return null;
             }
+            console.log(chars)
             return <div>
                 <Status
-                    stats={Script.statsDesc(this.props.language)}
-                    language={this.props.language}
+                    stats={Script.statsDesc(this.state.language)}
+                    language={this.state.language}
                     ref={ref => this.detail.status = ref}
                     onStatusChanged={this.onStatusChanged} />
                 <Skills
@@ -118,6 +127,7 @@ class CharDetail extends React.Component<ICharDetail>{
                 <div className="block col-lg-2">
                     <Title title={titles.Char} />
                     <CharSelect
+                        ref={ref => this.charSelect = ref}
                         title={titles.SelectChar}
                         name={titles.Char}
                         chars={chars} 
@@ -128,12 +138,12 @@ class CharDetail extends React.Component<ICharDetail>{
                     <Title title={titles.Equips} />
                     <SetItem 
                         ref={ref => this.sets.kit = ref}
-                        language={this.props.language}
+                        language={this.state.language}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} />
                     <SetItem 
                         ref={ref => this.sets.set = ref}
-                        language={this.props.language}
+                        language={this.state.language}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} />
                     <ShitftEquip
@@ -143,7 +153,7 @@ class CharDetail extends React.Component<ICharDetail>{
                         onSelectedCallback={this.onSelectEquip} />
                     <SetItem 
                         ref={ref => this.sets.pri = ref}
-                        language={this.props.language}
+                        language={this.state.language}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} />
                 </div>
@@ -151,7 +161,7 @@ class CharDetail extends React.Component<ICharDetail>{
                     <Title title={titles.BonusAdds} />
                     <SetItem 
                         ref={ref => this.sets.bonus = ref}
-                        language={this.props.language}
+                        language={this.state.language}
                         onItemChanged={this.itemChanged}
                         onMixSelected={this.mixSelected} />
                     <Title title={titles.Results} />
@@ -169,17 +179,7 @@ class CharDetail extends React.Component<ICharDetail>{
         this.updateChar();
     }
 
-	private updateChar() {
-        const getItens = (names: string[]): IItem[] => {
-            const itens: IItem[] = [];
-            names.forEach(n => {
-                const item = Script.getItem(this.props.language, n);
-                if (item !== undefined) {
-                    itens.push(item);
-                }
-            })
-            return itens;
-        }
+    private updateSkills = () => {
         const getSkillValues = (skills: ISkills[]): IBonus[] => {
             const bonus: IBonus[] = [];
             skills.forEach(s => {
@@ -187,15 +187,30 @@ class CharDetail extends React.Component<ICharDetail>{
             })
             return bonus;
         }
-        if (this.detail.status !== null) {
-            this.detail.status.setStatus(this.char === undefined ? undefined : this.char.stats);
-        }
         if (this.detail.skills !== null) {
             const skills = this.char === undefined ? [] : this.char.skills;
             this.bonus.skills = getSkillValues(skills);
             this.detail.skills.setSkills(skills);
         }
-        const itensChar = this.props.language.translations.itens;
+    }
+
+	private updateChar() {
+        const getItens = (names: string[]): IItem[] => {
+            const itens: IItem[] = [];
+            names.forEach(n => {
+                const item = Script.getItem(this.state.language, n);
+                if (item !== undefined) {
+                    itens.push(item);
+                }
+            })
+            return itens;
+        }
+        this.updateSkills();
+
+        if (this.detail.status !== null) {
+            this.detail.status.setStatus(this.char === undefined ? undefined : this.char.stats);
+        }
+        const itensChar = this.state.language.translations.itens;
         if (this.sets.kit !== null) {
             const names = [itensChar.Amulet, itensChar.Rings];
             this.itens.kit = getItens(names);
@@ -211,7 +226,7 @@ class CharDetail extends React.Component<ICharDetail>{
             this.itens.prim = getItens(names);
 			this.sets.pri.initState(this.itens.prim);
         }
-        const bonusAdds = this.props.language.translations.titles.BonusAdds;
+        const bonusAdds = this.state.language.translations.titles.BonusAdds;
 		if (this.sets.bonus !== null) {
             const names = [bonusAdds];
             this.itens.bonus = getItens(names);
@@ -259,7 +274,7 @@ class CharDetail extends React.Component<ICharDetail>{
             return false;
         }
 
-        const questsDone = Script.questsAt(this.props.language, index);
+        const questsDone = Script.questsAt(this.state.language, index);
         if (level < questsDone[index].level) {
             alert("Você ainda não possui level suficiente para realizar essa quest.");
             return false;
@@ -290,13 +305,12 @@ class CharDetail extends React.Component<ICharDetail>{
         return false;
     }
     
-    private onCharSelect = (name: string, index: number, char: IChar | undefined): boolean => {
+    private onCharSelect = (name: string, index: number): boolean => {
       
-        const charName = char === undefined ? undefined : char.name;
-        if (this.props.onCharChanged !== undefined) {
-            this.props.onCharChanged(char);
+        const newChar = Script.charDetail(this.props.language, name);
+        if (this.props.onCharChanged !== undefined && newChar !== undefined) {
+            this.props.onCharChanged(newChar);
         }
-        const newChar = Script.charDetail(this.props.language, charName);
         this.setChar(newChar);
 		return true;
 	}
@@ -334,7 +348,7 @@ class CharDetail extends React.Component<ICharDetail>{
         if (oldValue !== undefined) {
             this.mixSelected(oldValue, undefined);
         }
-        const item: IItem | undefined = Script.getItem(this.props.language, value);
+        const item: IItem | undefined = Script.getItem(this.state.language, value);
         console.log(value);
         console.log(item);
 		if (this.sets.pri !== null) {
@@ -357,7 +371,7 @@ class CharDetail extends React.Component<ICharDetail>{
         const codes = Script.Codes;
         const char = this.char;
         if (char === undefined || char.formula === undefined) {
-            return Script.defaultResult(this.props.language);
+            return Script.defaultResult(this.state.language);
         }
         const getStatsByCode = (code: number): number => {
             return code === codes.FOR ? char.stats.for 
@@ -384,7 +398,7 @@ class CharDetail extends React.Component<ICharDetail>{
 
         const div = attrDivs(f.AP.attrDiv);
         const statAttr = getStatsByCode(f.AP.attrFator);
-        const weapon = this.props.language.translations.itens.Weapon;
+        const weapon = this.state.language.translations.itens.Weapon;
         const multi = (statAttr !== -1) ? (1 / f.AP.fFator * statAttr) : 0;
         const minArma = this.getAttrByCode(weapon, codes.APmin);
         const maxArma = this.getAttrByCode(weapon, codes.APmax);
@@ -448,7 +462,7 @@ class CharDetail extends React.Component<ICharDetail>{
         values.AR += (stats.lvl * 1.9) + (stats.tal * 1.5) + (stats.agi * 3.1);
         values.APmin += f.AP.min + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / f.AP.fDiv) 
                     + Math.trunc((minArma + maxArma) / 16) + Math.trunc(multi * minArma);
-        values.APmax += f.AP.max + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / 40) 
+        values.APmax += f.AP.max + Math.trunc(stats.lvl / 6) + Math.trunc(sumAttrs / f.AP.fDiv) 
                     + Math.trunc(maxArmaAdd > 0 ? stats.lvl / maxArmaAdd : 0) + Math.trunc(multi * maxArma);
         values.DEF += (stats.lvl * 1.4) + (stats.tal * 0.25) + (stats.agi * 0.5);
         values.ABS += (stats.lvl * 0.1) + (stats.for * 0.025) + (stats.tal * 0.025)
@@ -459,7 +473,7 @@ class CharDetail extends React.Component<ICharDetail>{
                     + (stats.int) + (stats.vit * 1.4) + 80;
 
         this.bonus.skills.forEach(s => applySkills(s));
-        return Script.defaultResult(this.props.language, values);
+        return Script.defaultResult(this.state.language, values);
     }
 
     private getAllItens = (): IItem[] => {

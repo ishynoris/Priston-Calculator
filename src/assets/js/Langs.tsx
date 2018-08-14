@@ -4,14 +4,25 @@ import ILanguage from "../../interfaces/ILanguage";
 const add = " (+add)"
 const langs: ILanguage[] = [
     { 
+        contact: "Encontrou algum erro? Quer sugerir alguma alteração? Entre em contato.",
+        developed: "Desenvolvido por",
         title: "Português", 
         translations: {
             boosters: {
                 BigHeadPotion: "Cabeção", CastleCrown: "Coroa Castelo Bless",
             },
             chars: {
-                AS: "Arqueira", ASS: "Assassina", ATS: "Atalanta", FS: "Lutador", KS: "Cavaleiro", 
-                MGS: "Mago", MS: "Mecânico", PRS: "Sacerdotisa", PS: "Pikeman", WS: "Guerreira", XS: "Xama", 
+                AS: { name:"Arqueira", skills: { ShootMaster: "Mestra do Tiro", DionEye: "Olho de Dion" }}, 
+                ASS: { name: "Assassina", skills: { BladeMaster: "Mestra das Laminas", AttkMaster: "Mestra do Ataque ", FatalMaster: "Mestra" } }, 
+                ATS: { name: "Atalanta", skills: { ThrowMaster: "Mestra do Arremesso", } }, 
+                FS: { name: "Lutador", skills: { WeaponMaster: "Mestre das Armas" } }, 
+                KS: { name: "Cavaleiro", skills: { PhisicalTrain: "Treinamento Físico", SwordMaster: "Mestre das Espadas" } }, 
+                MGS: { name: "Mago", skills: { MentalMaster: "Mestre da Mente" } }, 
+                MS: { name: "Mecânico", skills: { MechMaster: "Mestre das Armas Mecânicas" } }, 
+                PRS: { name: "Sacerdotisa", skills: {} }, 
+                PS: { name: "Pikeman", skills: {} }, 
+                WS: { name: "Guerreira", skills: { StrMaster: "Mestra da Força", PhisicalMaster: "Mestra em Resistência" } }, 
+                XS: { name: "Xama", skills: { InnerPeace: "Paz Interior", DivineLife: "Vida Divina" } }, 
             },
             forces: {
                 Bellum: "Bellum",
@@ -98,14 +109,25 @@ const langs: ILanguage[] = [
         value: "ptbr",  
     },
     {
+        contact: "Did you found some error? Any suggestion? Contact me.",
+        developed: "Developed by",
         title: "English", 
         translations: {
             boosters: {
                 BigHeadPotion: "Big Head Potion", CastleCrown: "Bless Castle Crown",
             },
             chars: {
-                AS: "Archer", ASS: "Assassin", ATS: "Atalanta", FS: "Fighter", KS: "Knight", MGS: "Mage", 
-                MS: "Mechanician", PRS: "Priestess", PS: "Pikeman", WS: "Warrior", XS: "Shaman", 
+                AS: { name:"Archer", skills: { ShootMaster: "Shooting Master", DionEye: "Dion's Eye" }}, 
+                ASS: { name: "Assassin", skills: { BladeMaster: "Blade Master", AttkMaster: "Attack Master ", FatalMaster: "Fatal Master" } }, 
+                ATS: { name: "Atalanta", skills: { ThrowMaster: "Throwing Master", } }, 
+                FS: { name: "Fighter", skills: { WeaponMaster: "Weapon Master" } }, 
+                KS: { name: "Knight", skills: { PhisicalTrain: "Phisical Training", SwordMaster: "Sword Master" } }, 
+                MGS: { name: "Mage", skills: { MentalMaster: "Mental Master" } }, 
+                MS: { name: "Mechanician", skills: { MechMaster: "Mechanican Master" } }, 
+                PRS: { name: "Priestess", skills: {} }, 
+                PS: { name: "Pikeman", skills: {} }, 
+                WS: { name: "Warrior", skills: { StrMaster: "Strength Master", PhisicalMaster: "Phisical Master" } }, 
+                XS: { name: "Shaman", skills: { InnerPeace: "Inner Peace", DivineLife: "Divine Life" } }, 
             },
             forces: {
                 Bellum: "Bellum",

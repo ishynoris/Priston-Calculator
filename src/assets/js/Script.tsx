@@ -43,15 +43,19 @@ export default class Script {
             RES: { title: statsCode.RES, value: truncVal(values.RES) },
         }
     }
-
-    public static chars(language: ILanguage): IChar[] {
-        return CharacterStats.chars(language);
+    public static nameChars(language: ILanguage): string[] {
+        const names: string[] = [];
+        chars(language).forEach(c => {
+            names.push(c.name);
+        });
+        return names;
     }
+
     public static charDetail = (language: ILanguage, charName?: string): IChar | undefined => {
         if (charName === undefined) {
             return undefined;
         }
-        return Script.chars(language).find(c => {
+        return chars(language).find(c => {
             return c.name === charName;
         });
     }
@@ -131,11 +135,11 @@ export default class Script {
     public static getVersions(): IVersion[] {
         return [
             {
-                descriptions: ["Liberado todas as fórmulas para Arqueira, Sacerdotisa e Cavaleiro."],
+                descriptions: ["Liberada todas as fórmulas para Arqueira, Sacerdotisa e Cavaleiro."],
                 tag: "alfa",
                 v: 0.1,
             }, {
-                descriptions: ["Liberado as fórmulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
+                descriptions: ["Liberada as fórmulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
                 tag: "alfa",
                 v: 0.2,
             }, {
@@ -147,22 +151,31 @@ export default class Script {
                     "Adicionado as fórmulas de AP para Mago e Lutador.", 
                     "A fórmula para Sacerdotisa foi corrigida."
                 ],
+                subV: 1,
+                tag: "alfa",
+                v: 0.3,
+            }, {
+                descriptions: [ "Adicionado seleção de idiomas." ],
                 tag: "alfa",
                 v: 0.4,
             }, {
-                descriptions: [ "Adicionado seleção de idiomas" ],
+                descriptions: [ "Notas de cada nova atualização." ],
                 tag: "alfa",
                 v: 0.5,
             }, {
-                descriptions: [ "Notas de cada nova atualização" ],
-                tag: "alfa",
-                v: 0.6,
-            }, {
                 descriptions: [ 
-                    "Correção de erro ao acessar Notas de atualização",
+                    "Correção de erro ao acessar Notas de atualização.",
                     "Novas traduções."
                 ],
                 subV: 1,
+                tag: "alfa",
+                v: 0.5,
+            }, {
+                descriptions: [ 
+                    "Liberada as fórmulas de AP para e Mecânico, Pikeman e Xama.",
+                    "Revisão geral das fórmulas dos personagens e correção de alguns erros.",
+                    "Novas traduções.",
+                ],
                 tag: "alfa",
                 v: 0.6,
             }
@@ -178,6 +191,10 @@ export default class Script {
         const versions = Script.getVersions();
         return versions[versions.length -1];
     }
+}
+
+const chars = (language: ILanguage): IChar[] => {
+    return CharacterStats.chars(language);
 }
 
 const truncVal = (v?: number): string | number => {

@@ -20,8 +20,8 @@ class Select extends React.Component<ISelect>{
         this.select = null;
     }
 
-    public getIndex(): number {
-        return this.state.lastIndex
+    public getValue(): { index: number, value: string } {
+        return { index: this.state.lastIndex, value: this.props.values[this.state.lastIndex].value }
     }
 
     public changeValue(index: number) {
