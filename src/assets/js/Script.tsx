@@ -6,6 +6,7 @@ import ILanguage from '../../interfaces/ILanguage';
 import IMixes from '../../interfaces/IMixes';
 import IQuest from '../../interfaces/IQuest';
 import IStatusResult from '../../interfaces/IStatusResult';
+import IValuesResult from '../../interfaces/IValuesResult';
 import IVersion from '../../interfaces/IVersion';
 import CharacterStats from './CharacterStatus';
 import Codes from './Codes';
@@ -17,7 +18,7 @@ export default class Script {
     public static Codes = Codes;
     public static DefaultLanguage = Langs.default;
 
-    public static defaultResult (language: ILanguage, values?: { ABS: number, APmin: number, APmax: number, AR: number, DEF: number, HP: number, MP: number, RES: number }): IStatusResult {
+    public static defaultResult (language: ILanguage, values?: IValuesResult): IStatusResult {
 
         const statsCode = language.translations.stats;
         if (values === undefined) {
