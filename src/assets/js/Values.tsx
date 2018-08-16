@@ -154,6 +154,10 @@ export default class Values {
                 force: { cod: Codes.Bellum, title: forces.Bellum },
             },
             {
+                bonus: [{ cod: Codes.AP, value: 180 }, { cod: Codes.AP, value: 15, percent: true }],
+                force: { cod: Codes.Ordo, title: forces.Ordo },
+            },
+            {
                 bonus: [{ cod: Codes.AP, value: 120 }, { cod: Codes.AP, value: 15, percent: true }],
                 force: { cod: Codes.Vita, title: forces.Vita },
             },

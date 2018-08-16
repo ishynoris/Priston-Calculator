@@ -3,7 +3,7 @@ enum Codes {
     HP, HPadd, INT, LVL, MP, MPadd, RES, RESadd, SP, STS, STSp, TAL, VIT, 
     Amuleto, Aneis, Arma, Armadura, Bota, Bracel, Escudo, Luva, Orbital, BonusAdd,
     Lucidy, Sereno, Fadeo, Sparky, Raident, Transparo, Murky, Devine, Celesto, Mirage,
-    Inferna, Enigma, Bellum, Vita, Ira, Tera, Cabeção, CoroaBC
+    Inferna, Enigma, Bellum, Ordo, Vita, Ira, Tera, Cabeção, CoroaBC
 }
 
 export default Codes;

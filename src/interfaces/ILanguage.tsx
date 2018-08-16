@@ -21,7 +21,7 @@ export default interface ILanguage {
         },
         forces: {
             Bellum: string, Celesto: string, Devine: string, Enigma: string, Fadeo: string,
-            Inferna: string, Ira: string, Lucidy: string, Mirage: string, Murky: string,
+            Inferna: string, Ira: string, Lucidy: string, Mirage: string, Murky: string, Ordo: string
             Raident: string, Sereno: string, Sparky: string, Tera: string, Transparo: string,
             Vita: string,
         },
