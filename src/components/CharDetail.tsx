@@ -43,7 +43,7 @@ class CharDetail extends React.Component<ICharDetail>{
     private radios: { indexChecked: number, lastIndex: number, name: string, titles: string[] };
     private char: IChar | undefined;
     private charSelect : CharSelect | null;
-    private bonus: { skills: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }>, forces: IForces[] };
+    private bonus: { skills: IBonus[], quests: IBonus[], mixes: Array<{ item: string, mix: IMix }>, forces: Array<{ name: string, force: IForces }> };
     private itens: { kit: IItem[], set: IItem[], prim: IItem[], bonus: IItem[] }
     private detail: { status: Status | null, skills: Skills | null, result: Result | null }
     private sets: { kit: SetItem | null, pri: SetItem | null, set: SetItem | null, bonus: SetItem | null }
@@ -99,7 +99,6 @@ class CharDetail extends React.Component<ICharDetail>{
             if (this.char === undefined){
                 return null;
             }
-            console.log(chars)
             return <div>
                 <Status
                     stats={Script.statsDesc(this.state.language)}
@@ -301,9 +300,20 @@ class CharDetail extends React.Component<ICharDetail>{
         return true;
     }
 
-    private onForceSelected = (bonus: IForces | undefined): boolean => {
-        alert("Ainda não é possível utilizar nenhum bônus de Poder de Ataque.");
-        return false;
+    private onForceSelected = (name: string, force: IForces | undefined): boolean => {
+        const item = this.bonus.forces.find(f => {
+            return f.name === name;
+        })
+
+        if (item === undefined && force !== undefined) {
+            this.bonus.forces.push({ "name": name, "force": force })
+        } else if (item !== undefined && force === undefined) {
+            this.bonus.forces.splice(this.bonus.forces.indexOf(item), 1);
+        } else if (item !== undefined && force !== undefined) {
+            item.force = force;
+        }
+        this.setResult();
+        return true;
     }
     
     private onCharSelect = (name: string, index: number): boolean => {
@@ -350,8 +360,6 @@ class CharDetail extends React.Component<ICharDetail>{
             this.mixSelected(oldValue, undefined);
         }
         const item: IItem | undefined = Script.getItem(this.state.language, value);
-        console.log(value);
-        console.log(item);
 		if (this.sets.pri !== null) {
             if (item === undefined) {
                 this.sets.pri.removeItem(this.radios.lastIndex);
@@ -454,13 +462,13 @@ class CharDetail extends React.Component<ICharDetail>{
             })
             return vals;
         }
-        const applyForces = (forces: IForces[]): { apmax: number, apmin: number } =>{
+        const applyForces = (forces: Array<{ name: string, force: IForces }>): { apmax: number, apmin: number } =>{
             let min = 0;
             let max = 0;
-            forces.forEach(force => {
-                force.bonus.forEach(b => {
-                    min = addPercent(b, values.APmin);
-                    max = addPercent(b, values.APmax);
+            forces.forEach(el => {
+                el.force.bonus.forEach(b => {
+                    min += addPercent(b, values.APmin);
+                    max += addPercent(b, values.APmax);
                 })
             })
             return { apmax: max, apmin: min }

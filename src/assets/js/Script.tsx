@@ -179,7 +179,11 @@ export default class Script {
                 ],
                 tag: "alfa",
                 v: 0.6,
-            }
+            }, {
+                descriptions: [ "Liberado o adicional dos boosters de Poder de Ataque"],
+                tag: "alfa",
+                v: 0.7,
+            },
         ]
     }
 

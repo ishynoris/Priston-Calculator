@@ -10,7 +10,7 @@ interface IBonusAP {
     title: string, 
     forces: IForces[],
     another: IForces[],
-    onForceSelected?: (bonus: IForces | undefined) => boolean;
+    onForceSelected?: (name: string, bonus: IForces | undefined) => boolean;
 }
 
 class BonusAP extends React.Component<IBonusAP>{
@@ -61,9 +61,9 @@ class BonusAP extends React.Component<IBonusAP>{
             return true;
         }
         if (index === 0) {
-            return this.props.onForceSelected(undefined);
+            return this.props.onForceSelected(name, undefined);
         }
-        return this.props.onForceSelected(this.props.forces[index - 1]);
+        return this.props.onForceSelected(name, this.props.forces[index - 1]);
     }
 
     private onChecked = (title: string, checked: boolean): boolean => {
@@ -73,7 +73,7 @@ class BonusAP extends React.Component<IBonusAP>{
         const force = this.props.another.find(a => {
             return a.force.title === title;
         })
-        return this.props.onForceSelected(force);
+        return this.props.onForceSelected(title, checked ? force : undefined);
     }
 }
 
