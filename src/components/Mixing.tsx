@@ -62,7 +62,7 @@ class Mixing extends React.Component<IItem>{
         if (this.selectMix !== null) {
             this.selectMix.changeValue(0);
         }
-        this.setState({ checked: check });
+        this.setState({ checked: !check });
         return true;
     }
 

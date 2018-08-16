@@ -25,7 +25,7 @@ class CheckBox extends React.Component<ICheckBox>{
     public onChanged = (e: React.FormEvent<HTMLInputElement>) => {
 
         if(this.props.onChangeCallback !== undefined){
-            const changes = this.props.onChangeCallback(this.props.text, this.state.checked);
+            const changes = this.props.onChangeCallback(this.props.text, e.currentTarget.checked);
             if (changes) {
                 this.setState({ checked: e.currentTarget.checked });
             } else {
