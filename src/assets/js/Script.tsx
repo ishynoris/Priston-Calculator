@@ -12,6 +12,7 @@ import CharacterStats from './CharacterStatus';
 import Codes from './Codes';
 import Langs from './Langs';
 import Values from './Values';
+import Versions from './Versions';
 
 export default class Script {
 
@@ -177,67 +178,15 @@ export default class Script {
         return item === undefined ? undefined : item.cod;
     }
     public static getVersions(): IVersion[] {
-        return [
-            {
-                descriptions: ["Liberada todas as fórmulas para Arqueira, Sacerdotisa e Cavaleiro."],
-                tag: "alfa",
-                v: 0.1,
-            }, {
-                descriptions: ["Liberada as fórmulas de AR, DEF, ABS, HP, MP e RES para todos os personagens (incluindo Guerreira)."],
-                tag: "alfa",
-                v: 0.2,
-            }, {
-                descriptions: ["Adicionado as fórmulas de AP para Atalanta, Assassina e Guerreira."],
-                tag: "alfa",
-                v: 0.3,
-            }, {
-                descriptions: [
-                    "Adicionado as fórmulas de AP para Mago e Lutador.", 
-                    "A fórmula para Sacerdotisa foi corrigida."
-                ],
-                subV: 1,
-                tag: "alfa",
-                v: 0.3,
-            }, {
-                descriptions: [ "Adicionado seleção de idiomas." ],
-                tag: "alfa",
-                v: 0.4,
-            }, {
-                descriptions: [ "Notas de cada nova atualização." ],
-                tag: "alfa",
-                v: 0.5,
-            }, {
-                descriptions: [ 
-                    "Correção de erro ao acessar Notas de atualização.",
-                    "Novas traduções."
-                ],
-                subV: 1,
-                tag: "alfa",
-                v: 0.5,
-            }, {
-                descriptions: [ 
-                    "Liberada as fórmulas de AP para e Mecânico, Pikeman e Xama.",
-                    "Revisão geral das fórmulas dos personagens e correção de alguns erros.",
-                    "Novas traduções.",
-                ],
-                tag: "alfa",
-                v: 0.6,
-            }, {
-                descriptions: [ "Liberado o adicional dos boosters de Poder de Ataque"],
-                tag: "alfa",
-                v: 0.7,
-            },
-        ]
+        return Versions.versions();
     }
 
     public static descriptionVersion(version: IVersion): string {
-        return "v" + version.v + (version.subV !== undefined ? "." + version.subV : "") 
-            + " - " + version.tag;
+        return Versions.description(version);
     }
 
     public static currentVersion(): IVersion {
-        const versions = Script.getVersions();
-        return versions[versions.length -1];
+        return Versions.current()
     }
 }
 
