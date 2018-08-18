@@ -9,16 +9,16 @@ import Header from './Header';
 
 import '../assets/css/App.css';
 
-class App extends React.Component {
+interface IApp { index: number, language: ILanguage | undefined };
+
+class App extends React.Component <IApp>{
 
 	public state: { index: number, language: ILanguage | undefined };
 	private charDetail: CharDetail | null;
 
-	constructor (props: {}) {
+	constructor (props: IApp) {
 		super(props);
-		const lang = Script.defaultLanguage();
-		this.state = lang === undefined ? { index: -1, language: undefined }
-			: { index: lang.index, language: lang.language }
+		this.state = { index: props.index, language: props.language }
 	}
 
 	public render() {
@@ -28,16 +28,17 @@ class App extends React.Component {
 		}
 		const lang = this.state.language.value;
 		const langTitles = this.state.language.translations.titles;
-		const switchLang = {
-			default: this.state.index, 
-			itens: Script.langsDesc(),
-			onSelected: this.languageChanged,
-			text: langTitles.SelectLang + " [" + lang + "]",
-		}
+
 		return <div>
 			<Header 
+				lang={this.state.language.value}
 				release={{ text: langTitles.ReleasesBtn }} 
-				switchLang={switchLang} />
+				formula={{ text: langTitles.FormulaBtn }}
+				switchLang={{
+					default: this.state.index, 
+					itens: Script.langsDesc(),
+					onSelected: this.languageChanged,
+					text: langTitles.SelectLang + " [" + lang + "]" }} />
 			<CharDetail
 				ref={ref => this.charDetail = ref}
 				language={this.state.language}
