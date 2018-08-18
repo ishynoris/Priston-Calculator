@@ -5,6 +5,12 @@ import Codes from './Codes';
 export default class CharacterStatus {
     
     public static chars(language: ILanguage): IChar[] {
+        const attr = (name: string) => {
+            const stats = language.translations.stats;
+            return name === AS.name || name === ATS.name ? stats.Agility.short
+                : name === MGS.name || name === PRS.name || name === XS.name ? stats.Spirit.short
+                : stats.Strength.short;
+        } 
         const AS = language.translations.chars.AS;
         const ASS = language.translations.chars.ASS;
         const ATS = language.translations.chars.ATS;
@@ -23,6 +29,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
                 },
+                mainAttr: attr(AS.name),
                 name: AS.name,
                 skills: [
                     { codBonus: Codes.AP, name: AS.skills.ShootMaster, percent: true, values: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40] },
@@ -36,6 +43,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
                 },
+                mainAttr: attr(ASS.name),
                 name: ASS.name,
                 skills: [
                     { codBonus: Codes.AP, name: ASS.skills.BladeMaster, percent: true, values: [0, 5, 7, 9, 11, 14, 17, 20, 23, 27, 31] },
@@ -50,6 +58,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fAgi: 0.5, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
                 },
+                mainAttr: attr(ATS.name),
                 name: ATS.name,
                 skills: [
                     { codBonus: Codes.AP, name: ATS.skills.ThrowMaster, percent: true, values: [0, 18, 22, 26, 30, 34, 38, 41, 44, 47, 50] }
@@ -62,6 +71,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fFor: 0.7, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
                 },
+                mainAttr: attr(KS.name),
                 name: KS.name,
                 skills: [
                     { codBonus: Codes.RES, name: KS.skills.PhisicalTrain, percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 28, 30] },
@@ -75,6 +85,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
                 },
+                mainAttr: attr(WS.name),
                 name: WS.name,
                 skills: [ 
                     { codBonus: Codes.AP, name: WS.skills.StrMaster, percent: true, values: [0, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46] },
@@ -88,6 +99,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
                 },
+                mainAttr: attr(FS.name),
                 name: FS.name,
                 skills: [
                     { codBonus: Codes.AP, name: FS.skills.WeaponMaster, percent: true, values: [0, 6, 10, 14, 18, 21, 24, 26, 28, 30, 32] },
@@ -101,6 +113,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
                     MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
                 },
+                mainAttr: attr(MGS.name),
                 name: MGS.name,
                 skills: [
                     { codBonus: Codes.MP, name: MGS.skills.MentalMaster, percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] }
@@ -113,6 +126,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fFor: 0.6, fVit: 2.2, add: -5 },
                     MP: { fLvl: 0.9, fInt: 2.7, add: 0 },
                 },
+                mainAttr: attr(MS.name),
                 name: MS.name,
                 skills: [
                     { codBonus: Codes.AP, name: MS.skills.MechMaster, percent: true, values: [0, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41] }
@@ -125,6 +139,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 2.1, fFor: 0.8, fVit: 2.4, add: -10 },
                     MP: { fLvl: 0.6, fInt: 2.2, add: 0 },
                 },
+                mainAttr: attr(PS.name),
                 name: PS.name,
                 skills: [],
                 stats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 19, vit: 25 },
@@ -135,6 +150,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
                     MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
                 },
+                mainAttr: attr(PRS.name),
                 name: PRS.name,
                 skills: [],
                 stats: { lvl: 1, for: 15, int: 28, tal: 21, agi: 15, vit: 20 },
@@ -145,6 +161,7 @@ export default class CharacterStatus {
                     HP: { fLvl: 1.5, fInt: 0.5, fVit: 2.2, add: -10 },
                     MP: { fLvl: 1.5, fInt: 3.8, add: 0 },
                 },
+                mainAttr: attr(XS.name),
                 name: XS.name,
                 skills: [
                     { codBonus: Codes.MP, name: XS.skills.InnerPeace, percent: true, values: [0, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31] },

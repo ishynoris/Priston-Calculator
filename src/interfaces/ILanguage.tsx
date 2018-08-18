@@ -1,3 +1,5 @@
+interface IStatsName { name: string, short: string }
+
 export default interface ILanguage {
     contact: string,
     developed: string,
@@ -35,16 +37,15 @@ export default interface ILanguage {
             q100: string, q110: string, q118: string, q123: string
         },
         stats: {
-            Absorption: string, AbsorptionAdd: string, Agility: string, AttkPower: string, 
-            AttkPowerAdd: string, AttkPowerMax: string, AttkPowerMin: string, AttkRating: string, 
-            AttkRatingAdd: string, Defense: string, DefenseAdd: string, ElitePts: string, 
-            HP: string, HPAdd: string, Health: string, Level: string, MP: string, MPAdd: string, 
-            RES: string, RESAdd: string, SpecialPts: string, Spirit: string, Stats: string, 
-            StatsP: string, Strength: string, Talent: string, 
+            Absorption: IStatsName, AbsorptionAdd: IStatsName, Agility: IStatsName, AttkPower: IStatsName, 
+            AttkPowerAdd: IStatsName, AttkPowerMax: IStatsName, AttkPowerMin: IStatsName, AttkRating: IStatsName, 
+            AttkRatingAdd: IStatsName, Defense: IStatsName, DefenseAdd: IStatsName, ElitePts: IStatsName, 
+            HP: IStatsName, HPAdd: IStatsName, Health: IStatsName, Level: IStatsName, MP: IStatsName, MPAdd: IStatsName, 
+            RES: IStatsName, RESAdd: IStatsName, SpecialPts: IStatsName, Spirit: IStatsName, Stats: IStatsName, 
+            StatsP: IStatsName, Strength: IStatsName, Talent: IStatsName, 
         },
         titles: { 
-            BonusAdds: string,  BonusAP: string, CalcBtn: string, Char: string, Equips: string, 
-            LastQuest: string, Quests: string, ReleasesBtn: string, Results: string, SelectChar: string, 
+            BonusAdds: string,  BonusAP: string, CalcBtn: string, Char: string, Equips: string, FormulaBtn: string,            LastQuest: string, Quests: string, ReleasesBtn: string, Results: string, SelectChar: string, 
             SelectLang: string, Skills: string, TwoHand: string, 
         }
     },

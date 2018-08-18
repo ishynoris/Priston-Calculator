@@ -47,16 +47,16 @@ class Status extends React.Component<IStatusComp>{
             if(this.stats.base === undefined){
                 return 0
             }
-            return stat === stats.Level ? this.stats.base.lvl 
-                : stat === stats.Strength ? this.stats.base.for 
-                : stat === stats.Spirit ? this.stats.base.int 
-                : stat === stats.Talent ? this.stats.base.tal 
-                : stat === stats.Agility ? this.stats.base.agi 
-                : stat === stats.Health ? this.stats.base.vit
+            return stat === stats.Level.name ? this.stats.base.lvl 
+                : stat === stats.Strength.name ? this.stats.base.for 
+                : stat === stats.Spirit.name ? this.stats.base.int 
+                : stat === stats.Talent.name ? this.stats.base.tal 
+                : stat === stats.Agility.name ? this.stats.base.agi 
+                : stat === stats.Health.name ? this.stats.base.vit
                 : 0;
         } 
         const  getTotalStat = (text: string, item: InputText | null) => {
-            if (text === stats.Stats) {
+            if (text === stats.Stats.name) {
                 this.stats.total = item;
             }
         }
@@ -69,7 +69,7 @@ class Status extends React.Component<IStatusComp>{
                     key={i}
                     title={s + ":"}
                     minValue={minValue(s)}
-                    disable={s === stats.Stats}
+                    disable={s === stats.Stats.name}
                     onChangeValue={this.onStatusChanged} />
             })}
             </div>
@@ -97,12 +97,12 @@ class Status extends React.Component<IStatusComp>{
         const stats = this.props.language.translations.stats;
         if (this.stats.char !== undefined){
             switch (title) {
-                case stats.Level: this.stats.char.lvl = value; break;
-                case stats.Strength: this.stats.char.for = value; break;
-                case stats.Agility: this.stats.char.agi = value; break;
-                case stats.Talent: this.stats.char.tal = value; break;
-                case stats.Spirit: this.stats.char.int = value; break;
-                case stats.Health: this.stats.char.vit = value; break;
+                case stats.Level.name: this.stats.char.lvl = value; break;
+                case stats.Strength.name: this.stats.char.for = value; break;
+                case stats.Agility.name: this.stats.char.agi = value; break;
+                case stats.Talent.name: this.stats.char.tal = value; break;
+                case stats.Spirit.name: this.stats.char.int = value; break;
+                case stats.Health.name: this.stats.char.vit = value; break;
             }
 
             this.calcTotalStats();

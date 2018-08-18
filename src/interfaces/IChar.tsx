@@ -4,6 +4,7 @@ import ISkills from './ISkills';
 
 interface IChar {
     formula: IFormula,
+    mainAttr: string,
     name: string,
     skills: ISkills[],
     stats: ICharacterStatus,

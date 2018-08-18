@@ -16,34 +16,77 @@ import Values from './Values';
 export default class Script {
 
     public static Codes = Codes;
-    public static DefaultLanguage = Langs.default;
 
     public static defaultResult (language: ILanguage, values?: IValuesResult): IStatusResult {
 
         const statsCode = language.translations.stats;
         if (values === undefined) {
             return {
-                ABS: { title: statsCode.Absorption, value: ceilVal() },
-                AP: { title: statsCode.AttkPower, value: truncVal() },
-                AR: { title: statsCode.AttkRating, value: truncVal() },
-                DEF: { title: statsCode.Defense, value: truncVal() },
-                HP: { title: statsCode.HP, value: truncVal() },
-                MP: { title: statsCode.MP, value: truncVal() },
-                RES: { title: statsCode.RES, value: truncVal() },
+                ABS: { title: statsCode.Absorption.name, value: ceilVal() },
+                AP: { title: statsCode.AttkPower.name, value: truncVal() },
+                AR: { title: statsCode.AttkRating.name, value: truncVal() },
+                DEF: { title: statsCode.Defense.name, value: truncVal() },
+                HP: { title: statsCode.HP.name, value: truncVal() },
+                MP: { title: statsCode.MP.name, value: truncVal() },
+                RES: { title: statsCode.RES.name, value: truncVal() },
             }
         }
         const min = truncVal(values.APmin);
         const max = truncVal(values.APmax);
         return {
-            ABS: { title: statsCode.Absorption, value: ceilVal(values.ABS) },
-            AP: { title: statsCode.AttkPower, value: min + "-" + max },
-            AR: { title: statsCode.AttkRating, value: truncVal(values.AR) },
-            DEF: { title: statsCode.Defense, value: truncVal(values.DEF) },
-            HP: { title: statsCode.HP, value: truncVal(values.HP) },
-            MP: { title: statsCode.MP, value: truncVal(values.MP) },
-            RES: { title: statsCode.RES, value: truncVal(values.RES) },
+            ABS: { title: statsCode.Absorption.name, value: ceilVal(values.ABS) },
+            AP: { title: statsCode.AttkPower.name, value: min + "-" + max },
+            AR: { title: statsCode.AttkRating.name, value: truncVal(values.AR) },
+            DEF: { title: statsCode.Defense.name, value: truncVal(values.DEF) },
+            HP: { title: statsCode.HP.name, value: truncVal(values.HP) },
+            MP: { title: statsCode.MP.name, value: truncVal(values.MP) },
+            RES: { title: statsCode.RES.name, value: truncVal(values.RES) },
         }
     }
+
+    public static statByCode(language: ILanguage | undefined, code: number): { name: string, short: string } | undefined {
+        if (language === undefined) {
+            return undefined;
+        }
+        const stats = language.translations.stats;
+        return code === Codes.LVL ? { name: stats.Level.name, short: stats.Level.short }
+            : code === Codes.FOR ? { name: stats.Strength.name, short: stats.Strength.short }
+            : code === Codes.INT ? { name: stats.Spirit.name, short: stats.Spirit.short }
+            : code === Codes.TAL ? { name: stats.Talent.name, short: stats.Talent.short }
+            : code === Codes.AGI ? { name: stats.Agility.name, short: stats.Agility.short }
+            : code === Codes.VIT ? { name: stats.Health.name, short: stats.Health.short }
+            : code === Codes.VIT ? { name: stats.Stats.name, short: stats.Stats.short }
+            : undefined;
+    }
+
+    public static chars(language: ILanguage): IChar[]{
+        return chars(language);
+    }
+    
+    public static tempkrons(language: ILanguage): { name: string, chars: IChar[] } {
+        const names = language.translations.chars;
+        const tempkrons = chars(language).filter(c => {
+            return c.name === names.AS.name
+                || c.name === names.ASS.name
+                || c.name === names.FS.name
+                || c.name === names.MS.name
+                || c.name === names.PS.name
+                || c.name === names.WS.name
+        })
+        return { name: "Tempkrons", chars: tempkrons }
+        }
+    public static morions(language: ILanguage): { name: string, chars: IChar[] }{
+        const names = language.translations.chars;
+        const morions = chars(language).filter(c => {
+            return c.name === names.ATS.name
+                || c.name === names.KS.name
+                || c.name === names.MGS.name
+                || c.name === names.PRS.name
+                || c.name === names.XS.name
+        })
+        return { name: "Morions", chars: morions }
+    }
+
     public static nameChars(language: ILanguage): string[] {
         const names: string[] = [];
         chars(language).forEach(c => {
@@ -89,7 +132,7 @@ export default class Script {
 
     public static statsDesc(language: ILanguage): string[] {
         const stats = language.translations.stats
-        return [stats.Level, stats.Strength, stats.Spirit, stats.Talent, stats.Agility, stats.Health, stats.Stats]
+        return [stats.Level.name, stats.Strength.name, stats.Spirit.name, stats.Talent.name, stats.Agility.name, stats.Health.name, stats.Stats.name]
     }
 
     public static itens(language: ILanguage): IItem[] {
