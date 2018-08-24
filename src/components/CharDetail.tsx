@@ -496,8 +496,8 @@ class CharDetail extends React.Component<ICharDetail>{
         this.bonus.quests.forEach(q => applyValues(q));
         this.bonus.mixes.forEach(m => m.mix.bonus.forEach(b => applyValues(b, m.item)));
 
-        const valForces = applyForces(this.bonus.forces);
         const valSkills = applySkills(this.bonus.skills);
+        const valForces = applyForces(this.bonus.forces);
 
         valSkills.APmin += valForces.apmin;
         valSkills.APmax += valForces.apmax;
