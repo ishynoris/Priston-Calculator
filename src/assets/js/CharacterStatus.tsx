@@ -32,8 +32,8 @@ export default class CharacterStatus {
                 mainAttr: attr(AS.name),
                 name: AS.name,
                 skills: [
-                    { codBonus: Codes.AP, name: AS.skills.ShootMaster, percent: true, values: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40] },
-                    { codBonus: Codes.AR, name: AS.skills.DionEye, percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] }, // Taxa do Arco
+                    { codBonus: Codes.AP, name: AS.skills.ShootMaster, percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
+                    { codBonus: Codes.AR, name: AS.skills.DionEye, percent: true, values: [0, 22, 44, 66, 88, 110, 132, 154, 176, 198, 220] }, // Taxa do Arco
                 ],
                 stats: { lvl: 1, for: 17, int: 11, tal: 21, agi: 27, vit: 23 },
             },
