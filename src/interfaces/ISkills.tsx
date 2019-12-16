@@ -1,9 +1,8 @@
+import ISkillBonus from "./ISkillBonus";
 
 interface ISkills { 
-    codBonus: number,
-    name: string, 
-    values: number[], 
-    percent?: boolean
+	adds: ISkillBonus[],
+	name: string 
 }
 
 export default ISkills; 

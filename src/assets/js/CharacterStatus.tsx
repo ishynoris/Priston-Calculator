@@ -32,8 +32,24 @@ export default class CharacterStatus {
                 mainAttr: attr(AS.name),
                 name: AS.name,
                 skills: [
-                    { codBonus: Codes.AP, name: AS.skills.ShootMaster, percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
-                    { codBonus: Codes.AR, name: AS.skills.DionEye, percent: true, values: [0, 22, 44, 66, 88, 110, 132, 154, 176, 198, 220] }, // Taxa do Arco
+					{ 
+						adds: [
+							{
+								cod: Codes.AP,
+								percent: true,
+								values: [ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ]
+							}
+						], 
+						name: AS.skills.ShootMaster, 
+					},
+					{ 
+						adds: [{
+							cod: Codes.AR, 
+							percent: true,
+							values: [ 0, 22, 44, 66, 88, 110, 132, 154, 176, 198, 220 ]
+						}], 
+						name: AS.skills.DionEye,
+					},
                 ],
                 stats: { lvl: 1, for: 17, int: 11, tal: 21, agi: 27, vit: 23 },
             },
@@ -46,9 +62,26 @@ export default class CharacterStatus {
                 mainAttr: attr(ASS.name),
                 name: ASS.name,
                 skills: [
-                    { codBonus: Codes.AP, name: ASS.skills.BladeMaster, percent: true, values: [0, 5, 7, 9, 11, 14, 17, 20, 23, 27, 31] },
-                    { codBonus: Codes.ARtotal, name: ASS.skills.AttkMaster, percent: true, values: [0, 8, 14, 20, 26, 32, 38, 44, 50, 56, 62] },
-                    { codBonus: -1, name: ASS.skills.FatalMaster, values: [] },
+					{ 
+						adds: [{
+							cod: Codes.AP, 
+							percent: true,
+							values: [ 0, 5, 7, 9, 11, 14, 17, 20, 23, 27, 31 ]
+						}],
+						name: ASS.skills.BladeMaster
+					},
+					{ 
+						adds: [{
+							cod: Codes.ARtotal, 
+							percent: true,
+							values: [0, 8, 14, 20, 26, 32, 38, 44, 50, 56, 62 ]
+						}],
+						name: ASS.skills.AttkMaster
+					},
+					{ 
+						adds: [],
+						name: ASS.skills.FatalMaster, 
+					}
                 ],
                 stats: { lvl: 1, for: 25, int: 10, tal: 22, agi: 20, vit: 22 },
             },
@@ -61,8 +94,14 @@ export default class CharacterStatus {
                 mainAttr: attr(ATS.name),
                 name: ATS.name,
                 skills: [
-                    { codBonus: Codes.AP, name: ATS.skills.ThrowMaster, percent: true, values: [0, 18, 22, 26, 30, 34, 38, 41, 44, 47, 50] }
-                ],
+					{ 
+						adds: [{
+							cod: Codes.AP, 
+							percent: true, 
+							values: [ 0, 18, 22, 26, 30, 34, 38, 41, 44, 47, 50 ]
+						}],
+						name: ATS.skills.ThrowMaster,  }
+				],
                 stats: { lvl: 1, for: 23, int: 15, tal: 19, agi: 19, vit: 23 },
             },
             {
@@ -74,9 +113,23 @@ export default class CharacterStatus {
                 mainAttr: attr(KS.name),
                 name: KS.name,
                 skills: [
-                    { codBonus: Codes.RES, name: KS.skills.PhisicalTrain, percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 28, 30] },
-                    { codBonus: Codes.AP, name: KS.skills.SwordMaster, percent: true, values: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] },
-                ],
+					{ 
+						adds: [{
+							cod: Codes.RES, 
+							percent: true, 
+							values: [ 0, 5, 8, 11, 14, 17, 20, 23, 26, 28, 30 ]
+						}],
+						name: KS.skills.PhisicalTrain, 
+					},
+					{ 
+						adds: [{
+							cod: Codes.AP, 
+							percent: true, 
+							values: [ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ]
+						}],
+						name: KS.skills.SwordMaster, 
+					},
+				],
                 stats: { lvl: 1, for: 26, int: 13, tal: 17, agi: 19, vit: 24 },
             },
             {
@@ -88,8 +141,22 @@ export default class CharacterStatus {
                 mainAttr: attr(WS.name),
                 name: WS.name,
                 skills: [ 
-                    { codBonus: Codes.AP, name: WS.skills.StrMaster, percent: true, values: [0, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46] },
-                    { codBonus: Codes.RES, name: WS.skills.PhisicalMaster, percent: true, values: [0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60] }
+					{ 
+						adds: [{
+							cod: Codes.AP, 
+							percent: true,  
+							values: [0, 10, 14, 18, 22, 26, 30, 34, 38, 42, 46] 
+						}],
+						name: WS.skills.StrMaster
+					},
+					{
+						adds: [{
+							cod: Codes.RES, 
+							percent: true, 
+							values: [0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60]
+						}],
+						name: WS.skills.PhisicalMaster, 
+					}
                 ],
                 stats: { lvl: 1, for: 26, int: 9, tal: 20, agi: 20, vit: 24}
             },
@@ -102,8 +169,21 @@ export default class CharacterStatus {
                 mainAttr: attr(FS.name),
                 name: FS.name,
                 skills: [
-                    { codBonus: Codes.AP, name: FS.skills.WeaponMaster, percent: true, values: [0, 6, 10, 14, 18, 21, 24, 26, 28, 30, 32] },
-                    // { codBonus: Codes.HP, name: "Bônus de Vitalidade", values: [] },
+					{
+						adds: [{
+							cod: Codes.AP, 
+							percent: true, 
+							values: [ 0, 6, 10, 14, 18, 21, 24, 26, 28, 30, 32 ]
+						}],
+						name: FS.skills.WeaponMaster
+					},
+					{
+						adds:[{
+							cod: Codes.HP,
+							values: [] 
+						}],
+						name: "Bônus de Vitalidade", 
+					},
                 ],
                 stats: { lvl: 1, for: 28, int: 6, tal: 21, agi: 17, vit: 27 },
             },
@@ -116,7 +196,14 @@ export default class CharacterStatus {
                 mainAttr: attr(MGS.name),
                 name: MGS.name,
                 skills: [
-                    { codBonus: Codes.MP, name: MGS.skills.MentalMaster, percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] }
+					{
+						adds: [{
+							cod: Codes.MP, 
+							percent: true, 
+							values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] 
+						}],
+						name: MGS.skills.MentalMaster, 
+					}
                 ],
                 stats: { lvl: 1, for: 16, int: 29, tal: 19, agi: 14, vit: 21 },
             },
@@ -129,7 +216,14 @@ export default class CharacterStatus {
                 mainAttr: attr(MS.name),
                 name: MS.name,
                 skills: [
-                    { codBonus: Codes.AP, name: MS.skills.MechMaster, percent: true, values: [0, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41] }
+					{
+						adds: [{
+							cod: Codes.AP,
+							percent: true,
+							values: [ 0, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41 ]
+						}],
+						name: MS.skills.MechMaster,
+					}
                 ],
                 stats: { lvl: 1, for: 24, int: 8, tal: 25, agi: 18, vit: 24 },
             },
@@ -164,8 +258,22 @@ export default class CharacterStatus {
                 mainAttr: attr(XS.name),
                 name: XS.name,
                 skills: [
-                    { codBonus: Codes.MP, name: XS.skills.InnerPeace, percent: true, values: [0, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31] },
-                    { codBonus: Codes.HP, name: XS.skills.DivineLife, percent: true, values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] },
+					{
+						adds: [{
+							cod: Codes.MP,
+							percent: true,
+							values: [ 0, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31 ]
+						}],
+						name: XS.skills.InnerPeace,
+					},
+					{
+						adds: [{
+							cod: Codes.HP,
+							percent: true,
+							values: [0, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32] 
+						}],
+						name: XS.skills.DivineLife, 
+					},
                 ],
                 stats: { lvl: 1, for: 15, int: 27, tal: 20, agi: 15, vit: 22 },
             },
