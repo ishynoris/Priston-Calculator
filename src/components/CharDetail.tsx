@@ -179,20 +179,22 @@ class CharDetail extends React.Component<ICharDetail>{
         this.updateChar();
     }
 
-    private updateSkills = () => {
-        const getSkillValues = (skills: ISkills[]): IBonus[] => {
-            const bonus: IBonus[] = [];
-            skills.forEach(s => {
-                bonus.push({ cod: s.codBonus, value: s.values[0], percent: s.percent })
-            })
-            return bonus;
-        }
-        if (this.detail.skills !== null) {
-            const skills = this.char === undefined ? [] : this.char.skills;
-            this.bonus.skills = getSkillValues(skills);
-            this.detail.skills.setSkills(skills);
-        }
-    }
+	private updateSkills = () => {
+		const getSkillValues = (skills: ISkills[]): IBonus[] => {
+			const bonus: IBonus[] = [];
+			skills.forEach(s => {
+				s.adds.forEach(v => {
+					bonus.push({ cod: v.cod, value: v.values[0], percent: v.percent })
+				});
+			});
+			return bonus;
+		}
+		if (this.detail.skills !== null) {
+			const skills = this.char === undefined ? [] : this.char.skills;
+			this.bonus.skills = getSkillValues(skills);
+			this.detail.skills.setSkills(skills);
+		}
+	}
 
 	private updateChar() {
         const getItens = (names: string[]): IItem[] => {
@@ -242,25 +244,29 @@ class CharDetail extends React.Component<ICharDetail>{
         }
     }
 
-    private onSkillChanged = (bonus: IBonus): boolean => {
-        if (this.char === undefined) {
-            return false;
-        }
-        if (this.bonus.skills.length === 0) {
-            this.bonus.skills.push(bonus);
-        } else {
-            const skill = this.bonus.skills.find(s => {
-                return s.cod === bonus.cod;
-            })
-            if (skill === undefined) {
-                this.bonus.skills.push(bonus);
-            } else {
-                skill.value = bonus.value;
-            }
-        }
-        this.setResult();
-        return true;
-    }
+	private onSkillChanged = (bonus: IBonus[]): boolean => {
+		if (this.char === undefined) {
+			return false;
+		}
+		if (this.bonus.skills.length === 0) {
+			this.bonus.skills = bonus;
+		} else {
+			console.log(bonus);
+			bonus.forEach(b => {
+				const skill = this.bonus.skills.find(s => {
+					return s.cod === b.cod;
+				})
+				console.log(this.bonus.skills);
+				if (skill === undefined) {
+					this.bonus.skills = bonus;
+				} else {
+					skill.value = b.value;
+				}
+			})
+		}
+		this.setResult();
+		return true;
+	}
 
     private onQuestChanged = (name: string, index: number, value: string): boolean => {
         let newStats = 0;
@@ -439,25 +445,25 @@ class CharDetail extends React.Component<ICharDetail>{
         }
         
         const applySkills = (bonus: IBonus[]): IValuesResult => {
-            const vals: IValuesResult = { ABS: 0, APmax: 0, APmin: 0, AR: 0, DEF: 0, HP: 0, MP: 0, RES: 0 }
+			const vals: IValuesResult = { ABS: 0, APmax: 0, APmin: 0, AR: 0, DEF: 0, HP: 0, MP: 0, RES: 0 }
             bonus.forEach(b => {
                 if (b.cod === codes.AR) {
                     const arArma = this.getAttrByCode(weapon, codes.AR);
-                    vals.AR = addPercent(b, arArma);
+                    vals.AR += addPercent(b, arArma);
                 } else if (b.cod === codes.ARtotal) {
                     const ARtotal = values.AR;
-                    vals.AR = addPercent(b, ARtotal);
+                    vals.AR += addPercent(b, ARtotal);
                 } else if (b.cod === codes.AP) {
                     const min = this.getAttrByCode(weapon, codes.APmin);
                     const max = this.getAttrByCode(weapon, codes.APmax);
-                    vals.APmin = addPercent(b, min);
-                    vals.APmax = addPercent(b, max);
+                    vals.APmin += addPercent(b, min);
+                    vals.APmax += addPercent(b, max);
                 } else if (b.cod === codes.HP || b.cod === codes.HPadd) {
-                    vals.HP = addPercent(b, values.HP);
+                    vals.HP += addPercent(b, values.HP);
                 } else if (b.cod === codes.MP || b.cod === codes.MPadd) {
-                    vals.MP = addPercent(b, values.MP);
+                    vals.MP += addPercent(b, values.MP);
                 } else if (b.cod === codes.RES || b.cod === codes.RESadd) {
-                    vals.RES = addPercent(b, values.RES);
+                    vals.RES += addPercent(b, values.RES);
                 }
             })
             return vals;

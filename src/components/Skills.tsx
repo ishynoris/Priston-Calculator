@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { isNullOrUndefined } from 'util';
+
 import IBonus from '../interfaces/IBonus';
 import ISkills from '../interfaces/ISkills';
 import Select from './Select';
@@ -7,8 +9,8 @@ import Title from './Title';
 import TitleSmall from "./TitleSmall";
 
 interface ISkillList {
-    title: string, 
-    onSkillChanged?: (bonus: IBonus) => boolean
+	title: string, 
+	onSkillChanged?: (bonus: IBonus[]) => boolean
 }
 
 class SkillList extends React.Component<ISkillList>{
@@ -43,9 +45,22 @@ class SkillList extends React.Component<ISkillList>{
     private renderSkills = (key: number, skill: ISkills) => {
 
         const values = (() => {
-            return skill.values.map((v, k) => {
-                return { value: v + "", option: k + "" };
-            });
+			const bonus = new Array<{ value: string, option: string }>();
+			skill.adds.forEach((a, i) => {
+				a.values.forEach((v, j) => {
+					
+					if (isNullOrUndefined(bonus[j])) {
+						bonus.push({ 
+							option: j.toString(),
+							value: "[]"
+						});
+					}
+					const value = JSON.parse(bonus[j].value);
+					value.push({ 'c': a.cod.toString(), 'v': v });
+					bonus[j].value = JSON.stringify(value);
+				});
+			})
+			return bonus;
         })();
         return <div key={key} className="row">
             <div className="col-sm-8">
@@ -57,17 +72,21 @@ class SkillList extends React.Component<ISkillList>{
         </div>
     }
 
-    private onSeleted = (name: string, index: number, value: string): boolean => {
-        if (this.props.onSkillChanged === undefined) {
-            return true;
-        }
-        const skill = this.state.skills.find(s => {
-            return s.name === name;
-        });
-        if (skill === undefined) {
-            return false;
-        }
-        return this.props.onSkillChanged({ cod: skill.codBonus, value: skill.values[index], percent: skill.percent });
-    }
+	private onSeleted = (name: string, index: number, value: string): boolean => {
+		if (this.props.onSkillChanged === undefined) {
+			return true;
+		}
+		const skill = this.state.skills.find(s => {
+			return s.name === name;
+		});
+		if (skill === undefined) {
+			return false;
+		}
+		const bonus: IBonus[] = [];
+		skill.adds.forEach(a => { 
+			bonus.push({ cod: a.cod, value: a.values[index], percent: a.percent });
+		});
+		return this.props.onSkillChanged(bonus);
+	}
 }
 export default SkillList;
