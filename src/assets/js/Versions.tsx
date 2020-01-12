@@ -82,6 +82,16 @@ export default class Versions {
                 subV: 1,
                 tag: "alfa",
                 v: 0.7,
+			}, 
+			{
+				date: "12/01/2020",
+				descriptions: [ 
+					"Ajusta habilidades para receber mais de um atributo.",
+					"Corrige erros ao calcular a ABS do personagem."
+				],
+				subV: 2,
+				tag: "alfa",
+				v: 0.7,
             }
         ]
     }
